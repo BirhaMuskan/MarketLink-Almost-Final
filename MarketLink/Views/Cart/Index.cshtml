@@ -1,0 +1,580 @@
+﻿@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<!-- =========================================================
+     MARKETLINK CART PAGE
+========================================================= -->
+
+<div class="cart-page">
+
+    <!-- =====================================================
+         CART HERO / BANNER
+    ====================================================== -->
+
+    <section class="cart-page-hero">
+
+        <div class="cart-hero-overlay"></div>
+
+        <div class="cart-hero-pattern"></div>
+
+        <div class="container">
+
+            <div class="cart-hero-content">
+
+                <!-- Breadcrumb -->
+                <div class="cart-breadcrumbs">
+
+                    <a href="/">
+                        Home
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>
+                        Cart
+                    </span>
+
+                </div>
+
+
+                <!-- Small Label -->
+                <div class="cart-hero-label">
+
+                    <i class="bi bi-basket3-fill"></i>
+
+                    YOUR SHOPPING CART
+
+                </div>
+
+
+                <!-- Heading -->
+                <h1>
+                    Your Cart
+                </h1>
+
+
+                <!-- Description -->
+                <p>
+                    Review your selected fresh products and get
+                    everything ready for your next market pickup.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CART CONTENT
+    ====================================================== -->
+
+    <section class="cart-section">
+
+        <div class="container">
+
+            <div class="row g-4">
+
+
+                <!-- =================================================
+                     LEFT - CART ITEMS
+                ================================================== -->
+
+                <div class="col-lg-8">
+
+                    <div class="cart-main-card">
+
+
+                        <!-- CART HEADER -->
+
+                        <div class="cart-card-header">
+
+                            <div>
+
+                                <span class="cart-section-label">
+
+                                    <i class="bi bi-basket2-fill"></i>
+
+                                    YOUR CART
+
+                                </span>
+
+                                <h2>
+                                    Shopping Items
+                                </h2>
+
+                            </div>
+
+
+                            <span class="cart-items-count">
+
+                                <span id="cartCount">2</span>
+
+                                Items
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             CART ITEMS
+                        ================================================== -->
+
+                        <div id="cartItems">
+
+
+                            <!-- ITEM 1 -->
+
+                            <div class="cart-item"
+                                 data-id="1"
+                                 data-price="250">
+
+                                <!-- Product Image -->
+
+                                <div class="cart-product-image">
+
+                                    <img src="/images/products/vegetable-basket.jpg"
+                                         alt="Fresh Vegetable Basket"
+                                         onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=300&q=80';">
+
+                                </div>
+
+
+                                <!-- Product Details -->
+
+                                <div class="cart-product-details">
+
+                                    <span class="cart-product-category">
+                                        Fresh Produce
+                                    </span>
+
+                                    <h3>
+                                        Fresh Vegetable Basket
+                                    </h3>
+
+                                    <p>
+                                        Fresh locally grown seasonal vegetables.
+                                    </p>
+
+                                    <span class="cart-product-price">
+                                        Rs. 250
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Quantity -->
+
+                                <div class="cart-quantity">
+
+                                    <span class="quantity-label">
+                                        Quantity
+                                    </span>
+
+                                    <div class="quantity-box">
+
+                                        <button type="button"
+                                                class="quantity-btn minus-btn"
+                                                aria-label="Decrease quantity">
+
+                                            <i class="bi bi-dash"></i>
+
+                                        </button>
+
+                                        <span class="quantity-value">
+                                            1
+                                        </span>
+
+                                        <button type="button"
+                                                class="quantity-btn plus-btn"
+                                                aria-label="Increase quantity">
+
+                                            <i class="bi bi-plus"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Item Total -->
+
+                                <div class="cart-item-total">
+
+                                    <span class="item-total-label">
+                                        Total
+                                    </span>
+
+                                    <strong class="item-total-value">
+                                        Rs. 250
+                                    </strong>
+
+                                </div>
+
+
+                                <!-- Remove -->
+
+                                <button type="button"
+                                        class="remove-item"
+                                        aria-label="Remove item">
+
+                                    <i class="bi bi-trash3"></i>
+
+                                </button>
+
+                            </div>
+
+
+
+                            <!-- ITEM 2 -->
+
+                            <div class="cart-item"
+                                 data-id="2"
+                                 data-price="180">
+
+                                <!-- Product Image -->
+
+                                <div class="cart-product-image">
+
+                                    <img src="/images/products/apples.jpg"
+                                         alt="Farm Fresh Apples"
+                                         onerror="this.src='https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=300&q=80';">
+
+                                </div>
+
+
+                                <!-- Product Details -->
+
+                                <div class="cart-product-details">
+
+                                    <span class="cart-product-category">
+                                        Fresh Fruits
+                                    </span>
+
+                                    <h3>
+                                        Farm Fresh Apples
+                                    </h3>
+
+                                    <p>
+                                        Crisp and naturally sweet farm fresh apples.
+                                    </p>
+
+                                    <span class="cart-product-price">
+                                        Rs. 180
+                                    </span>
+
+                                </div>
+
+
+                                <!-- Quantity -->
+
+                                <div class="cart-quantity">
+
+                                    <span class="quantity-label">
+                                        Quantity
+                                    </span>
+
+                                    <div class="quantity-box">
+
+                                        <button type="button"
+                                                class="quantity-btn minus-btn"
+                                                aria-label="Decrease quantity">
+
+                                            <i class="bi bi-dash"></i>
+
+                                        </button>
+
+                                        <span class="quantity-value">
+                                            1
+                                        </span>
+
+                                        <button type="button"
+                                                class="quantity-btn plus-btn"
+                                                aria-label="Increase quantity">
+
+                                            <i class="bi bi-plus"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Item Total -->
+
+                                <div class="cart-item-total">
+
+                                    <span class="item-total-label">
+                                        Total
+                                    </span>
+
+                                    <strong class="item-total-value">
+                                        Rs. 180
+                                    </strong>
+
+                                </div>
+
+
+                                <!-- Remove -->
+
+                                <button type="button"
+                                        class="remove-item"
+                                        aria-label="Remove item">
+
+                                    <i class="bi bi-trash3"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- EMPTY CART -->
+
+                        <div id="emptyCart"
+                             class="empty-cart"
+                             style="display:none;">
+
+                            <div class="empty-cart-icon">
+
+                                <i class="bi bi-basket"></i>
+
+                            </div>
+
+                            <h3>
+                                Your cart is empty
+                            </h3>
+
+                            <p>
+                                You haven't added any products to your cart yet.
+                            </p>
+
+                            <a href="/Products"
+                               class="continue-shopping-btn">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Browse Products
+
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- CONTINUE SHOPPING -->
+
+                        <div class="cart-bottom-actions"
+                             id="cartBottomActions">
+
+                            <a href="/Products"
+                               class="continue-shopping">
+
+                                <i class="bi bi-arrow-left"></i>
+
+                                Continue Shopping
+
+                            </a>
+
+
+                            <button type="button"
+                                    class="clear-cart-btn"
+                                    id="clearCartBtn">
+
+                                <i class="bi bi-trash3"></i>
+
+                                Clear Cart
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RIGHT - ORDER SUMMARY
+                ================================================== -->
+
+                <div class="col-lg-4">
+
+                    <div class="cart-summary-card"
+                         id="cartSummaryCard">
+
+
+                        <!-- Summary Header -->
+
+                        <div class="summary-header">
+
+                            <span class="summary-label">
+
+                                <i class="bi bi-receipt"></i>
+
+                                ORDER SUMMARY
+
+                            </span>
+
+                            <h2>
+                                Your Order
+                            </h2>
+
+                        </div>
+
+
+
+                        <!-- Summary Items -->
+
+                        <div class="summary-items">
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Items
+                                </span>
+
+                                <strong id="summaryItems">
+                                    2
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Subtotal
+                                </span>
+
+                                <strong id="subtotal">
+                                    Rs. 430
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Pickup
+                                </span>
+
+                                <strong class="pickup-free">
+                                    Free
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Divider -->
+
+                        <div class="summary-divider"></div>
+
+
+
+                        <!-- Total -->
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="grandTotal">
+                                Rs. 430
+                            </strong>
+
+                        </div>
+
+
+
+                        <!-- Pickup Notice -->
+
+                        <div class="pickup-notice">
+
+                            <div class="pickup-notice-icon">
+
+                                <i class="bi bi-shop"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Market Pickup
+                                </strong>
+
+                                <p>
+                                    Payment is made in person
+                                    when you collect your order.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Checkout -->
+                        <a asp-controller="Checkout"
+   asp-action="Index"
+   class="checkout-btn">
+
+    <span>
+        Continue to Pre-Order
+    </span>
+
+    <i class="bi bi-arrow-right"></i>
+
+</a>
+
+
+
+                        <!-- Secure -->
+
+                        <div class="secure-checkout">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Secure MarketLink ordering
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+<!-- Cart CSS -->
+
+<link rel="stylesheet"
+      href="~/css/cart.css"
+      asp-append-version="true" />
+
+
+<!-- Cart JavaScript -->
+
+<script src="~/js/cart.js"
+        asp-append-version="true"></script>

@@ -1,0 +1,1976 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- =====================================================
+     HERO SECTION
+===================================================== -->
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-6">
+
+                <div class="hero-badge">
+                    <span class="pulse-dot"></span>
+                    Your local market, connected
+                </div>
+
+
+                <h1 class="hero-title">
+
+                    Fresh from your
+                    <span>local market.</span>
+
+                </h1>
+
+
+                <p class="hero-text">
+
+                    Discover local farmers, fresh products and nearby
+                    markets. Pre-order what you need and pick it up
+                    when it's ready.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a asp-controller="Markets"
+                       asp-action="Index"
+                       class="btn btn-hero-primary">
+
+                        Explore Markets
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+
+                    <a asp-controller="Products"
+                       asp-action="Index"
+                       class="btn btn-hero-secondary">
+
+                        Browse Products
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Trust -->
+
+                <div class="hero-trust">
+
+                    <div class="avatar-stack">
+
+                        <div class="mini-avatar">
+                            <img src="https://i.pravatar.cc/80?img=12"
+                                 alt="Customer">
+                        </div>
+
+                        <div class="mini-avatar">
+                            <img src="https://i.pravatar.cc/80?img=32"
+                                 alt="Customer">
+                        </div>
+
+                        <div class="mini-avatar">
+                            <img src="https://i.pravatar.cc/80?img=47"
+                                 alt="Customer">
+                        </div>
+
+                        <div class="mini-avatar">
+                            <span>+</span>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="stars">
+                            ★★★★★
+                        </div>
+
+                        <small>
+                            Loved by local shoppers
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-6">
+
+                <div class="hero-visual">
+
+
+                    <!-- Main Image -->
+
+                    <div class="hero-image-card">
+
+                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1000&q=85"
+                             alt="Fresh local market produce">
+
+                    </div>
+
+
+                    <!-- Floating Market Card -->
+
+                    <div class="floating-market-card">
+
+                        <div class="market-card-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>Riverside Market</strong>
+
+                            <span>
+                                <i class="bi bi-geo-alt-fill"></i>
+                                1.8 km away
+                            </span>
+
+                        </div>
+
+                        <span class="open-status">
+                            Open
+                        </span>
+
+                    </div>
+
+
+                    <!-- Floating Product Card -->
+
+                    <div class="floating-product-card">
+
+                        <div class="product-mini-image">
+
+                            <img src="https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=200&q=80"
+                                 alt="Fresh vegetables">
+
+                        </div>
+
+                        <div>
+
+                            <small>Fresh today</small>
+
+                            <strong>Organic Greens</strong>
+
+                            <span>$3.50 / bunch</span>
+
+                        </div>
+
+                        <button>
+                            <i class="bi bi-plus"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- Decorative Shape -->
+
+                    <div class="hero-circle"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MARKET STATS
+===================================================== -->
+
+<section class="market-stats">
+
+    <div class="container">
+
+        <div class="stats-wrapper">
+
+            <div class="stat-item">
+
+                <span class="stat-icon">
+                    <i class="bi bi-shop-window"></i>
+                </span>
+
+                <div>
+                    <strong>38+</strong>
+                    <span>Local Markets</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <span class="stat-icon">
+                    <i class="bi bi-person-heart"></i>
+                </span>
+
+                <div>
+                    <strong>840+</strong>
+                    <span>Local Farmers</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <span class="stat-icon">
+                    <i class="bi bi-basket2"></i>
+                </span>
+
+                <div>
+                    <strong>12K+</strong>
+                    <span>Fresh Products</span>
+                </div>
+
+            </div>
+
+
+            <div class="stat-item">
+
+                <span class="stat-icon">
+                    <i class="bi bi-geo-alt"></i>
+                </span>
+
+                <div>
+                    <strong>24/7</strong>
+                    <span>Market Discovery</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MARKET PULSE
+===================================================== -->
+
+<section class="pulse-section" id="products">
+
+    <div class="container">
+
+        <div class="section-heading-row">
+
+            <div>
+
+                <span class="section-label">
+                    MARKET PULSE
+                </span>
+
+                <h2>
+                    What's fresh <span>today?</span>
+                </h2>
+
+            </div>
+
+            <a href="#" class="view-all-link">
+                View all products
+                <i class="bi bi-arrow-up-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- Product 1 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <div class="fresh-card">
+
+                    <div class="fresh-image">
+
+                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=85"
+                             alt="Tomatoes">
+
+                        <span class="availability available">
+                            ● Plenty available
+                        </span>
+
+                        <button class="favorite-btn">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="fresh-content">
+
+                        <span class="product-category">
+                            Vegetables
+                        </span>
+
+                        <h3>
+                            Heirloom Tomatoes
+                        </h3>
+
+                        <p>
+                            Green Valley Farm
+                        </p>
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                $4.50 <small>/ kg</small>
+                            </strong>
+
+                            <button class="quick-add">
+                                <i class="bi bi-plus"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 2 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <div class="fresh-card">
+
+                    <div class="fresh-image">
+
+                        <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=600&q=85"
+                             alt="Strawberries">
+
+                        <span class="availability limited">
+                            ● Limited stock
+                        </span>
+
+                        <button class="favorite-btn">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="fresh-content">
+
+                        <span class="product-category">
+                            Fruits
+                        </span>
+
+                        <h3>
+                            Fresh Strawberries
+                        </h3>
+
+                        <p>
+                            Sunrise Organics
+                        </p>
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                $6.20 <small>/ box</small>
+                            </strong>
+
+                            <button class="quick-add">
+                                <i class="bi bi-plus"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 3 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <div class="fresh-card">
+
+                    <div class="fresh-image">
+
+                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=85"
+                             alt="Potatoes">
+
+                        <span class="availability available">
+                            ● Plenty available
+                        </span>
+
+                        <button class="favorite-btn">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="fresh-content">
+
+                        <span class="product-category">
+                            Vegetables
+                        </span>
+
+                        <h3>
+                            Farm Potatoes
+                        </h3>
+
+                        <p>
+                            Meadow Farms
+                        </p>
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                $2.80 <small>/ kg</small>
+                            </strong>
+
+                            <button class="quick-add">
+                                <i class="bi bi-plus"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Product 4 -->
+
+            <div class="col-sm-6 col-lg-3">
+
+                <div class="fresh-card">
+
+                    <div class="fresh-image">
+
+                        <img src="https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=600&q=85"
+                             alt="Milk">
+
+                        <span class="availability available">
+                            ● Fresh today
+                        </span>
+
+                        <button class="favorite-btn">
+                            <i class="bi bi-heart"></i>
+                        </button>
+
+                    </div>
+
+                    <div class="fresh-content">
+
+                        <span class="product-category">
+                            Dairy
+                        </span>
+
+                        <h3>
+                            Farm Fresh Milk
+                        </h3>
+
+                        <p>
+                            Happy Cow Dairy
+                        </p>
+
+                        <div class="product-bottom">
+
+                            <strong>
+                                $5.00 <small>/ litre</small>
+                            </strong>
+
+                            <button class="quick-add">
+                                <i class="bi bi-plus"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MARKET EXPLORER
+===================================================== -->
+
+<section class="explorer-section" id="market-explorer">
+
+    <div class="container">
+
+        <div class="explorer-box">
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-5">
+
+                    <span class="section-label light-label">
+                        MARKET EXPLORER
+                    </span>
+
+                    <h2>
+                        Find your market.
+                        <span>Find your farmers.</span>
+                    </h2>
+
+                    <p>
+                        Explore local markets around you and discover
+                        what's available before you make the trip.
+                    </p>
+
+
+                    <div class="explorer-features">
+
+                        <div>
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            <span>
+                                <strong>Nearby markets</strong>
+                                Discover markets around your location.
+                            </span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-pin-map-fill"></i>
+
+                            <span>
+                                <strong>Easy pickup</strong>
+                                Find the exact farmer and pickup point.
+                            </span>
+                        </div>
+
+                        <div>
+                            <i class="bi bi-basket-fill"></i>
+
+                            <span>
+                                <strong>Live availability</strong>
+                                See what's currently in stock.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <a href="#" class="btn explorer-btn">
+                        Explore the Map
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="col-lg-7">
+
+                    <div class="map-preview">
+
+                        <div class="map-grid"></div>
+
+
+                        <!-- Map Pins -->
+
+                        <div class="map-pin pin-1">
+                            <span>
+                                <i class="bi bi-shop"></i>
+                            </span>
+                        </div>
+
+                        <div class="map-pin pin-2">
+                            <span>
+                                <i class="bi bi-shop"></i>
+                            </span>
+                        </div>
+
+                        <div class="map-pin pin-3">
+                            <span>
+                                <i class="bi bi-shop"></i>
+                            </span>
+                        </div>
+
+                        <div class="map-pin pin-4">
+                            <span>
+                                <i class="bi bi-shop"></i>
+                            </span>
+                        </div>
+
+
+                        <!-- Location Card -->
+
+                        <div class="map-location-card">
+
+                            <div class="location-icon">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
+
+                            <div>
+                                <strong>Riverside Market</strong>
+
+                                <span>
+                                    12 farmers · 48 products
+                                </span>
+                            </div>
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </div>
+
+
+                        <div class="your-location">
+                            <span></span>
+                            Your location
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HOW IT WORKS
+===================================================== -->
+
+<section class="how-section" id="how-it-works">
+
+    <div class="container">
+
+        <div class="text-center section-heading">
+
+            <span class="section-label">
+                HOW IT WORKS
+            </span>
+
+            <h2>
+                Local shopping,
+                <span>made simple.</span>
+            </h2>
+
+            <p>
+                From discovering your market to picking up your order,
+                MarketLink keeps everything in one place.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4 steps-row">
+
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div class="step-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+
+                    <h3>
+                        Discover
+                    </h3>
+
+                    <p>
+                        Find nearby markets, farmers and fresh products
+                        using search and map-based discovery.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div class="step-icon">
+                        <i class="bi bi-basket2"></i>
+                    </div>
+
+                    <h3>
+                        Pre-order
+                    </h3>
+
+                    <p>
+                        Choose what you need, select a convenient pickup
+                        slot and reserve your products before market day.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="step-card">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <div class="step-icon">
+                        <i class="bi bi-hand-thumbs-up"></i>
+                    </div>
+
+                    <h3>
+                        Pick up
+                    </h3>
+
+                    <p>
+                        Visit your selected market, collect your order
+                        and enjoy fresh products directly from local farmers.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FARMER CTA
+===================================================== -->
+
+<section class="farmer-section" id="farmers">
+
+    <div class="container">
+
+        <div class="farmer-box">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="farmer-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1000&q=85"
+                             alt="Local farmer">
+
+                        <div class="farmer-stat">
+
+                            <i class="bi bi-graph-up-arrow"></i>
+
+                            <div>
+                                <strong>Grow your reach</strong>
+                                <span>Connect with local shoppers</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <span class="section-label">
+                        FOR LOCAL FARMERS
+                    </span>
+
+                    <h2>
+                        Your farm.
+                        <span>Your customers.</span>
+                        One place.
+                    </h2>
+
+                    <p>
+                        Publish your weekly stock, manage pre-orders,
+                        choose pickup slots and build relationships with
+                        customers in your community.
+                    </p>
+
+
+                    <div class="farmer-benefits">
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Manage weekly inventory
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Accept pre-orders
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Track your sales
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Build your local customer base
+                        </div>
+
+                    </div>
+
+
+                    <a href="#" class="btn btn-dark-market">
+
+                        Become a Farmer
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     AI MARKETMATE
+===================================================== -->
+
+<section class="ai-section">
+
+    <div class="container">
+
+        <div class="ai-box">
+
+            <div class="row align-items-center g-5">
+
+                <div class="col-lg-6">
+
+                    <div class="ai-content">
+
+                        <span class="ai-label">
+                            <i class="bi bi-stars"></i>
+                            MARKETMATE AI
+                        </span>
+
+                        <h2>
+                            Not sure what
+                            you're looking for?
+                        </h2>
+
+                        <p>
+                            Ask MarketMate to discover products,
+                            farmers and markets based on what you need.
+                        </p>
+
+
+                        <div class="ai-question">
+
+                            <i class="bi bi-chat-dots"></i>
+
+                            <span>
+                                "Find fresh tomatoes under $5 near me."
+                            </span>
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </div>
+
+
+                        <a href="#" class="ai-link">
+                            Meet MarketMate
+                            <i class="bi bi-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="ai-chat-window">
+
+                        <div class="ai-chat-header">
+
+                            <div class="ai-avatar">
+                                <i class="bi bi-stars"></i>
+                            </div>
+
+                            <div>
+                                <strong>MarketMate</strong>
+                                <span>AI Market Assistant</span>
+                            </div>
+
+                            <span class="ai-online"></span>
+
+                        </div>
+
+
+                        <div class="chat-messages">
+
+                            <div class="chat-message bot">
+
+                                Hi! 👋
+
+                                <br>
+
+                                What would you like to
+                                find today?
+
+                            </div>
+
+
+                            <div class="chat-message user">
+
+                                Fresh tomatoes under $5
+
+                            </div>
+
+
+                            <div class="chat-message bot result-message">
+
+                                <strong>
+                                    I found 3 options near you.
+                                </strong>
+
+                                <div class="mini-result">
+
+                                    <span class="result-icon">
+                                        🍅
+                                    </span>
+
+                                    <span>
+                                        Green Valley Farm
+                                        <small>
+                                            $4.50 / kg · 2.1 km
+                                        </small>
+                                    </span>
+
+                                </div>
+
+                                <div class="mini-result">
+
+                                    <span class="result-icon">
+                                        🍅
+                                    </span>
+
+                                    <span>
+                                        Sunrise Farm
+                                        <small>
+                                            $4.80 / kg · 3.2 km
+                                        </small>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="ai-input">
+
+                            <span>
+                                Ask MarketMate...
+                            </span>
+
+                            <button>
+                                <i class="bi bi-arrow-up"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MARKETLINK - MARKETS SECTION
+========================================================= -->
+
+<section id="markets" class="markets-section">
+
+    <div class="container">
+
+
+        <!-- =====================================================
+             SECTION HEADER
+        ====================================================== -->
+
+        <div class="section-heading text-center">
+
+            <span class="section-eyebrow">
+
+                <i class="bi bi-geo-alt"></i>
+
+                LOCAL FARMERS MARKETS
+
+            </span>
+
+
+            <h2>
+
+                Find Your
+                <span>Local Market</span>
+
+            </h2>
+
+
+            <p>
+
+                Discover fresh produce, local farmers, and
+                community markets near you.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             SEARCH AND FILTERS
+        ====================================================== -->
+
+        <div class="market-filter-box">
+
+
+            <div class="row g-3 align-items-end">
+
+
+                <!-- SEARCH MARKET -->
+
+                <div class="col-lg-5">
+
+                    <label for="marketSearch"
+                           class="market-filter-label">
+
+                        Search Markets
+
+                    </label>
+
+
+                    <div class="market-search-input">
+
+                        <i class="bi bi-search"></i>
+
+
+                        <input type="text"
+                               id="marketSearch"
+                               class="form-control"
+                               placeholder="Search market name..." />
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="col-lg-3">
+
+                    <label for="marketLocation"
+                           class="market-filter-label">
+
+                        Location
+
+                    </label>
+
+
+                    <select id="marketLocation"
+                            class="form-select">
+
+                        <option value="all">
+                            All Locations
+                        </option>
+
+                        <option value="city">
+                            City Center
+                        </option>
+
+                        <option value="riverside">
+                            Riverside
+                        </option>
+
+                        <option value="green-valley">
+                            Green Valley
+                        </option>
+
+                        <option value="community">
+                            Community Area
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- MARKET DAY -->
+
+                <div class="col-lg-3">
+
+                    <label for="marketDay"
+                           class="market-filter-label">
+
+                        Market Day
+
+                    </label>
+
+
+                    <select id="marketDay"
+                            class="form-select">
+
+                        <option value="all">
+                            All Days
+                        </option>
+
+                        <option value="saturday">
+                            Saturday
+                        </option>
+
+                        <option value="sunday">
+                            Sunday
+                        </option>
+
+                        <option value="friday">
+                            Friday
+                        </option>
+
+                        <option value="wednesday">
+                            Wednesday
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- RESET BUTTON -->
+
+                <div class="col-lg-1">
+
+                    <button type="button"
+                            id="resetMarketFilters"
+                            class="market-reset-btn"
+                            title="Reset filters">
+
+                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MARKET RESULTS
+        ====================================================== -->
+
+        <div class="market-results-header">
+
+
+            <div>
+
+                <span class="section-eyebrow">
+
+                    <i class="bi bi-shop"></i>
+
+                    EXPLORE MARKETS
+
+                </span>
+
+
+                <h3>
+
+                    Markets Near You
+
+                </h3>
+
+            </div>
+
+
+            <span id="marketResultCount"
+                  class="market-result-count">
+
+                4 Markets Available
+
+            </span>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MARKET CARDS
+        ====================================================== -->
+
+        <div id="marketCards"
+             class="row g-4">
+
+
+            <!-- MARKET 1 -->
+
+            <div class="col-md-6 col-xl-3 market-card-item"
+                 data-name="Riverside Farmers Market"
+                 data-location="riverside"
+                 data-days="saturday sunday">
+
+
+                <article class="market-card">
+
+
+                    <div class="market-card-image">
+
+                        <img src="~/images/markets/riverside-market.jpg"
+                             alt="Riverside Farmers Market"
+                             loading="lazy" />
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open This Week
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+
+                        <span class="market-card-category">
+
+                            WEEKEND MARKET
+
+                        </span>
+
+
+                        <h4>
+
+                            Riverside Farmers Market
+
+                        </h4>
+
+
+                        <p class="market-card-address">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Riverside Community
+
+                        </p>
+
+
+                        <div class="market-card-info">
+
+                            <div>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <span>
+                                    Sat & Sun
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-clock"></i>
+
+                                <span>
+                                    8 AM – 2 PM
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="market-card-footer">
+
+
+                            <div class="market-card-stats">
+
+                                <span>
+
+                                    <i class="bi bi-people"></i>
+
+                                    12 Farmers
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-basket"></i>
+
+                                    48 Products
+
+                                </span>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="market-view-btn"
+                               aria-label="View Riverside Farmers Market">
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- MARKET 2 -->
+
+            <div class="col-md-6 col-xl-3 market-card-item"
+                 data-name="Green Valley Market"
+                 data-location="green-valley"
+                 data-days="saturday">
+
+
+                <article class="market-card">
+
+
+                    <div class="market-card-image">
+
+                        <img src="~/images/markets/green-valley-market.jpg"
+                             alt="Green Valley Market"
+                             loading="lazy" />
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open This Week
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+
+                        <span class="market-card-category">
+
+                            FARMERS MARKET
+
+                        </span>
+
+
+                        <h4>
+
+                            Green Valley Market
+
+                        </h4>
+
+
+                        <p class="market-card-address">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Green Valley
+
+                        </p>
+
+
+                        <div class="market-card-info">
+
+                            <div>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <span>
+                                    Saturday
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-clock"></i>
+
+                                <span>
+                                    7 AM – 1 PM
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="market-card-footer">
+
+
+                            <div class="market-card-stats">
+
+                                <span>
+
+                                    <i class="bi bi-people"></i>
+
+                                    8 Farmers
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-basket"></i>
+
+                                    32 Products
+
+                                </span>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="market-view-btn"
+                               aria-label="View Green Valley Market">
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- MARKET 3 -->
+
+            <div class="col-md-6 col-xl-3 market-card-item"
+                 data-name="Sunrise Community Market"
+                 data-location="community"
+                 data-days="sunday">
+
+
+                <article class="market-card">
+
+
+                    <div class="market-card-image">
+
+                        <img src="~/images/markets/sunrise-market.jpg"
+                             alt="Sunrise Community Market"
+                             loading="lazy" />
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open This Week
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+
+                        <span class="market-card-category">
+
+                            COMMUNITY MARKET
+
+                        </span>
+
+
+                        <h4>
+
+                            Sunrise Community Market
+
+                        </h4>
+
+
+                        <p class="market-card-address">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Community Center
+
+                        </p>
+
+
+                        <div class="market-card-info">
+
+                            <div>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <span>
+                                    Sunday
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-clock"></i>
+
+                                <span>
+                                    8 AM – 3 PM
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="market-card-footer">
+
+
+                            <div class="market-card-stats">
+
+                                <span>
+
+                                    <i class="bi bi-people"></i>
+
+                                    15 Farmers
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-basket"></i>
+
+                                    60 Products
+
+                                </span>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="market-view-btn"
+                               aria-label="View Sunrise Community Market">
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- MARKET 4 -->
+
+            <div class="col-md-6 col-xl-3 market-card-item"
+                 data-name="Harvest Weekend Market"
+                 data-location="city"
+                 data-days="friday saturday">
+
+
+                <article class="market-card">
+
+
+                    <div class="market-card-image">
+
+                        <img src="~/images/markets/harvest-market.jpg"
+                             alt="Harvest Weekend Market"
+                             loading="lazy" />
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open This Week
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+
+                        <span class="market-card-category">
+
+                            FRESH PRODUCE
+
+                        </span>
+
+
+                        <h4>
+
+                            Harvest Weekend Market
+
+                        </h4>
+
+
+                        <p class="market-card-address">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            City Center
+
+                        </p>
+
+
+                        <div class="market-card-info">
+
+                            <div>
+
+                                <i class="bi bi-calendar3"></i>
+
+                                <span>
+                                    Fri & Sat
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <i class="bi bi-clock"></i>
+
+                                <span>
+                                    9 AM – 4 PM
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="market-card-footer">
+
+
+                            <div class="market-card-stats">
+
+                                <span>
+
+                                    <i class="bi bi-people"></i>
+
+                                    10 Farmers
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-basket"></i>
+
+                                    40 Products
+
+                                </span>
+
+                            </div>
+
+
+                            <a href="#"
+                               class="market-view-btn"
+                               aria-label="View Harvest Weekend Market">
+
+                                <i class="bi bi-arrow-up-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NO RESULTS -->
+
+        <div id="noMarketResults"
+             class="no-market-results d-none">
+
+            <i class="bi bi-search"></i>
+
+            <h4>
+                No Markets Found
+            </h4>
+
+            <p>
+                Try changing your search or filters.
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             MAP PREVIEW
+        ====================================================== -->
+
+        <div class="market-map-section">
+
+
+            <div class="row align-items-center g-4">
+
+
+                <div class="col-lg-5">
+
+
+                    <span class="section-eyebrow">
+
+                        <i class="bi bi-map"></i>
+
+                        MARKET LOCATIONS
+
+                    </span>
+
+
+                    <h3>
+
+                        Find Markets
+                        <span>Near You</span>
+
+                    </h3>
+
+
+                    <p>
+
+                        Explore local market locations and discover
+                        where your favorite farmers sell fresh produce.
+
+                    </p>
+
+
+                    <div class="map-feature-list">
+
+
+                        <div>
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            View market locations
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Discover nearby farmers
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            Find convenient pickup points
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="button"
+                            class="btn btn-market">
+
+                        Explore Map
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </button>
+
+                </div>
+
+
+
+                <div class="col-lg-7">
+
+
+                    <div class="market-map-preview">
+
+
+                        <div class="map-grid"></div>
+
+
+                        <div class="map-road map-road-one"></div>
+
+                        <div class="map-road map-road-two"></div>
+
+                        <div class="map-road map-road-three"></div>
+
+
+
+                        <div class="map-location-marker marker-one">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            <span>
+                                Riverside Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="map-location-marker marker-two">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            <span>
+                                Green Valley
+                            </span>
+
+                        </div>
+
+
+                        <div class="map-location-marker marker-three">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            <span>
+                                Sunrise Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="map-center-label">
+
+                            <i class="bi bi-compass"></i>
+
+                            MarketLink
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =====================================================
+     FINAL CTA
+===================================================== -->
+
+<section class="final-cta">
+
+    <div class="container text-center">
+
+        <span class="section-label">
+            MARKETLINK
+        </span>
+
+        <h2>
+            Fresh markets are
+            <span>closer than you think.</span>
+        </h2>
+
+        <p>
+            Discover local farmers, explore fresh products
+            and make your next market trip easier.
+        </p>
+
+        <a href="#markets" class="btn btn-hero-primary">
+            Explore MarketLink
+            <i class="bi bi-arrow-up-right"></i>
+        </a>
+
+    </div>
+
+</section>

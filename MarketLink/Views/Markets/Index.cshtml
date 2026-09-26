@@ -1,0 +1,2823 @@
+﻿
+@{
+    ViewData["Title"] = "Explore Markets";
+}
+
+@{
+    ViewData["Title"] = "Markets";
+}
+
+<!-- =========================================================
+     MARKETLINK - MARKETS HERO
+========================================================= -->
+
+<section class="markets-banner-hero">
+
+    <!-- Background Image -->
+    <div class="markets-banner-image"></div>
+
+    <!-- Dark Green Overlay -->
+    <div class="markets-banner-overlay"></div>
+
+
+    <div class="container">
+
+        <div class="markets-banner-content">
+
+            <!-- =================================================
+                 BREADCRUMB
+            ================================================== -->
+
+            <nav class="markets-banner-breadcrumb"
+                 aria-label="Breadcrumb">
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+
+                    Home
+
+                </a>
+
+                <i class="bi bi-chevron-right"></i>
+
+                <span>Markets</span>
+
+            </nav>
+
+
+            <!-- =================================================
+                 LABEL
+            ================================================== -->
+
+            <div class="markets-banner-label">
+
+                <i class="bi bi-shop-window"></i>
+
+                <span>LOCAL FARMERS MARKETS</span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TITLE
+            ================================================== -->
+
+            <h1>
+                Markets
+            </h1>
+
+
+            <!-- =================================================
+                 DESCRIPTION
+            ================================================== -->
+
+            <p>
+                Explore nearby farmers markets, discover fresh
+                products, and support local farmers in your community.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SEARCH & FILTERS
+========================================================= -->
+
+<section class="market-search-section">
+
+    <div class="container">
+
+        <div class="market-search-box">
+
+            <div class="search-heading">
+
+                <span class="section-tag">
+
+                    <i class="bi bi-search"></i>
+
+                    FIND YOUR MARKET
+
+                </span>
+
+
+                <h2>
+                    Where will you shop today?
+                </h2>
+
+
+                <p>
+                    Search markets by name, location, or operating day.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FILTER ROW
+            ================================================== -->
+
+            <div class="row g-3 align-items-end">
+
+
+                <!-- SEARCH -->
+
+                <div class="col-lg-5">
+
+                    <label for="marketSearch"
+                           class="form-label">
+
+                        Search markets
+
+                    </label>
+
+                    <div class="input-group market-input-group">
+
+                        <span class="input-group-text">
+
+                            <i class="bi bi-search"></i>
+
+                        </span>
+
+                        <input type="text"
+                               id="marketSearch"
+                               class="form-control"
+                               placeholder="Search market name or location..."
+                               autocomplete="off">
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="col-md-4 col-lg-3">
+
+                    <label for="locationFilter"
+                           class="form-label">
+
+                        Location
+
+                    </label>
+
+                    <select id="locationFilter"
+                            class="form-select">
+
+                        <option value="all">
+                            All Locations
+                        </option>
+
+                        <option value="karachi">
+                            Karachi
+                        </option>
+
+                        <option value="lahore">
+                            Lahore
+                        </option>
+
+                        <option value="islamabad">
+                            Islamabad
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DAY -->
+
+                <div class="col-md-4 col-lg-2">
+
+                    <label for="dayFilter"
+                           class="form-label">
+
+                        Market Day
+
+                    </label>
+
+                    <select id="dayFilter"
+                            class="form-select">
+
+                        <option value="all">
+                            All Days
+                        </option>
+
+                        <option value="saturday">
+                            Saturday
+                        </option>
+
+                        <option value="sunday">
+                            Sunday
+                        </option>
+
+                        <option value="friday">
+                            Friday
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- RESET -->
+
+                <div class="col-md-4 col-lg-2">
+
+                    <button type="button"
+                            class="btn btn-market w-100"
+                            id="resetFilters">
+
+                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                        Reset
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MARKETS LIST
+========================================================= -->
+
+<section class="markets-list-section">
+
+    <div class="container">
+
+
+        <!-- =================================================
+             SECTION HEADING
+        ================================================== -->
+
+        <div class="section-heading-row">
+
+            <div>
+
+                <span class="section-tag">
+
+                    <i class="bi bi-shop"></i>
+
+                    EXPLORE LOCAL MARKETS
+
+                </span>
+
+
+                <h2>
+                    Find your next market
+                </h2>
+
+            </div>
+
+
+            <span class="market-count"
+                  id="marketCount">
+
+                6 Markets Found
+
+            </span>
+
+        </div>
+
+
+        <!-- =================================================
+             MARKET GRID
+        ================================================== -->
+
+        <div class="row g-4"
+             id="marketsGrid">
+
+
+            <!-- =================================================
+                 MARKET 1
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Riverside Farmers Market"
+                 data-location="karachi"
+                 data-address="Clifton Karachi"
+                 data-day="saturday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=85"
+                             alt="Fresh produce at Riverside Farmers Market"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Riverside Farmers Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Saturday
+
+                        </span>
+
+
+                        <h3>
+                            Riverside Farmers Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Clifton, Karachi
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            Discover fresh vegetables, seasonal fruits,
+                            dairy products, and local handmade goods.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                18 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                8 AM – 2 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="1"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 MARKET 2
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Green Valley Market"
+                 data-location="lahore"
+                 data-address="Model Town Lahore"
+                 data-day="sunday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=85"
+                             alt="Green Valley farmers market produce"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Green Valley Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Sunday
+
+                        </span>
+
+
+                        <h3>
+                            Green Valley Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Model Town, Lahore
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            Shop locally grown produce and meet farmers
+                            who bring fresh harvests every week.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                24 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                7 AM – 1 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="2"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 MARKET 3
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Sunrise Organic Market"
+                 data-location="islamabad"
+                 data-address="F7 Islamabad"
+                 data-day="friday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=85"
+                             alt="Organic produce at Sunrise Market"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Sunrise Organic Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Friday
+
+                        </span>
+
+
+                        <h3>
+                            Sunrise Organic Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            F-7, Islamabad
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            Find organic vegetables, fresh herbs, fruits,
+                            and carefully selected local products.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                15 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                8 AM – 3 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="3"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 MARKET 4
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Harvest Community Market"
+                 data-location="karachi"
+                 data-address="DHA Karachi"
+                 data-day="sunday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=800&q=85"
+                             alt="Harvest Community Market"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Harvest Community Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Sunday
+
+                        </span>
+
+
+                        <h3>
+                            Harvest Community Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            DHA, Karachi
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            A friendly community market with fresh
+                            produce, homemade foods, and local sellers.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                20 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                9 AM – 3 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="4"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 MARKET 5
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Meadow Fresh Market"
+                 data-location="lahore"
+                 data-address="Gulberg Lahore"
+                 data-day="saturday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650?auto=format&fit=crop&w=800&q=85"
+                             alt="Meadow Fresh Market"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Meadow Fresh Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Saturday
+
+                        </span>
+
+
+                        <h3>
+                            Meadow Fresh Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Gulberg, Lahore
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            Fresh seasonal produce from trusted local
+                            farmers and small food businesses.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                16 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                8 AM – 2 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="5"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <!-- =================================================
+                 MARKET 6
+            ================================================== -->
+
+            <div class="col-md-6 col-xl-4 market-item"
+                 data-name="Community Harvest Market"
+                 data-location="islamabad"
+                 data-address="G9 Islamabad"
+                 data-day="saturday">
+
+                <article class="market-card">
+
+                    <div class="market-card-image">
+
+                        <img src="https://images.unsplash.com/photo-1498579397066-22750a3cb424?auto=format&fit=crop&w=800&q=85"
+                             alt="Community Harvest Market"
+                             loading="lazy">
+
+
+                        <span class="market-status">
+
+                            <i class="bi bi-circle-fill"></i>
+
+                            Open Weekly
+
+                        </span>
+
+
+                        <button type="button"
+                                class="favorite-market"
+                                aria-label="Save Community Harvest Market">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="market-card-body">
+
+                        <span class="market-day">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Every Saturday
+
+                        </span>
+
+
+                        <h3>
+                            Community Harvest Market
+                        </h3>
+
+
+                        <p class="market-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            G-9, Islamabad
+
+                        </p>
+
+
+                        <p class="market-description">
+
+                            Meet local producers and discover seasonal
+                            products at this community market.
+
+                        </p>
+
+
+                        <div class="market-info-row">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                12 Farmers
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-clock"></i>
+
+                                8 AM – 1 PM
+
+                            </span>
+
+                        </div>
+
+
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="6"
+                           class="market-outline-btn">
+
+                            View Market
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             NO RESULTS
+        ================================================== -->
+
+        <div id="noMarkets"
+             class="no-markets-message d-none">
+
+            <i class="bi bi-search"></i>
+
+            <h3>
+                No markets found
+            </h3>
+
+            <p>
+                Try changing your search or filters.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MARKET MAP PREVIEW
+========================================================= -->
+
+<section class="market-map-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+
+            <!-- =================================================
+                 MAP CONTENT
+            ================================================== -->
+
+            <div class="col-lg-5">
+
+                <span class="section-tag">
+
+                    <i class="bi bi-map"></i>
+
+                    MARKET LOCATIONS
+
+                </span>
+
+
+                <h2>
+                    Find markets on the map.
+                </h2>
+
+
+                <p>
+
+                    Discover market locations and plan your next
+                    pickup with convenient location information.
+
+                </p>
+
+
+                <div class="map-feature-list">
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        View market locations
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Discover nearby farmers
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Plan your pickup route
+
+                    </div>
+
+                </div>
+
+
+                <p class="map-note">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    Interactive map integration will be connected
+                    in the next development phase.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 MAP PREVIEW
+            ================================================== -->
+
+            <div class="col-lg-7">
+
+                <div class="market-map-preview">
+
+
+                    <div class="map-preview-top">
+
+                        <span>
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            Market Explorer
+
+                        </span>
+
+
+                        <span class="map-preview-label">
+
+                            Map Preview
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="map-visual">
+
+
+                        <!-- Roads -->
+
+                        <div class="map-road road-one"></div>
+
+                        <div class="map-road road-two"></div>
+
+                        <div class="map-road road-three"></div>
+
+
+                        <!-- Pins -->
+
+                        <div class="map-pin pin-one">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                        </div>
+
+
+                        <div class="map-pin pin-two">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                        </div>
+
+
+                        <div class="map-pin pin-three">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                        </div>
+
+
+                        <!-- Labels -->
+
+                        <div class="map-label label-one">
+
+                            Riverside Market
+
+                        </div>
+
+
+                        <div class="map-label label-two">
+
+                            Green Valley
+
+                        </div>
+
+
+                        <div class="map-label label-three">
+
+                            Sunrise Market
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CALL TO ACTION
+========================================================= -->
+
+<section class="markets-cta-section">
+
+    <div class="container">
+
+        <div class="markets-cta">
+
+
+            <div>
+
+                <span class="section-tag">
+
+                    <i class="bi bi-leaf-fill"></i>
+
+                    FRESHNESS STARTS HERE
+
+                </span>
+
+
+                <h2>
+                    Find your local market today.
+                </h2>
+
+
+                <p>
+                    Discover fresh products and support local farmers.
+                </p>
+
+            </div>
+
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-light">
+
+                Back to Home
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+@section Styles {
+    <style>
+
+        /* =========================================================
+           MARKETLINK - MARKETS BANNER HERO
+           Same Style as Market Details Banner
+        ========================================================= */
+
+        .markets-banner-hero {
+            position: relative;
+            width: calc(100% - 56px);
+            min-height: 440px;
+            margin: 20px auto 0;
+            overflow: hidden;
+            border-radius: 0 0 28px 28px;
+            background: #174d32;
+            isolation: isolate;
+        }
+
+
+        /* =========================================================
+           BACKGROUND IMAGE
+        ========================================================= */
+
+        .markets-banner-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1800&q=85");
+            background-size: cover;
+            background-position: center;
+            /*
+               Image fixed while page scrolls
+               Creates the parallax/fixed image effect
+            */
+            background-attachment: fixed;
+            z-index: -3;
+        }
+
+
+        /* =========================================================
+           DARK GREEN OVERLAY
+        ========================================================= */
+
+        .markets-banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 90deg, rgba(0, 66, 40, 0.96) 0%, rgba(0, 77, 45, 0.88) 28%, rgba(0, 78, 46, 0.58) 55%, rgba(0, 55, 34, 0.20) 100% );
+            z-index: -2;
+        }
+
+
+        /* =========================================================
+           EXTRA SOFT OVERLAY
+        ========================================================= */
+
+        .markets-banner-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08) );
+            pointer-events: none;
+            z-index: -1;
+        }
+
+
+        /* =========================================================
+           CONTAINER
+        ========================================================= */
+
+        .markets-banner-hero .container {
+            position: relative;
+            min-height: 440px;
+            display: flex;
+            align-items: center;
+            z-index: 5;
+        }
+
+
+        /* =========================================================
+           HERO CONTENT
+        ========================================================= */
+
+        .markets-banner-content {
+            width: 100%;
+            max-width: 720px;
+            padding: 55px 0 55px 62px;
+        }
+
+
+        /* =========================================================
+           BREADCRUMB
+        ========================================================= */
+
+        .markets-banner-breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-bottom: 34px;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+
+            /* Breadcrumb Links */
+
+            .markets-banner-breadcrumb a {
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 700;
+                transition: all 0.25s ease;
+            }
+
+
+                .markets-banner-breadcrumb a:hover {
+                    color: #c9e52f;
+                }
+
+
+            /* Breadcrumb Arrow */
+
+            .markets-banner-breadcrumb i {
+                color: #b7d832;
+                font-size: 11px;
+            }
+
+
+            /* Current Page */
+
+            .markets-banner-breadcrumb span {
+                color: rgba(255,255,255,0.72);
+                font-weight: 500;
+            }
+
+
+        /* =========================================================
+           LABEL
+        ========================================================= */
+
+        .markets-banner-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            color: #c8e83a;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+
+            /* Label Icon */
+
+            .markets-banner-label i {
+                font-size: 17px;
+                color: #c8e83a;
+            }
+
+
+        /* =========================================================
+           MAIN HEADING
+        ========================================================= */
+
+        .markets-banner-content h1 {
+            margin: 0;
+            color: #ffffff;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(54px, 6vw, 78px);
+            line-height: 1.02;
+            font-weight: 800;
+            letter-spacing: -2.5px;
+        }
+
+
+        /* =========================================================
+           DESCRIPTION
+        ========================================================= */
+
+        .markets-banner-content p {
+            max-width: 650px;
+            margin: 22px 0 0;
+            color: rgba(255,255,255,0.88);
+            font-size: 17px;
+            line-height: 1.75;
+            font-weight: 400;
+        }
+
+
+        /* =========================================================
+           DESKTOP LARGE SCREEN
+        ========================================================= */
+
+        @@media (min-width: 1400px) {
+
+            .markets-banner-hero {
+                width: calc(100% - 56px);
+                min-height: 470px;
+            }
+
+
+                .markets-banner-hero .container {
+                    min-height: 470px;
+                }
+
+
+            .markets-banner-content {
+                padding-left: 65px;
+            }
+
+
+                .markets-banner-content h1 {
+                    font-size: 82px;
+                }
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @@media (max-width: 991px) {
+
+            .markets-banner-hero {
+                width: calc(100% - 40px);
+                min-height: 420px;
+                border-radius: 0 0 25px 25px;
+            }
+
+
+                .markets-banner-hero .container {
+                    min-height: 420px;
+                }
+
+
+            .markets-banner-content {
+                padding: 50px 30px;
+            }
+
+
+                .markets-banner-content h1 {
+                    font-size: 58px;
+                }
+
+
+                .markets-banner-content p {
+                    max-width: 570px;
+                    font-size: 16px;
+                }
+
+
+            .markets-banner-image {
+                background-attachment: scroll;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @@media (max-width: 767px) {
+
+            .markets-banner-hero {
+                width: calc(100% - 24px);
+                min-height: 400px;
+                margin-top: 14px;
+                border-radius: 0 0 22px 22px;
+            }
+
+
+                .markets-banner-hero .container {
+                    min-height: 400px;
+                    align-items: center;
+                }
+
+
+            .markets-banner-content {
+                padding: 45px 20px;
+            }
+
+
+            .markets-banner-breadcrumb {
+                margin-bottom: 28px;
+                font-size: 13px;
+                gap: 9px;
+            }
+
+
+            .markets-banner-label {
+                margin-bottom: 14px;
+                font-size: 10px;
+                letter-spacing: 1.1px;
+            }
+
+
+                .markets-banner-label i {
+                    font-size: 15px;
+                }
+
+
+            .markets-banner-content h1 {
+                font-size: 48px;
+                letter-spacing: -1.5px;
+            }
+
+
+            .markets-banner-content p {
+                margin-top: 18px;
+                font-size: 15px;
+                line-height: 1.65;
+            }
+            /*
+               Mobile par fixed background off
+               for better mobile browser performance
+            */
+
+            .markets-banner-image {
+                background-attachment: scroll;
+                background-position: center;
+            }
+
+
+            .markets-banner-overlay {
+                background: linear-gradient( 90deg, rgba(0, 65, 39, 0.94) 0%, rgba(0, 70, 42, 0.80) 65%, rgba(0, 55, 34, 0.48) 100% );
+            }
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+        @@media (max-width: 480px) {
+
+            .markets-banner-hero {
+                width: calc(100% - 16px);
+                min-height: 370px;
+            }
+
+
+                .markets-banner-hero .container {
+                    min-height: 370px;
+                }
+
+
+            .markets-banner-content {
+                padding: 38px 17px;
+            }
+
+
+            .markets-banner-breadcrumb {
+                margin-bottom: 25px;
+                font-size: 12px;
+            }
+
+
+            .markets-banner-content h1 {
+                font-size: 42px;
+            }
+
+
+            .markets-banner-content p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        }
+
+
+        /* =========================================================
+           SEARCH SECTION
+        ========================================================= */
+
+        .market-search-section {
+            position: relative;
+            padding: 65px 0 30px;
+            background: #ffffff;
+        }
+
+
+        /* =========================================================
+           SEARCH BOX
+        ========================================================= */
+
+        .market-search-box {
+            padding: 35px;
+            background: #f5f8f1;
+            border: 1px solid #e5ebdf;
+            border-radius: 24px;
+        }
+
+
+        /* =========================================================
+           SEARCH HEADING
+        ========================================================= */
+
+        .search-heading h2 {
+            margin: 10px 0;
+            color: #183b2b;
+            font-family: "Manrope", sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .search-heading p {
+            margin-bottom: 28px;
+            color: #7a897d;
+        }
+
+
+        /* =========================================================
+           FORM LABEL
+        ========================================================= */
+
+        .market-search-box .form-label {
+            color: #385442;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           SEARCH INPUT
+        ========================================================= */
+
+        .market-input-group .input-group-text {
+            background: #ffffff;
+            border: 1px solid #dce5d5;
+            border-right: 0;
+            color: #7c9b5e;
+        }
+
+        .market-input-group .form-control {
+            border-left: 0;
+        }
+
+            .market-input-group .form-control:focus {
+                border-color: #82a65d;
+                box-shadow: none;
+            }
+
+
+        /* =========================================================
+           SELECT / INPUT
+        ========================================================= */
+
+        .market-search-box .form-select,
+        .market-search-box .form-control {
+            min-height: 48px;
+            border-color: #dce5d5;
+            border-radius: 10px;
+        }
+
+            .market-search-box .form-select:focus {
+                border-color: #82a65d;
+                box-shadow: 0 0 0 0.2rem rgba(130, 166, 93, 0.12);
+            }
+
+
+        /* =========================================================
+           MARKET BUTTON
+        ========================================================= */
+
+        .btn-market {
+            min-height: 48px;
+            color: #ffffff;
+            background: #31523e;
+            border: 1px solid #31523e;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+            .btn-market:hover {
+                color: #ffffff;
+                background: #1e3e2d;
+                border-color: #1e3e2d;
+                transform: translateY(-2px);
+            }
+
+
+        /* =========================================================
+           MARKET LIST
+        ========================================================= */
+
+        .markets-list-section {
+            padding: 65px 0 90px;
+            background: #ffffff;
+        }
+
+
+        /* =========================================================
+           SECTION HEADING
+        ========================================================= */
+
+        .section-heading-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+            .section-heading-row h2 {
+                margin: 8px 0 0;
+                color: #183b2b;
+                font-family: "Manrope", sans-serif;
+                font-size: 34px;
+                font-weight: 800;
+            }
+
+
+        /* =========================================================
+           MARKET COUNT
+        ========================================================= */
+
+        .market-count {
+            padding: 10px 16px;
+            color: #62804b;
+            background: #edf4e7;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+
+        /* =========================================================
+           MARKET CARD
+        ========================================================= */
+
+        .market-card {
+            height: 100%;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #e8eee4;
+            border-radius: 22px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+            .market-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 18px 45px rgba(31, 65, 43, 0.10);
+            }
+
+
+        /* =========================================================
+           MARKET CARD IMAGE
+        ========================================================= */
+
+        .market-card-image {
+            position: relative;
+            height: 235px;
+            overflow: hidden;
+        }
+
+            .market-card-image img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.35s ease;
+            }
+
+        .market-card:hover .market-card-image img {
+            transform: scale(1.05);
+        }
+
+
+        /* =========================================================
+           MARKET STATUS
+        ========================================================= */
+
+        .market-status {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 8px 12px;
+            color: #3f683d;
+            background: rgba(239, 249, 231, 0.95);
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+            .market-status i {
+                margin-right: 5px;
+                font-size: 7px;
+            }
+
+
+        /* =========================================================
+           FAVORITE BUTTON
+        ========================================================= */
+
+        .favorite-market {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 39px;
+            height: 39px;
+            border: 0;
+            color: #62804b;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            transition: 0.2s ease;
+            cursor: pointer;
+        }
+
+            .favorite-market:hover {
+                transform: scale(1.08);
+            }
+
+            .favorite-market.active {
+                color: #ffffff;
+                background: #82a65d;
+            }
+
+
+        /* =========================================================
+           CARD BODY
+        ========================================================= */
+
+        .market-card-body {
+            padding: 25px;
+        }
+
+
+        /* =========================================================
+           MARKET DAY
+        ========================================================= */
+
+        .market-day {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 13px;
+            color: #82a65d;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+            .market-day i {
+                font-size: 13px;
+            }
+
+
+        /* =========================================================
+           MARKET TITLE
+        ========================================================= */
+
+        .market-card h3 {
+            margin-bottom: 12px;
+            color: #183b2b;
+            font-family: "Manrope", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================================
+           MARKET LOCATION
+        ========================================================= */
+
+        .market-location {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 14px;
+            color: #718477;
+            font-size: 13px;
+        }
+
+            .market-location i {
+                color: #82a65d;
+            }
+
+
+        /* =========================================================
+           MARKET DESCRIPTION
+        ========================================================= */
+
+        .market-description {
+            min-height: 70px;
+            margin-bottom: 20px;
+            color: #7d8b81;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           MARKET INFO ROW
+        ========================================================= */
+
+        .market-info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 16px 0;
+            color: #6c7e70;
+            border-top: 1px solid #edf1ea;
+            border-bottom: 1px solid #edf1ea;
+            font-size: 12px;
+        }
+
+            .market-info-row span {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .market-info-row i {
+                color: #82a65d;
+            }
+
+
+        /* =========================================================
+           VIEW MARKET BUTTON
+        ========================================================= */
+
+        .market-outline-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px 16px;
+            color: #31523e;
+            background: #f3f7ef;
+            border: 1px solid #e1ebd9;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
+
+            .market-outline-btn:hover {
+                color: #ffffff;
+                background: #31523e;
+                border-color: #31523e;
+            }
+
+
+        /* =========================================================
+           NO RESULTS
+        ========================================================= */
+
+        .no-markets-message {
+            padding: 60px 20px;
+            text-align: center;
+            color: #7c8b80;
+        }
+
+            .no-markets-message i {
+                color: #82a65d;
+                font-size: 45px;
+            }
+
+            .no-markets-message h3 {
+                margin-top: 15px;
+                color: #183b2b;
+            }
+
+
+        /* =========================================================
+           MAP SECTION
+        ========================================================= */
+
+        .market-map-section {
+            padding: 90px 0;
+            background: #f4f7ef;
+        }
+
+            .market-map-section h2 {
+                margin: 15px 0 20px;
+                color: #183b2b;
+                font-family: "Manrope", sans-serif;
+                font-size: 38px;
+                font-weight: 800;
+                line-height: 1.2;
+            }
+
+            .market-map-section p {
+                color: #748478;
+                line-height: 1.8;
+            }
+
+
+        /* =========================================================
+           MAP FEATURES
+        ========================================================= */
+
+        .map-feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 25px 0;
+        }
+
+            .map-feature-list div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: #45634e;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .map-feature-list i {
+                color: #82a65d;
+            }
+
+
+        /* =========================================================
+           MAP NOTE
+        ========================================================= */
+
+        .map-note {
+            display: flex;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           MAP PREVIEW
+        ========================================================= */
+
+        .market-map-preview {
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #e0e9d9;
+            border-radius: 25px;
+            box-shadow: 0 15px 45px rgba(34, 65, 44, 0.07);
+        }
+
+
+        /* =========================================================
+           MAP HEADER
+        ========================================================= */
+
+        .map-preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 20px 24px;
+            color: #31523e;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+            .map-preview-top i {
+                margin-right: 7px;
+                color: #82a65d;
+            }
+
+        .map-preview-label {
+            color: #8a998d;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================================
+           MAP VISUAL
+        ========================================================= */
+
+        .map-visual {
+            position: relative;
+            height: 360px;
+            overflow: hidden;
+            background-color: #e7eedf;
+            background-image: linear-gradient( 30deg, rgba(255,255,255,.55) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.55) 87.5% ), linear-gradient( 150deg, rgba(255,255,255,.55) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.55) 87.5% );
+            background-size: 80px 140px;
+        }
+
+
+        /* =========================================================
+           MAP ROADS
+        ========================================================= */
+
+        .map-road {
+            position: absolute;
+            background: rgba(255,255,255,.9);
+            border: 1px solid #d3dfc9;
+        }
+
+        .road-one {
+            width: 120%;
+            height: 27px;
+            top: 44%;
+            left: -10%;
+            transform: rotate(-20deg);
+        }
+
+        .road-two {
+            width: 110%;
+            height: 24px;
+            top: 58%;
+            left: -5%;
+            transform: rotate(35deg);
+        }
+
+        .road-three {
+            width: 100%;
+            height: 20px;
+            top: 18%;
+            left: 5%;
+            transform: rotate(65deg);
+        }
+
+
+        /* =========================================================
+           MAP PINS
+        ========================================================= */
+
+        .map-pin {
+            position: absolute;
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            color: #ffffff;
+            background: #31523e;
+            border: 4px solid #ffffff;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,.15);
+        }
+
+            .map-pin i {
+                transform: rotate(45deg);
+            }
+
+        .pin-one {
+            top: 35%;
+            left: 23%;
+        }
+
+        .pin-two {
+            top: 57%;
+            left: 65%;
+            background: #82a65d;
+        }
+
+        .pin-three {
+            top: 15%;
+            left: 52%;
+            background: #d18a48;
+        }
+
+
+        /* =========================================================
+           MAP LABELS
+        ========================================================= */
+
+        .map-label {
+            position: absolute;
+            padding: 8px 12px;
+            color: #31523e;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(40,60,40,.08);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .label-one {
+            top: 49%;
+            left: 8%;
+        }
+
+        .label-two {
+            top: 70%;
+            left: 55%;
+        }
+
+        .label-three {
+            top: 28%;
+            left: 59%;
+        }
+
+
+        /* =========================================================
+           CTA SECTION
+        ========================================================= */
+
+        .markets-cta-section {
+            padding: 70px 0;
+            background: #ffffff;
+        }
+
+        .markets-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 50px;
+            background: #31523e;
+            border-radius: 25px;
+        }
+
+            .markets-cta .section-tag {
+                color: #b9d69b;
+            }
+
+            .markets-cta h2 {
+                margin: 15px 0 12px;
+                color: #ffffff;
+                font-family: "Manrope", sans-serif;
+                font-size: 34px;
+                font-weight: 800;
+            }
+
+            .markets-cta p {
+                margin: 0;
+                color: #cbdacb;
+            }
+
+            .markets-cta .btn-light {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                padding: 14px 22px;
+                color: #31523e;
+                border-radius: 10px;
+                font-weight: 700;
+                white-space: nowrap;
+                text-decoration: none;
+            }
+
+
+        /* =========================================================
+           LARGE TABLET / SMALL DESKTOP
+        ========================================================= */
+
+        @@media (max-width: 1199px) {
+
+            .page-hero-decoration {
+                width: 50%;
+            }
+
+            .hero-market-image {
+                width: 350px;
+                height: 400px;
+                right: 25px;
+            }
+
+            .hero-image-bg {
+                width: 370px;
+                height: 370px;
+                right: 25px;
+            }
+
+            .hero-image-ring {
+                width: 365px;
+                height: 400px;
+                right: 5px;
+            }
+
+            .hero-small-image {
+                right: -5px;
+            }
+
+            .hero-market-card {
+                left: -5px;
+            }
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @@media (max-width: 991px) {
+
+            .markets-page-hero {
+                min-height: auto;
+                padding-bottom: 50px;
+            }
+
+            .page-hero-content {
+                width: 100%;
+            }
+
+            .page-hero-decoration {
+                position: relative;
+                right: auto;
+                top: auto;
+                width: 100%;
+                height: 480px;
+                margin-top: 35px;
+            }
+
+            .hero-market-image {
+                left: 50%;
+                right: auto;
+                width: 350px;
+                height: 390px;
+                transform: translateX(-50%);
+            }
+
+            .hero-image-bg {
+                left: 50%;
+                right: auto;
+                width: 370px;
+                height: 370px;
+                transform: translateX(-50%) rotate(13deg);
+            }
+
+            .hero-image-ring {
+                left: 50%;
+                right: auto;
+                width: 365px;
+                height: 395px;
+                transform: translateX(-47%) rotate(-8deg);
+            }
+
+            .hero-market-card {
+                left: 8%;
+                top: 90px;
+            }
+
+            .hero-small-image {
+                right: 8%;
+                top: 20px;
+            }
+
+            .hero-leaf-one {
+                left: 8%;
+                bottom: 50px;
+            }
+
+            .hero-leaf-two {
+                right: 8%;
+                bottom: 35px;
+            }
+
+            .hero-dot-one {
+                left: 8%;
+            }
+
+            .hero-dot-two {
+                right: 8%;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @@media (max-width: 575px) {
+
+            .markets-page-hero {
+                padding-top: 25px;
+            }
+
+            .page-hero-content h1 {
+                font-size: 42px;
+                letter-spacing: -1.3px;
+            }
+
+            .page-hero-content > p {
+                font-size: 14px;
+            }
+
+            .page-hero-decoration {
+                height: 390px;
+                margin-top: 25px;
+            }
+
+            .hero-market-image {
+                width: 275px;
+                height: 310px;
+                top: 35px;
+            }
+
+            .hero-image-bg {
+                width: 290px;
+                height: 290px;
+                top: 45px;
+            }
+
+            .hero-image-ring {
+                width: 290px;
+                height: 315px;
+                top: 40px;
+                border-width: 6px;
+            }
+
+            .hero-market-card {
+                left: 0;
+                top: 80px;
+                min-width: auto;
+                padding: 9px 13px 9px 9px;
+                gap: 8px;
+                border-radius: 15px;
+            }
+
+            .hero-market-card-image {
+                width: 42px;
+                height: 42px;
+                border-radius: 11px;
+            }
+
+            .hero-market-card-content strong {
+                font-size: 12px;
+            }
+
+            .hero-market-card-content span {
+                font-size: 9px;
+            }
+
+            .hero-small-image {
+                width: 78px;
+                height: 78px;
+                right: 0;
+                top: 20px;
+            }
+
+            .hero-leaf-one {
+                left: 0;
+                bottom: 25px;
+                font-size: 38px;
+            }
+
+            .hero-leaf-two {
+                right: 0;
+                bottom: 20px;
+                font-size: 34px;
+            }
+
+            .hero-dot-one {
+                left: 3px;
+                top: 200px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .hero-dot-two {
+                right: 3px;
+                bottom: 55px;
+                width: 17px;
+                height: 17px;
+            }
+
+            .market-search-section {
+                padding-top: 45px;
+            }
+
+            .market-search-box {
+                padding: 25px 20px;
+            }
+
+            .section-heading-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+                .section-heading-row h2 {
+                    font-size: 28px;
+                }
+
+            .market-card-body {
+                padding: 22px;
+            }
+
+            .market-map-section {
+                padding: 65px 0;
+            }
+
+                .market-map-section h2 {
+                    font-size: 31px;
+                }
+
+            .markets-cta {
+                padding: 32px 25px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+                .markets-cta h2 {
+                    font-size: 28px;
+                }
+
+                .markets-cta .btn-light {
+                    width: 100%;
+                    justify-content: center;
+                }
+
+            .map-visual {
+                height: 320px;
+            }
+        }
+
+
+        /* =========================================================
+           VERY SMALL MOBILE
+        ========================================================= */
+
+        @@media (max-width: 400px) {
+
+            .page-hero-content h1 {
+                font-size: 36px;
+            }
+
+            .page-hero-decoration {
+                height: 350px;
+            }
+
+            .hero-market-image {
+                width: 245px;
+                height: 280px;
+            }
+
+            .hero-image-bg {
+                width: 260px;
+                height: 260px;
+            }
+
+            .hero-image-ring {
+                width: 260px;
+                height: 285px;
+            }
+
+            .hero-market-card {
+                left: -5px;
+                top: 65px;
+            }
+
+            .hero-small-image {
+                width: 68px;
+                height: 68px;
+            }
+
+            .market-card-body {
+                padding: 20px;
+            }
+
+            .map-visual {
+                height: 300px;
+            }
+
+            .map-label {
+                padding: 6px 8px;
+                font-size: 9px;
+            }
+        }
+
+    </style>
+}
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("marketSearch");
+
+            const locationFilter =
+                document.getElementById("locationFilter");
+
+            const dayFilter =
+                document.getElementById("dayFilter");
+
+            const resetButton =
+                document.getElementById("resetFilters");
+
+            const marketItems =
+                document.querySelectorAll(".market-item");
+
+            const marketCount =
+                document.getElementById("marketCount");
+
+            const noMarkets =
+                document.getElementById("noMarkets");
+
+
+            function filterMarkets() {
+
+                const searchValue =
+                    searchInput.value.toLowerCase().trim();
+
+                const selectedLocation =
+                    locationFilter.value;
+
+                const selectedDay =
+                    dayFilter.value;
+
+                let visibleMarkets = 0;
+
+
+                marketItems.forEach(function (item) {
+
+                    const marketName =
+                        (item.dataset.name || "").toLowerCase();
+
+                    const marketAddress =
+                        (item.dataset.address || "").toLowerCase();
+
+                    const marketLocation =
+                        item.dataset.location || "";
+
+                    const marketDay =
+                        item.dataset.day || "";
+
+
+                    const matchesSearch =
+                        marketName.includes(searchValue) ||
+                        marketAddress.includes(searchValue);
+
+
+                    const matchesLocation =
+                        selectedLocation === "all" ||
+                        marketLocation === selectedLocation;
+
+
+                    const matchesDay =
+                        selectedDay === "all" ||
+                        marketDay === selectedDay;
+
+
+                    if (
+                        matchesSearch &&
+                        matchesLocation &&
+                        matchesDay
+                    ) {
+
+                        item.classList.remove("d-none");
+
+                        visibleMarkets++;
+
+                    }
+                    else {
+
+                        item.classList.add("d-none");
+
+                    }
+
+                });
+
+
+                marketCount.textContent =
+                    visibleMarkets + " Markets Found";
+
+
+                if (visibleMarkets === 0) {
+
+                    noMarkets.classList.remove("d-none");
+
+                }
+                else {
+
+                    noMarkets.classList.add("d-none");
+
+                }
+
+            }
+
+
+            /* SEARCH */
+
+            searchInput.addEventListener(
+                "input",
+                filterMarkets
+            );
+
+
+            /* LOCATION */
+
+            locationFilter.addEventListener(
+                "change",
+                filterMarkets
+            );
+
+
+            /* DAY */
+
+            dayFilter.addEventListener(
+                "change",
+                filterMarkets
+            );
+
+
+            /* RESET */
+
+            resetButton.addEventListener(
+                "click",
+                function () {
+
+                    searchInput.value = "";
+
+                    locationFilter.value = "all";
+
+                    dayFilter.value = "all";
+
+                    filterMarkets();
+
+                }
+            );
+
+
+            /* FAVORITES */
+
+            document
+                .querySelectorAll(".favorite-market")
+                .forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            button.classList.toggle("active");
+
+                            const icon =
+                                button.querySelector("i");
+
+
+                            if (
+                                button.classList.contains("active")
+                            ) {
+
+                                icon.classList.remove(
+                                    "bi-heart"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart-fill"
+                                );
+
+                            }
+                            else {
+
+                                icon.classList.remove(
+                                    "bi-heart-fill"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart"
+                                );
+
+                            }
+
+                        }
+                    );
+
+                });
+
+
+            /* MARKET DETAILS - TEMPORARY */
+
+            document
+                .querySelectorAll(".market-details-btn")
+                .forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            const marketName =
+                                button.dataset.market;
+
+                            alert(
+                                "Market details for " +
+                                marketName +
+                                " will be connected next."
+                            );
+
+                        }
+                    );
+                        
+                });
+
+
+            /* INITIAL FILTER */
+
+            filterMarkets();
+
+        });
+
+    </script>
+}

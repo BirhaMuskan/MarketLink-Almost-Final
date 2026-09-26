@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="16" fill="#f4f1e7"></rect>
+
+  <!-- Leaf -->
+  <path d="M43.5 10C30 11.5 19 18.5 17 31.5C15.5 41.5 21.5 51 32 54C35 43 34 32 29 24C34 29 38 37 38 46C44 38 48 28 46 19C45.5 15 44.5 12 43.5 10Z" fill="#3cae5a"></path>
+
+  <!-- Leaf vein -->
+  <path d="M32 50C31 39 30 30 26 22" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"></path>
+
+</svg>

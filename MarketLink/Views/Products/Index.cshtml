@@ -1,0 +1,2731 @@
+﻿@{
+    ViewData["Title"] = "Fresh Products";
+}
+
+<!-- =========================================================
+     MARKETLINK - PRODUCTS HERO
+========================================================= -->
+
+<section class="products-banner-hero">
+
+    <!-- Background Image -->
+    <div class="products-banner-image"></div>
+
+    <!-- Dark Green Overlay -->
+    <div class="products-banner-overlay"></div>
+
+
+    <div class="container">
+
+        <div class="products-banner-content">
+
+            <!-- =================================================
+                 BREADCRUMB
+            ================================================== -->
+
+            <nav class="products-banner-breadcrumb"
+                 aria-label="Breadcrumb">
+
+                <a asp-controller="Home"
+                   asp-action="Index">
+
+                    Home
+
+                </a>
+
+                <i class="bi bi-chevron-right"></i>
+
+                <span>Products</span>
+
+            </nav>
+
+
+            <!-- =================================================
+                 LABEL
+            ================================================== -->
+
+            <div class="products-banner-label">
+
+                <i class="bi bi-basket3"></i>
+
+                <span>FRESH LOCAL PRODUCTS</span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TITLE
+            ================================================== -->
+
+            <h1>
+                Fresh Products
+            </h1>
+
+
+            <!-- =================================================
+                 DESCRIPTION
+            ================================================== -->
+
+            <p>
+                Discover fresh fruits, vegetables, organic products
+                and locally produced goods from trusted farmers
+                through MarketLink.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     CATEGORY SECTION
+========================================= -->
+
+<section class="product-categories">
+
+    <div class="container">
+
+        <div class="products-section-heading">
+
+            <div>
+
+                <span class="products-section-tag">
+                    SHOP BY CATEGORY
+                </span>
+
+                <h2>
+                    Find What You Need
+                </h2>
+
+            </div>
+
+            <p>
+                Browse products by category and discover
+                fresh local produce.
+            </p>
+
+        </div>
+
+
+        <div class="category-scroll-wrapper">
+
+            <button class="category-arrow category-prev"
+                    type="button"
+                    aria-label="Previous categories">
+
+                <i class="bi bi-chevron-left"></i>
+
+            </button>
+
+
+            <div class="product-category-list">
+
+                <button type="button"
+                        class="product-category active"
+                        data-category="all">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-grid-fill"></i>
+                    </span>
+
+                    <strong>All Products</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="vegetables">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-flower1"></i>
+                    </span>
+
+                    <strong>Vegetables</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="fruits">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-apple"></i>
+                    </span>
+
+                    <strong>Fruits</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="dairy">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-cup-hot"></i>
+                    </span>
+
+                    <strong>Dairy</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="grains">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </span>
+
+                    <strong>Grains</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="organic">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-leaf"></i>
+                    </span>
+
+                    <strong>Organic</strong>
+
+                </button>
+
+
+                <button type="button"
+                        class="product-category"
+                        data-category="herbs">
+
+                    <span class="product-category-icon">
+                        <i class="bi bi-tree"></i>
+                    </span>
+
+                    <strong>Herbs</strong>
+
+                </button>
+
+            </div>
+
+
+            <button class="category-arrow category-next"
+                    type="button"
+                    aria-label="Next categories">
+
+                <i class="bi bi-chevron-right"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     PRODUCTS SECTION
+========================================= -->
+
+<section class="products-section"
+         id="products">
+
+    <div class="container">
+
+        <!-- TOP BAR -->
+
+        <div class="products-topbar">
+
+            <div>
+
+                <span class="products-section-tag">
+                    FRESH MARKETPLACE
+                </span>
+
+                <h2>
+                    Fresh Products
+                </h2>
+
+                <p id="productResultText">
+                    Showing all available products
+                </p>
+
+            </div>
+
+
+            <div class="products-controls">
+
+                <!-- SEARCH -->
+
+                <div class="product-search">
+
+                    <i class="bi bi-search"></i>
+
+                    <input type="text"
+                           id="productSearch"
+                           class="form-control"
+                           placeholder="Search products...">
+
+                </div>
+
+
+                <!-- SORT -->
+
+                <select id="productSort"
+                        class="form-select product-sort">
+
+                    <option value="default">
+                        Sort By
+                    </option>
+
+                    <option value="nameAsc">
+                        Name: A - Z
+                    </option>
+
+                    <option value="nameDesc">
+                        Name: Z - A
+                    </option>
+
+                    <option value="priceLow">
+                        Price: Low to High
+                    </option>
+
+                    <option value="priceHigh">
+                        Price: High to Low
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PRODUCT GRID -->
+
+        <div class="row g-4"
+             id="productsGrid">
+
+
+            <!-- PRODUCT 1 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Fresh Tomatoes"
+                 data-category="vegetables"
+                 data-price="180">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80"
+                             alt="Fresh Tomatoes"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Fresh
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Fresh Tomatoes to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Vegetables
+                        </span>
+
+                        <h3>
+                            Fresh Tomatoes
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+
+                            <span>4.8</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Ahmed Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                Clifton Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 180
+                                </strong>
+
+                                <span>
+                                    / kg
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="1"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 2 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Fresh Apples"
+                 data-category="fruits"
+                 data-price="420">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80"
+                             alt="Fresh Apples"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Popular
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Fresh Apples to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Fruits
+                        </span>
+
+                        <h3>
+                            Fresh Apples
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+
+                            <span>4.5</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Green Valley Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                DHA Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 420
+                                </strong>
+
+                                <span>
+                                    / kg
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="2"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 3 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Organic Spinach"
+                 data-category="vegetables organic"
+                 data-price="120">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=700&q=80"
+                             alt="Organic Spinach"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Organic
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Organic Spinach to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Organic
+                        </span>
+
+                        <h3>
+                            Organic Spinach
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+
+                            <span>4.9</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Nature Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                North Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 120
+                                </strong>
+
+                                <span>
+                                    / bunch
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="3"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 4 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Farm Fresh Milk"
+                 data-category="dairy"
+                 data-price="260">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=700&q=80"
+                             alt="Farm Fresh Milk"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Farm Fresh
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Farm Fresh Milk to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Dairy
+                        </span>
+
+                        <h3>
+                            Farm Fresh Milk
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+
+                            <span>4.7</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Pure Dairy Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                Clifton Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 260
+                                </strong>
+
+                                <span>
+                                    / litre
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="4"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 5 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Organic Honey"
+                 data-category="organic"
+                 data-price="850">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=700&q=80"
+                             alt="Organic Honey"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Organic
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Organic Honey to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Organic
+                        </span>
+
+                        <h3>
+                            Organic Honey
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+
+                            <span>5.0</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Golden Bee Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                Lahore Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 850
+                                </strong>
+
+                                <span>
+                                    / jar
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="5"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 6 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Basmati Rice"
+                 data-category="grains"
+                 data-price="380">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80"
+                             alt="Basmati Rice"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Local
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Basmati Rice to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Grains
+                        </span>
+
+                        <h3>
+                            Premium Basmati Rice
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+
+                            <span>4.6</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Punjab Grain Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                Central Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 380
+                                </strong>
+
+                                <span>
+                                    / kg
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="6"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 7 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Fresh Coriander"
+                 data-category="herbs vegetables"
+                 data-price="80">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1588879460618-924a39a7c6d0?auto=format&fit=crop&w=700&q=80"
+                             alt="Fresh Coriander"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Fresh
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Fresh Coriander to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Herbs
+                        </span>
+
+                        <h3>
+                            Fresh Coriander
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+
+                            <span>4.7</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Green Fields Farm
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                DHA Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 80
+                                </strong>
+
+                                <span>
+                                    / bunch
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="7"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 8 -->
+
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+                 data-name="Fresh Mangoes"
+                 data-category="fruits"
+                 data-price="320">
+
+                <div class="product-card">
+
+                    <div class="product-image-wrapper">
+
+                        <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=700&q=80"
+                             alt="Fresh Mangoes"
+                             class="product-image">
+
+                        <span class="product-fresh-badge">
+                            Seasonal
+                        </span>
+
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Add Fresh Mangoes to favorites">
+
+                            <i class="bi bi-heart"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="product-card-body">
+
+                        <span class="product-category-label">
+                            Fruits
+                        </span>
+
+                        <h3>
+                            Fresh Mangoes
+                        </h3>
+
+                        <div class="product-rating">
+
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+
+                            <span>4.9</span>
+
+                        </div>
+
+
+                        <div class="product-farmer">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span>
+                                Sindh Orchard
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-location">
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            <span>
+                                Clifton Market
+                            </span>
+
+                        </div>
+
+
+                        <div class="product-card-bottom">
+
+                            <div class="product-price">
+
+                                <strong>
+                                    Rs. 320
+                                </strong>
+
+                                <span>
+                                    / kg
+                                </span>
+
+                            </div>
+
+
+                            <a asp-controller="Products"
+                               asp-action="Details"
+                               asp-route-id="8"
+                               class="product-view-btn">
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- NO RESULTS -->
+
+        <div id="noProductResults"
+             class="no-product-results"
+             style="display:none;">
+
+            <div class="no-product-icon">
+
+                <i class="bi bi-search"></i>
+
+            </div>
+
+            <h3>
+                No products found
+            </h3>
+
+            <p>
+                Try another search term or select a different category.
+            </p>
+
+            <button type="button"
+                    id="resetProductFilters"
+                    class="reset-product-btn">
+
+                Show All Products
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     WHY MARKETLINK PRODUCTS
+========================================= -->
+
+<section class="why-products">
+
+    <div class="container">
+
+        <div class="products-section-heading centered">
+
+            <span class="products-section-tag">
+                WHY MARKETLINK
+            </span>
+
+            <h2>
+                Freshness You Can Trust
+            </h2>
+
+            <p>
+                We connect customers with local farmers
+                and fresh products in a simple way.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4 mt-2">
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="why-product-card">
+
+                    <div class="why-product-icon">
+                        <i class="bi bi-flower1"></i>
+                    </div>
+
+                    <h3>
+                        Fresh & Local
+                    </h3>
+
+                    <p>
+                        Discover products sourced directly
+                        from local farms and producers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="why-product-card">
+
+                    <div class="why-product-icon">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+
+                    <h3>
+                        Trusted Farmers
+                    </h3>
+
+                    <p>
+                        Connect with local farmers and learn
+                        where your products come from.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="why-product-card">
+
+                    <div class="why-product-icon">
+                        <i class="bi bi-heart"></i>
+                    </div>
+
+                    <h3>
+                        Support Local
+                    </h3>
+
+                    <p>
+                        Every purchase helps support local
+                        farming communities.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     CTA
+========================================= -->
+
+<section class="products-cta">
+
+    <div class="container">
+
+        <div class="products-cta-content">
+
+            <div>
+
+                <span>
+                    CONNECT WITH LOCAL FARMERS
+                </span>
+
+                <h2>
+                    Fresh products are closer than you think.
+                </h2>
+
+                <p>
+                    Explore local markets and discover
+                    quality products from trusted farmers.
+                </p>
+
+            </div>
+
+
+            <div class="products-cta-buttons">
+
+                <a asp-controller="Markets"
+                   asp-action="Index"
+                   class="products-cta-outline">
+
+                    <i class="bi bi-shop"></i>
+
+                    Explore Markets
+
+                </a>
+
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="products-cta-primary">
+
+                    Go to Home
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================
+     PAGE CSS
+========================================= -->
+@section Styles {
+
+    <style>
+
+        /* =========================================================
+           MARKETLINK - PRODUCTS BANNER HERO
+           Same Design as Markets / Market Details Banner
+        ========================================================= */
+
+        .products-banner-hero {
+            position: relative;
+            width: calc(100% - 56px);
+            min-height: 440px;
+            margin: 20px auto 0;
+            overflow: hidden;
+            border-radius: 0 0 28px 28px;
+            background: #174d32;
+            isolation: isolate;
+        }
+
+
+        /* =========================================================
+           BACKGROUND IMAGE
+        ========================================================= */
+
+        .products-banner-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            /*
+               Different image from Markets page
+               Fresh fruits and vegetables
+            */
+            background-image: url("https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1800&q=85");
+            background-size: cover;
+            background-position: center;
+            /*
+               Fixed background while scrolling
+            */
+            background-attachment: fixed;
+            z-index: -3;
+        }
+
+
+        /* =========================================================
+           DARK GREEN OVERLAY
+        ========================================================= */
+
+        .products-banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 90deg, rgba(0, 66, 40, 0.96) 0%, rgba(0, 77, 45, 0.88) 28%, rgba(0, 78, 46, 0.58) 55%, rgba(0, 55, 34, 0.20) 100% );
+            z-index: -2;
+        }
+
+
+        /* =========================================================
+           SOFT OVERLAY
+        ========================================================= */
+
+        .products-banner-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08) );
+            pointer-events: none;
+            z-index: -1;
+        }
+
+
+        /* =========================================================
+           CONTAINER
+        ========================================================= */
+
+        .products-banner-hero .container {
+            position: relative;
+            min-height: 440px;
+            display: flex;
+            align-items: center;
+            z-index: 5;
+        }
+
+
+        /* =========================================================
+           HERO CONTENT
+        ========================================================= */
+
+        .products-banner-content {
+            width: 100%;
+            max-width: 720px;
+            padding: 55px 0 55px 62px;
+        }
+
+
+        /* =========================================================
+           BREADCRUMB
+        ========================================================= */
+
+        .products-banner-breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-bottom: 34px;
+            font-size: 14px;
+            line-height: 1;
+        }
+
+
+            /* Breadcrumb link */
+
+            .products-banner-breadcrumb a {
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 700;
+                transition: color 0.25s ease;
+            }
+
+
+                .products-banner-breadcrumb a:hover {
+                    color: #c9e52f;
+                }
+
+
+            /* Breadcrumb arrow */
+
+            .products-banner-breadcrumb i {
+                color: #b7d832;
+                font-size: 11px;
+            }
+
+
+            /* Current page */
+
+            .products-banner-breadcrumb span {
+                color: rgba(255,255,255,0.72);
+                font-weight: 500;
+            }
+
+
+        /* =========================================================
+           LABEL
+        ========================================================= */
+
+        .products-banner-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 18px;
+            color: #c8e83a;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+
+            /* Label icon */
+
+            .products-banner-label i {
+                color: #c8e83a;
+                font-size: 17px;
+            }
+
+
+        /* =========================================================
+           MAIN TITLE
+        ========================================================= */
+
+        .products-banner-content h1 {
+            margin: 0;
+            color: #ffffff;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(54px, 6vw, 78px);
+            line-height: 1.02;
+            font-weight: 800;
+            letter-spacing: -2.5px;
+        }
+
+
+        /* =========================================================
+           DESCRIPTION
+        ========================================================= */
+
+        .products-banner-content p {
+            max-width: 680px;
+            margin: 22px 0 0;
+            color: rgba(255,255,255,0.88);
+            font-size: 17px;
+            line-height: 1.75;
+            font-weight: 400;
+        }
+
+
+        /* =========================================================
+           LARGE DESKTOP
+        ========================================================= */
+
+        @@media (min-width: 1400px) {
+
+            .products-banner-hero {
+                width: calc(100% - 56px);
+                min-height: 470px;
+            }
+
+
+                .products-banner-hero .container {
+                    min-height: 470px;
+                }
+
+
+            .products-banner-content {
+                padding-left: 65px;
+            }
+
+
+                .products-banner-content h1 {
+                    font-size: 82px;
+                }
+        }
+
+
+        /* =========================================================
+           TABLET
+        ========================================================= */
+
+        @@media (max-width: 991px) {
+
+            .products-banner-hero {
+                width: calc(100% - 40px);
+                min-height: 420px;
+                border-radius: 0 0 25px 25px;
+            }
+
+
+                .products-banner-hero .container {
+                    min-height: 420px;
+                }
+
+
+            .products-banner-content {
+                padding: 50px 30px;
+            }
+
+
+                .products-banner-content h1 {
+                    font-size: 58px;
+                }
+
+
+                .products-banner-content p {
+                    max-width: 570px;
+                    font-size: 16px;
+                }
+            /*
+               Fixed background disabled on tablet/mobile
+            */
+
+            .products-banner-image {
+                background-attachment: scroll;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @@media (max-width: 767px) {
+
+            .products-banner-hero {
+                width: calc(100% - 24px);
+                min-height: 400px;
+                margin-top: 14px;
+                border-radius: 0 0 22px 22px;
+            }
+
+
+                .products-banner-hero .container {
+                    min-height: 400px;
+                    align-items: center;
+                }
+
+
+            .products-banner-content {
+                padding: 45px 20px;
+            }
+
+
+            .products-banner-breadcrumb {
+                margin-bottom: 28px;
+                font-size: 13px;
+                gap: 9px;
+            }
+
+
+            .products-banner-label {
+                margin-bottom: 14px;
+                font-size: 10px;
+                letter-spacing: 1.1px;
+            }
+
+
+                .products-banner-label i {
+                    font-size: 15px;
+                }
+
+
+            .products-banner-content h1 {
+                font-size: 48px;
+                letter-spacing: -1.5px;
+            }
+
+
+            .products-banner-content p {
+                margin-top: 18px;
+                font-size: 15px;
+                line-height: 1.65;
+            }
+
+
+            .products-banner-image {
+                background-attachment: scroll;
+                background-position: center;
+            }
+
+
+            .products-banner-overlay {
+                background: linear-gradient( 90deg, rgba(0, 65, 39, 0.94) 0%, rgba(0, 70, 42, 0.80) 65%, rgba(0, 55, 34, 0.48) 100% );
+            }
+        }
+
+
+        /* =========================================================
+           SMALL MOBILE
+        ========================================================= */
+
+        @@media (max-width: 480px) {
+
+            .products-banner-hero {
+                width: calc(100% - 16px);
+                min-height: 370px;
+            }
+
+
+                .products-banner-hero .container {
+                    min-height: 370px;
+                }
+
+
+            .products-banner-content {
+                padding: 38px 17px;
+            }
+
+
+            .products-banner-breadcrumb {
+                margin-bottom: 25px;
+                font-size: 12px;
+            }
+
+
+            .products-banner-content h1 {
+                font-size: 42px;
+            }
+
+
+            .products-banner-content p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        }
+
+
+        /* =========================================
+               CATEGORY SECTION
+            ========================================= */
+
+        .product-categories {
+            padding: 70px 0 35px;
+            background: #ffffff;
+        }
+
+        .products-section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+            .products-section-heading.centered {
+                display: block;
+                text-align: center;
+                max-width: 650px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+        .products-section-tag {
+            display: block;
+            color: #55915f;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: 850;
+            margin-bottom: 8px;
+        }
+
+        .products-section-heading h2,
+        .products-topbar h2 {
+            color: #26372c;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .products-section-heading p {
+            color: #778179;
+            margin: 0;
+            max-width: 430px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================
+               CATEGORY LIST
+            ========================================= */
+
+        .category-scroll-wrapper {
+            position: relative;
+        }
+
+        .product-category-list {
+            display: flex;
+            gap: 13px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding: 5px 3px 15px;
+        }
+
+            .product-category-list::-webkit-scrollbar {
+                display: none;
+            }
+
+        .product-category {
+            min-width: 135px;
+            border: 1px solid #e6ece7;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 17px 15px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+            color: #526158;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+            .product-category:hover,
+            .product-category.active {
+                background: #edf7ee;
+                border-color: #cfe3d1;
+                color: #32703e;
+                transform: translateY(-2px);
+            }
+
+        .product-category-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f6f1;
+            font-size: 19px;
+        }
+
+        .product-category strong {
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .category-arrow {
+            display: none;
+        }
+
+
+        /* =========================================
+               PRODUCTS
+            ========================================= */
+
+        .products-section {
+            padding: 50px 0 90px;
+            background: #f8faf8;
+        }
+
+        .products-topbar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+            .products-topbar p {
+                margin: 7px 0 0;
+                color: #818a83;
+                font-size: 14px;
+            }
+
+        .products-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .product-search {
+            width: 250px;
+            position: relative;
+        }
+
+            .product-search i {
+                position: absolute;
+                left: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #8a948c;
+                z-index: 2;
+            }
+
+            .product-search input {
+                padding-left: 40px;
+                height: 46px;
+                border: 1px solid #dfe7df;
+                border-radius: 12px;
+                font-size: 13px;
+            }
+
+                .product-search input:focus {
+                    border-color: #74a97b;
+                    box-shadow: 0 0 0 .2rem rgba(78,139,87,.10);
+                }
+
+        .product-sort {
+            width: 175px;
+            height: 46px;
+            border: 1px solid #dfe7df;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #59645c;
+        }
+
+            .product-sort:focus {
+                border-color: #74a97b;
+                box-shadow: 0 0 0 .2rem rgba(78,139,87,.10);
+            }
+
+
+        /* =========================================
+               PRODUCT CARD
+            ========================================= */
+
+        .product-card {
+            background: #ffffff;
+            border: 1px solid #edf0ed;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 100%;
+            box-shadow: 0 7px 25px rgba(33,53,39,.04);
+            transition: .3s ease;
+        }
+
+            .product-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 18px 40px rgba(33,53,39,.10);
+            }
+
+        .product-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            background: #edf3ed;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 225px;
+            object-fit: cover;
+            display: block;
+            transition: .45s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-fresh-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 6px 10px;
+            background: rgba(255,255,255,.94);
+            color: #367341;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .product-favorite {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,.94);
+            color: #667269;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+            .product-favorite:hover,
+            .product-favorite.active {
+                color: #d14d5b;
+                transform: scale(1.08);
+            }
+
+        .product-card-body {
+            padding: 20px;
+        }
+
+        .product-category-label {
+            color: #619268;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 850;
+        }
+
+        .product-card-body h3 {
+            color: #2c3b31;
+            font-size: 18px;
+            font-weight: 750;
+            margin: 7px 0 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            color: #e6a82e;
+            font-size: 11px;
+            margin-bottom: 13px;
+        }
+
+            .product-rating span {
+                color: #7b857d;
+                margin-left: 5px;
+                font-size: 11px;
+            }
+
+        .product-farmer,
+        .product-location {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #77827a;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+            .product-farmer i,
+            .product-location i {
+                color: #57905f;
+            }
+
+        .product-card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid #edf0ed;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .product-price strong {
+            display: inline;
+            color: #2f713e;
+            font-size: 18px;
+        }
+
+        .product-price span {
+            color: #8a938b;
+            font-size: 11px;
+        }
+
+        .product-view-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #edf6ee;
+            color: #347343;
+            text-decoration: none;
+            transition: .3s ease;
+        }
+
+            .product-view-btn:hover {
+                background: #347343;
+                color: #ffffff;
+                transform: translateX(3px);
+            }
+
+
+        /* =========================================
+               NO RESULTS
+            ========================================= */
+
+        .no-product-results {
+            text-align: center;
+            padding: 70px 20px;
+        }
+
+        .no-product-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 18px;
+            background: #edf6ee;
+            color: #4c8957;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .no-product-results h3 {
+            color: #304035;
+            font-size: 23px;
+        }
+
+        .no-product-results p {
+            color: #7d877f;
+        }
+
+        .reset-product-btn {
+            border: none;
+            background: #347343;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+               WHY PRODUCTS
+            ========================================= */
+
+        .why-products {
+            padding: 90px 0;
+            background: #ffffff;
+        }
+
+        .why-product-card {
+            text-align: center;
+            padding: 32px 25px;
+            border: 1px solid #edf1ed;
+            border-radius: 20px;
+            height: 100%;
+            transition: .3s ease;
+        }
+
+            .why-product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(30,55,35,.07);
+            }
+
+        .why-product-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 18px;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #edf6ee;
+            color: #3d7d48;
+            font-size: 25px;
+        }
+
+        .why-product-card h3 {
+            color: #29392f;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .why-product-card p {
+            color: #748078;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+
+        /* =========================================
+               CTA
+            ========================================= */
+
+        .products-cta {
+            padding: 70px 0;
+            background: #294f32;
+        }
+
+        .products-cta-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+        }
+
+            .products-cta-content > div:first-child {
+                max-width: 700px;
+            }
+
+            .products-cta-content span {
+                color: #acd5b0;
+                font-size: 11px;
+                font-weight: 850;
+                letter-spacing: 1.5px;
+            }
+
+            .products-cta-content h2 {
+                color: #ffffff;
+                font-size: clamp(28px, 4vw, 42px);
+                font-weight: 800;
+                margin: 8px 0 10px;
+            }
+
+            .products-cta-content p {
+                color: #d3e2d5;
+                margin: 0;
+            }
+
+        .products-cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .products-cta-outline,
+        .products-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 750;
+            transition: .3s ease;
+        }
+
+        .products-cta-outline {
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,.3);
+        }
+
+            .products-cta-outline:hover {
+                background: rgba(255,255,255,.1);
+                color: #ffffff;
+            }
+
+        .products-cta-primary {
+            color: #2e6538;
+            background: #ffffff;
+        }
+
+            .products-cta-primary:hover {
+                color: #24532e;
+                transform: translateY(-2px);
+            }
+
+
+        /* =========================================
+               RESPONSIVE
+            ========================================= */
+
+        @@media (max-width: 991px) {
+
+            .products-hero {
+                padding: 65px 0;
+            }
+
+            .products-hero-image {
+                height: 400px;
+            }
+
+            .floating-product-card {
+                left: 20px;
+            }
+
+            .products-topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .products-controls {
+                width: 100%;
+            }
+
+            .product-search {
+                flex: 1;
+                width: auto;
+            }
+
+            .products-cta-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+
+        @@media (max-width: 767px) {
+
+            .products-hero {
+                padding: 50px 0;
+            }
+
+                .products-hero h1 {
+                    font-size: 40px;
+                }
+
+                .products-hero p {
+                    font-size: 16px;
+                }
+
+            .products-hero-image {
+                height: 330px;
+            }
+
+            .products-hero-stats {
+                gap: 22px;
+            }
+
+            .products-section-heading {
+                display: block;
+            }
+
+                .products-section-heading p {
+                    margin-top: 10px;
+                }
+
+            .products-controls {
+                flex-direction: column;
+            }
+
+            .product-search,
+            .product-sort {
+                width: 100%;
+            }
+
+            .product-image {
+                height: 240px;
+            }
+
+            .products-cta-buttons {
+                width: 100%;
+            }
+
+            .products-cta-outline,
+            .products-cta-primary {
+                width: 100%;
+            }
+        }
+
+
+        @@media (max-width: 480px) {
+
+            .products-hero h1 {
+                font-size: 34px;
+            }
+
+            .products-hero-image {
+                height: 280px;
+                border-radius: 22px;
+            }
+
+            .floating-product-card {
+                left: 12px;
+                bottom: 12px;
+            }
+
+            .products-hero-stats {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+                .products-hero-stats strong {
+                    font-size: 19px;
+                }
+
+            .product-card-body {
+                padding: 17px;
+            }
+        }
+
+    </style>
+
+}
+
+
+
+<!-- =========================================
+     PAGE JAVASCRIPT
+========================================= -->
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("productSearch");
+
+            const sortSelect =
+                document.getElementById("productSort");
+
+            const productsGrid =
+                document.getElementById("productsGrid");
+
+            const noResults =
+                document.getElementById("noProductResults");
+
+            const resetButton =
+                document.getElementById("resetProductFilters");
+
+            const resultText =
+                document.getElementById("productResultText");
+
+            const categoryButtons =
+                document.querySelectorAll(".product-category");
+
+            let selectedCategory = "all";
+
+
+            function filterProducts() {
+
+                const searchValue =
+                    searchInput.value.toLowerCase().trim();
+
+                const products =
+                    Array.from(
+                        productsGrid.querySelectorAll(".product-item")
+                    );
+
+
+                let visibleProducts = [];
+
+
+                products.forEach(function (product) {
+
+                    const name =
+                        product.dataset.name.toLowerCase();
+
+                    const category =
+                        product.dataset.category.toLowerCase();
+
+
+                    const matchesSearch =
+                        name.includes(searchValue);
+
+                    const matchesCategory =
+                        selectedCategory === "all" ||
+                        category.includes(selectedCategory);
+
+
+                    if (matchesSearch && matchesCategory) {
+
+                        product.style.display = "";
+
+                        visibleProducts.push(product);
+
+                    } else {
+
+                        product.style.display = "none";
+
+                    }
+
+                });
+
+
+                noResults.style.display =
+                    visibleProducts.length === 0
+                        ? "block"
+                        : "none";
+
+
+                resultText.textContent =
+                    visibleProducts.length +
+                    " product" +
+                    (visibleProducts.length === 1 ? "" : "s") +
+                    " available";
+
+
+                sortProducts(visibleProducts);
+
+            }
+
+
+            function sortProducts(products) {
+
+                const sortValue =
+                    sortSelect.value;
+
+
+                if (sortValue === "default") {
+                    return;
+                }
+
+
+                products.sort(function (a, b) {
+
+                    const nameA =
+                        a.dataset.name.toLowerCase();
+
+                    const nameB =
+                        b.dataset.name.toLowerCase();
+
+                    const priceA =
+                        Number(a.dataset.price);
+
+                    const priceB =
+                        Number(b.dataset.price);
+
+
+                    if (sortValue === "nameAsc") {
+
+                        return nameA.localeCompare(nameB);
+
+                    }
+
+
+                    if (sortValue === "nameDesc") {
+
+                        return nameB.localeCompare(nameA);
+
+                    }
+
+
+                    if (sortValue === "priceLow") {
+
+                        return priceA - priceB;
+
+                    }
+
+
+                    if (sortValue === "priceHigh") {
+
+                        return priceB - priceA;
+
+                    }
+
+                });
+
+
+                products.forEach(function (product) {
+
+                    productsGrid.appendChild(product);
+
+                });
+
+            }
+
+
+            /* SEARCH */
+
+            if (searchInput) {
+
+                searchInput.addEventListener(
+                    "input",
+                    filterProducts
+                );
+
+            }
+
+
+            /* SORT */
+
+            if (sortSelect) {
+
+                sortSelect.addEventListener(
+                    "change",
+                    filterProducts
+                );
+
+            }
+
+
+            /* CATEGORY */
+
+            categoryButtons.forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        categoryButtons.forEach(function (item) {
+
+                            item.classList.remove("active");
+
+                        });
+
+
+                        button.classList.add("active");
+
+
+                        selectedCategory =
+                            button.dataset.category;
+
+
+                        filterProducts();
+
+                    }
+                );
+
+            });
+
+
+            /* RESET */
+
+            if (resetButton) {
+
+                resetButton.addEventListener(
+                    "click",
+                    function () {
+
+                        searchInput.value = "";
+
+                        sortSelect.value = "default";
+
+                        selectedCategory = "all";
+
+
+                        categoryButtons.forEach(
+                            function (button) {
+
+                                button.classList.remove("active");
+
+                            }
+                        );
+
+
+                        categoryButtons[0]
+                            .classList.add("active");
+
+
+                        filterProducts();
+
+                    }
+                );
+
+            }
+
+
+            /* FAVORITES */
+
+            const favoriteButtons =
+                document.querySelectorAll(
+                    ".product-favorite"
+                );
+
+
+            favoriteButtons.forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        button.classList.toggle("active");
+
+
+                        const icon =
+                            button.querySelector("i");
+
+
+                        if (
+                            button.classList.contains("active")
+                        ) {
+
+                            icon.classList.remove(
+                                "bi-heart"
+                            );
+
+                            icon.classList.add(
+                                "bi-heart-fill"
+                            );
+
+                        } else {
+
+                            icon.classList.remove(
+                                "bi-heart-fill"
+                            );
+
+                            icon.classList.add(
+                                "bi-heart"
+                            );
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+            /* INITIAL */
+
+            filterProducts();
+
+        });
+
+    </script>
+
+}

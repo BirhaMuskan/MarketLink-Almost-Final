@@ -1,0 +1,2537 @@
+﻿@{
+    ViewData["Title"] = "Product Details";
+}
+
+
+<!-- =========================================================
+     PRODUCT DETAILS HERO
+     Same style as Market Details Hero
+========================================================= -->
+
+<section class="product-details-hero">
+
+    <div class="product-details-hero-image">
+
+        <div class="product-details-hero-overlay"></div>
+
+        <div class="container">
+
+            <div class="product-details-hero-content">
+
+                <!-- BREADCRUMB -->
+                <div class="product-breadcrumb">
+
+                    <a asp-controller="Home"
+                       asp-action="Index">
+
+                        <i class="bi bi-house"></i>
+                        Home
+
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <a asp-controller="Products"
+                       asp-action="Index">
+
+                        Products
+
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>
+                        Product Details
+                    </span>
+
+                </div>
+
+
+                <!-- LABEL -->
+                <div class="product-details-category">
+
+                    <i class="bi bi-basket2"></i>
+
+                    FRESH LOCAL PRODUCT
+
+                </div>
+
+
+                <!-- TITLE -->
+                <h1>
+                    Product Details
+                </h1>
+
+
+                <!-- DESCRIPTION -->
+                <p class="product-details-hero-description">
+                    Discover fresh, locally sourced products from trusted
+                    farmers through MarketLink.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRODUCT DETAILS
+========================================================= -->
+
+<section class="product-details-main">
+
+    <div class="container">
+
+        <!-- BREADCRUMB -->
+
+        <div class="product-main-breadcrumb">
+
+            <a asp-controller="Home"
+               asp-action="Index">
+
+                <i class="bi bi-house"></i>
+                Home
+
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <a asp-controller="Products"
+               asp-action="Index">
+
+                Products
+
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span>
+                Fresh Tomatoes
+            </span>
+
+        </div>
+
+
+        <!-- PRODUCT -->
+
+        <div class="row g-5 align-items-center">
+
+
+            <!-- =================================================
+                 PRODUCT IMAGE
+            ================================================== -->
+
+            <div class="col-lg-6">
+
+                <div class="product-details-image-box">
+
+                    <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=1200&q=85"
+                         alt="Fresh Tomatoes"
+                         class="product-details-image" />
+
+
+                    <span class="product-details-badge">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Fresh From Farm
+
+                    </span>
+
+
+                    <button type="button"
+                            class="product-details-favorite"
+                            id="detailsFavorite"
+                            aria-label="Add product to favorites">
+
+                        <i class="bi bi-heart"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PRODUCT INFORMATION
+            ================================================== -->
+
+            <div class="col-lg-6">
+
+                <span class="product-details-product-category">
+                    VEGETABLES
+                </span>
+
+
+                <h2 class="product-details-product-title">
+                    Fresh Tomatoes
+                </h2>
+
+
+                <!-- RATING -->
+
+                <div class="product-details-rating">
+
+                    <span class="stars">
+
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-half"></i>
+
+                    </span>
+
+                    <strong>
+                        4.8
+                    </strong>
+
+                    <span>
+                        (24 Reviews)
+                    </span>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="product-details-description">
+
+                    Fresh, naturally grown tomatoes sourced directly
+                    from local farmers. Perfect for salads, cooking,
+                    sauces and everyday meals.
+
+                </p>
+
+
+                <!-- PRICE -->
+
+                <div class="product-details-price">
+
+                    <strong>
+                        Rs. 180
+                    </strong>
+
+                    <span>
+                        / kg
+                    </span>
+
+                </div>
+
+
+                <!-- AVAILABILITY -->
+
+                <div class="product-availability">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <span>
+                        In Stock
+                    </span>
+
+                </div>
+
+
+                <!-- FARMER -->
+
+                <div class="product-details-farmer">
+
+                    <div class="farmer-avatar">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Sold by
+                        </span>
+
+                        <strong>
+                            Ahmed Farm
+                        </strong>
+
+                    </div>
+
+
+                    <span class="verified-farmer">
+
+                        <i class="bi bi-patch-check-fill"></i>
+
+                        Verified Farmer
+
+                    </span>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="product-details-location">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    <div>
+
+                        <span>
+                            Available at
+                        </span>
+
+                        <strong>
+                            Clifton Fresh Farmers Market
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PURCHASE -->
+
+                <div class="product-purchase-row">
+
+                    <!-- QUANTITY -->
+
+                    <div class="quantity-selector">
+
+                        <button type="button"
+                                id="decreaseQuantity"
+                                aria-label="Decrease quantity">
+
+                            <i class="bi bi-dash"></i>
+
+                        </button>
+
+
+                        <span id="productQuantity">
+                            1
+                        </span>
+
+
+                        <button type="button"
+                                id="increaseQuantity"
+                                aria-label="Increase quantity">
+
+                            <i class="bi bi-plus"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- CART -->
+
+                    <button type="button"
+                            class="add-to-cart-btn"
+                            id="addToCartBtn">
+
+                        <i class="bi bi-cart-plus"></i>
+
+                        Add to Cart
+
+                    </button>
+
+                </div>
+
+
+                <!-- EXTRA INFO -->
+
+                <div class="product-mini-info">
+
+                    <div>
+
+                        <i class="bi bi-truck"></i>
+
+                        <span>
+                            Local pickup available
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-shield-check"></i>
+
+                        <span>
+                            Quality checked
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-arrow-repeat"></i>
+
+                        <span>
+                            Fresh market stock
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PRODUCT INFORMATION
+========================================================= -->
+
+<section class="product-information-section">
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <!-- =================================================
+                 MAIN CONTENT
+            ================================================== -->
+
+            <div class="col-lg-8">
+
+
+                <!-- DESCRIPTION CARD -->
+
+                <div class="product-info-card">
+
+                    <div class="product-info-heading">
+
+                        <div class="product-info-icon">
+
+                            <i class="bi bi-info-circle"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                PRODUCT INFORMATION
+                            </span>
+
+                            <h2>
+                                About This Product
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+
+                        These fresh tomatoes are sourced from local
+                        farmers and selected for quality and freshness.
+                        They are suitable for everyday cooking and
+                        can be used in salads, sauces, sandwiches and
+                        a variety of homemade meals.
+
+                    </p>
+
+
+                    <p>
+
+                        MarketLink helps customers discover locally
+                        available products and connect with farmers
+                        through nearby markets.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- PRODUCT INFORMATION CARD -->
+
+                <div class="product-info-card">
+
+                    <div class="product-info-heading">
+
+                        <div class="product-info-icon">
+
+                            <i class="bi bi-list-check"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                DETAILS
+                            </span>
+
+                            <h2>
+                                Product Information
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="product-specification-grid">
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Category
+                            </span>
+
+                            <strong>
+                                Vegetables
+                            </strong>
+
+                        </div>
+
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Unit
+                            </span>
+
+                            <strong>
+                                Kilogram
+                            </strong>
+
+                        </div>
+
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Origin
+                            </span>
+
+                            <strong>
+                                Local Farm
+                            </strong>
+
+                        </div>
+
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Availability
+                            </span>
+
+                            <strong>
+                                In Stock
+                            </strong>
+
+                        </div>
+
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Product Type
+                            </span>
+
+                            <strong>
+                                Fresh Produce
+                            </strong>
+
+                        </div>
+
+
+                        <div class="product-spec-item">
+
+                            <span>
+                                Market
+                            </span>
+
+                            <strong>
+                                Clifton Market
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- FARMER CARD -->
+
+                <div class="product-info-card">
+
+                    <div class="product-info-heading">
+
+                        <div class="product-info-icon">
+
+                            <i class="bi bi-person-badge"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                LOCAL FARMER
+                            </span>
+
+                            <h2>
+                                Meet the Farmer
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="farmer-profile">
+
+                        <div class="farmer-large-avatar">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+
+                        <div class="farmer-profile-content">
+
+                            <div class="farmer-name-row">
+
+                                <h3>
+                                    Ahmed Farm
+                                </h3>
+
+                                <span>
+
+                                    <i class="bi bi-patch-check-fill"></i>
+
+                                    Verified
+
+                                </span>
+
+                            </div>
+
+
+                            <p>
+
+                                A local farming family providing
+                                fresh vegetables and seasonal produce
+                                to nearby communities.
+
+                            </p>
+
+
+                            <div class="farmer-meta">
+
+                                <span>
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                    Karachi
+
+                                </span>
+
+
+                                <span>
+
+                                    <i class="bi bi-box-seam"></i>
+
+                                    25+ Products
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SIDEBAR
+            ================================================== -->
+
+            <div class="col-lg-4">
+
+
+                <!-- MARKET CARD -->
+
+                <div class="product-side-card">
+
+                    <div class="side-card-header">
+
+                        <i class="bi bi-shop"></i>
+
+                        <h3>
+                            Available Market
+                        </h3>
+
+                    </div>
+
+
+                    <div class="market-preview-image">
+
+                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=700&q=80"
+                             alt="Clifton Farmers Market" />
+
+                    </div>
+
+
+                    <h4>
+                        Clifton Fresh Farmers Market
+                    </h4>
+
+
+                    <div class="side-location">
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                        <span>
+                            Clifton, Karachi
+                        </span>
+
+                    </div>
+
+
+                    <div class="side-market-time">
+
+                        <div>
+
+                            <i class="bi bi-calendar3"></i>
+
+                            <span>
+                                Saturday
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <i class="bi bi-clock"></i>
+
+                            <span>
+                                08 AM - 02 PM
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a asp-controller="Markets"
+                       asp-action="Details"
+                       asp-route-id="1"
+                       class="view-market-btn">
+
+                        View Market
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- DELIVERY CARD -->
+
+                <div class="product-side-card delivery-card">
+
+                    <div class="delivery-icon">
+
+                        <i class="bi bi-truck"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Local Pickup
+                    </h3>
+
+
+                    <p>
+
+                        Pick up your order directly from
+                        the selected local market.
+
+                    </p>
+
+
+                    <div class="delivery-feature">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            Fresh market collection
+                        </span>
+
+                    </div>
+
+
+                    <div class="delivery-feature">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <span>
+                            Support local farmers
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- HELP CARD -->
+
+                <div class="product-side-card help-card">
+
+                    <div class="help-icon">
+
+                        <i class="bi bi-headset"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Need Help?
+                    </h3>
+
+
+                    <p>
+
+                        Have questions about this product?
+                        Contact the MarketLink team.
+
+                    </p>
+
+
+                    <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="help-btn">
+
+                        Contact Us
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     RELATED PRODUCTS
+========================================================= -->
+
+<section class="related-products-section">
+
+    <div class="container">
+
+        <div class="related-heading">
+
+            <div>
+
+                <span>
+                    YOU MAY ALSO LIKE
+                </span>
+
+                <h2>
+                    Related Products
+                </h2>
+
+            </div>
+
+
+            <a asp-controller="Products"
+               asp-action="Index">
+
+                View All Products
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <div class="row g-4">
+
+
+            <!-- PRODUCT 1 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="related-product-card">
+
+                    <div class="related-product-image">
+
+                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80"
+                             alt="Organic Spinach" />
+
+                    </div>
+
+
+                    <div class="related-product-content">
+
+                        <span>
+                            Organic
+                        </span>
+
+                        <h3>
+                            Organic Spinach
+                        </h3>
+
+                        <strong>
+                            Rs. 120 / bunch
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 2 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="related-product-card">
+
+                    <div class="related-product-image">
+
+                        <img src="https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=600&q=80"
+                             alt="Fresh Oranges" />
+
+                    </div>
+
+
+                    <div class="related-product-content">
+
+                        <span>
+                            Fruits
+                        </span>
+
+                        <h3>
+                            Fresh Oranges
+                        </h3>
+
+                        <strong>
+                            Rs. 280 / kg
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 3 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="related-product-card">
+
+                    <div class="related-product-image">
+
+                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80"
+                             alt="Fresh Milk" />
+
+                    </div>
+
+
+                    <div class="related-product-content">
+
+                        <span>
+                            Dairy
+                        </span>
+
+                        <h3>
+                            Farm Fresh Milk
+                        </h3>
+
+                        <strong>
+                            Rs. 260 / litre
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRODUCT 4 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="related-product-card">
+
+                    <div class="related-product-image">
+
+                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+                             alt="Organic Honey" />
+
+                    </div>
+
+
+                    <div class="related-product-content">
+
+                        <span>
+                            Organic
+                        </span>
+
+                        <h3>
+                            Organic Honey
+                        </h3>
+
+                        <strong>
+                            Rs. 850 / jar
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="product-details-cta">
+
+    <div class="container">
+
+        <div class="product-details-cta-content">
+
+            <div>
+
+                <span>
+                    FRESH • LOCAL • TRUSTED
+                </span>
+
+                <h2>
+                    Discover more fresh products.
+                </h2>
+
+                <p>
+                    Explore local farmers and products
+                    available through MarketLink.
+                </p>
+
+            </div>
+
+
+            <div class="product-details-cta-buttons">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="product-cta-outline">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Back to Products
+
+                </a>
+
+
+                <a asp-controller="Markets"
+                   asp-action="Index"
+                   class="product-cta-primary">
+
+                    Explore Markets
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PAGE STYLES
+========================================================= -->
+@section Styles {
+
+    <style>
+        /* =========================================================
+           PRODUCT DETAILS HERO
+        ========================================================= */
+
+        .product-details-hero {
+            position: relative;
+            min-height: 460px;
+            overflow: hidden;
+            border-radius: 0 0 32px 32px;
+        }
+
+
+        /* =========================================================
+           HERO BACKGROUND IMAGE
+        ========================================================= */
+
+        .product-details-hero-image {
+            position: relative;
+            min-height: 445px;
+            margin: 20px auto 0;
+            width: min(100% - 48px, 1400px);
+            border-radius: 0 0 28px 28px;
+            overflow: hidden;
+            background-image: url("https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=1600&q=85");
+            background-size: cover;
+            background-position: center center;
+            /* IMAGE FIXED WHILE PAGE SCROLLS */
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+        }
+
+
+        /* =========================================================
+           DARK GREEN OVERLAY
+        ========================================================= */
+
+        .product-details-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient( 90deg, rgba(5, 67, 40, 0.90) 0%, rgba(8, 78, 48, 0.72) 42%, rgba(8, 78, 48, 0.30) 75%, rgba(8, 78, 48, 0.10) 100% );
+            z-index: 1;
+        }
+
+
+        /* =========================================================
+           HERO CONTENT
+        ========================================================= */
+
+        .product-details-hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+
+        .product-details-hero-content {
+            padding: 95px 0 90px;
+            max-width: 720px;
+        }
+
+
+        /* =========================================================
+           BREADCRUMB
+        ========================================================= */
+
+        .product-breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 36px;
+            font-size: 14px;
+        }
+
+
+            .product-breadcrumb a {
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 600;
+                transition: 0.3s ease;
+            }
+
+
+                .product-breadcrumb a:hover {
+                    color: #d8f52d;
+                }
+
+
+            .product-breadcrumb i {
+                color: #d8f52d;
+                font-size: 11px;
+            }
+
+
+            .product-breadcrumb span {
+                color: rgba(255, 255, 255, 0.78);
+            }
+
+
+        /* =========================================================
+           CATEGORY LABEL
+        ========================================================= */
+
+        .product-details-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 20px;
+            color: #d8f52d;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+
+            .product-details-category i {
+                font-size: 20px;
+            }
+
+
+        /* =========================================================
+           HERO TITLE
+        ========================================================= */
+
+        .product-details-hero h1 {
+            margin: 0 0 18px;
+            color: #ffffff;
+            font-size: clamp(44px, 5vw, 72px);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+
+        /* =========================================================
+           HERO DESCRIPTION
+        ========================================================= */
+
+        .product-details-hero-description {
+            max-width: 680px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @@media (max-width: 991px) {
+
+            .product-details-hero,
+            .product-details-hero-image {
+                min-height: 430px;
+            }
+
+            .product-details-hero-image {
+                background-attachment: scroll;
+            }
+
+            .product-details-hero-content {
+                padding: 80px 0 70px;
+            }
+        }
+
+
+        @@media (max-width: 576px) {
+
+            .product-details-hero,
+            .product-details-hero-image {
+                min-height: 420px;
+            }
+
+            .product-details-hero-content {
+                padding: 65px 0 60px;
+            }
+
+            .product-breadcrumb {
+                margin-bottom: 28px;
+                gap: 9px;
+                font-size: 13px;
+            }
+
+            .product-details-hero h1 {
+                font-size: 42px;
+            }
+
+            .product-details-hero-description {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+        }
+
+        /* =====================================================
+               PRODUCT MAIN SECTION
+            ===================================================== */
+
+        .product-details-main {
+            padding: 80px 0 90px;
+            background: #ffffff;
+        }
+
+
+        .product-main-breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 35px;
+            font-size: 13px;
+            color: #8a948d;
+        }
+
+            .product-main-breadcrumb a {
+                color: #397447;
+                text-decoration: none;
+                font-weight: 650;
+            }
+
+                .product-main-breadcrumb a:hover {
+                    text-decoration: underline;
+                }
+
+            .product-main-breadcrumb > i {
+                color: #9aaa9e;
+                font-size: 10px;
+            }
+
+
+        /* =====================================================
+               PRODUCT IMAGE
+            ===================================================== */
+
+        .product-details-image-box {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            background: #edf4ed;
+            box-shadow: 0 25px 55px rgba(36,72,42,.13);
+        }
+
+        .product-details-image {
+            display: block;
+            width: 100%;
+            height: 540px;
+            object-fit: cover;
+        }
+
+        .product-details-badge {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,.95);
+            color: #347343;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 8px 25px rgba(0,0,0,.10);
+        }
+
+        .product-details-favorite {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,.95);
+            color: #647069;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            cursor: pointer;
+            transition: .3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,.10);
+        }
+
+            .product-details-favorite:hover,
+            .product-details-favorite.active {
+                color: #d14d5b;
+                transform: scale(1.07);
+            }
+
+
+        /* =====================================================
+               PRODUCT CONTENT
+            ===================================================== */
+
+        .product-details-product-category {
+            display: inline-block;
+            color: #568d5f;
+            font-size: 11px;
+            font-weight: 850;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .product-details-product-title {
+            color: #25362b;
+            font-size: clamp(38px, 5vw, 58px);
+            line-height: 1.08;
+            font-weight: 850;
+            margin: 0 0 17px;
+        }
+
+        .product-details-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+            .product-details-rating .stars {
+                color: #e4a52d;
+                font-size: 13px;
+                display: flex;
+                gap: 2px;
+            }
+
+            .product-details-rating strong {
+                color: #344238;
+                font-size: 14px;
+            }
+
+            .product-details-rating > span:last-child {
+                color: #8a948c;
+                font-size: 13px;
+            }
+
+        .product-details-description {
+            color: #68746c;
+            line-height: 1.8;
+            font-size: 16px;
+            max-width: 600px;
+            margin-bottom: 22px;
+        }
+
+
+        /* =====================================================
+               PRICE
+            ===================================================== */
+
+        .product-details-price {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+            .product-details-price strong {
+                color: #327241;
+                font-size: 32px;
+                font-weight: 850;
+            }
+
+            .product-details-price span {
+                color: #7f8981;
+                font-size: 13px;
+            }
+
+
+        /* =====================================================
+               AVAILABILITY
+            ===================================================== */
+
+        .product-availability {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #3e824b;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+            .product-availability i {
+                font-size: 16px;
+            }
+
+
+        /* =====================================================
+               FARMER
+            ===================================================== */
+
+        .product-details-farmer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 0;
+            border-top: 1px solid #e6ece7;
+            border-bottom: 1px solid #e6ece7;
+        }
+
+        .farmer-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6f2e7;
+            color: #397548;
+            font-size: 21px;
+        }
+
+        .product-details-farmer > div:nth-child(2) span {
+            display: block;
+            color: #8a948c;
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+
+        .product-details-farmer > div:nth-child(2) strong {
+            display: block;
+            color: #304036;
+            font-size: 14px;
+        }
+
+        .verified-farmer {
+            margin-left: auto;
+            color: #43834e;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+               LOCATION
+            ===================================================== */
+
+        .product-details-location {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 0;
+        }
+
+            .product-details-location > i {
+                color: #43804c;
+                font-size: 20px;
+            }
+
+            .product-details-location span {
+                display: block;
+                color: #89928b;
+                font-size: 10px;
+                margin-bottom: 3px;
+            }
+
+            .product-details-location strong {
+                color: #36443a;
+                font-size: 13px;
+            }
+
+
+        /* =====================================================
+               PURCHASE
+            ===================================================== */
+
+        .product-purchase-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid #dfe7df;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 50px;
+        }
+
+            .quantity-selector button {
+                width: 42px;
+                height: 100%;
+                border: none;
+                background: #f4f8f4;
+                color: #477951;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .quantity-selector button:hover {
+                    background: #e8f2e9;
+                }
+
+            .quantity-selector span {
+                width: 42px;
+                text-align: center;
+                color: #344238;
+                font-size: 14px;
+                font-weight: 750;
+            }
+
+        .add-to-cart-btn {
+            flex: 1;
+            height: 50px;
+            border: none;
+            border-radius: 12px;
+            background: #347343;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 750;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            cursor: pointer;
+            transition: .3s ease;
+        }
+
+            .add-to-cart-btn:hover {
+                background: #285f35;
+                transform: translateY(-2px);
+            }
+
+
+        /* =====================================================
+               MINI INFO
+            ===================================================== */
+
+        .product-mini-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin-top: 20px;
+        }
+
+            .product-mini-info div {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                color: #7b867e;
+                font-size: 11px;
+            }
+
+            .product-mini-info i {
+                color: #4d8957;
+                font-size: 14px;
+            }
+
+
+        /* =====================================================
+               INFORMATION SECTION
+            ===================================================== */
+
+        .product-information-section {
+            padding: 90px 0;
+            background: #ffffff;
+        }
+
+        .product-info-card {
+            padding: 32px;
+            border: 1px solid #edf1ed;
+            border-radius: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(30,54,35,.04);
+        }
+
+        .product-info-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .product-info-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: #eaf5eb;
+            color: #397548;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .product-info-heading span {
+            display: block;
+            color: #5b9163;
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: 1.4px;
+            margin-bottom: 3px;
+        }
+
+        .product-info-heading h2 {
+            color: #29392f;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .product-info-card > p {
+            color: #6f7b72;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+            .product-info-card > p:last-child {
+                margin-bottom: 0;
+            }
+
+
+        /* =====================================================
+               SPECIFICATIONS
+            ===================================================== */
+
+        .product-specification-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border-top: 1px solid #edf0ed;
+            border-left: 1px solid #edf0ed;
+        }
+
+        .product-spec-item {
+            padding: 15px;
+            border-right: 1px solid #edf0ed;
+            border-bottom: 1px solid #edf0ed;
+        }
+
+            .product-spec-item span {
+                display: block;
+                color: #89928b;
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+
+            .product-spec-item strong {
+                color: #344238;
+                font-size: 13px;
+            }
+
+
+        /* =====================================================
+               FARMER PROFILE
+            ===================================================== */
+
+        .farmer-profile {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .farmer-large-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf5eb;
+            color: #3b7747;
+            font-size: 35px;
+        }
+
+        .farmer-profile-content {
+            flex: 1;
+        }
+
+        .farmer-name-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+            .farmer-name-row h3 {
+                color: #2f3f34;
+                font-size: 19px;
+                margin: 0;
+            }
+
+            .farmer-name-row span {
+                color: #478450;
+                font-size: 11px;
+                font-weight: 700;
+            }
+
+        .farmer-profile-content p {
+            margin: 8px 0 12px;
+            color: #6f7b72;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .farmer-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+            .farmer-meta span {
+                color: #7b867e;
+                font-size: 11px;
+            }
+
+            .farmer-meta i {
+                color: #4b8755;
+                margin-right: 3px;
+            }
+
+
+        /* =====================================================
+               SIDEBAR
+            ===================================================== */
+
+        .product-side-card {
+            padding: 25px;
+            border: 1px solid #edf1ed;
+            border-radius: 21px;
+            background: #ffffff;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 30px rgba(30,54,35,.04);
+        }
+
+        .side-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+            .side-card-header > i {
+                color: #397548;
+                font-size: 20px;
+            }
+
+            .side-card-header h3 {
+                color: #2f3e34;
+                font-size: 18px;
+                margin: 0;
+            }
+
+        .market-preview-image {
+            height: 160px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+            .market-preview-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .product-side-card > h4 {
+            color: #304037;
+            font-size: 16px;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        .side-location {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #78837b;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+            .side-location i {
+                color: #4a8754;
+            }
+
+        .side-market-time {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 14px 0;
+            border-top: 1px solid #edf0ed;
+            border-bottom: 1px solid #edf0ed;
+            margin-bottom: 16px;
+        }
+
+            .side-market-time div {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                color: #77827a;
+                font-size: 10px;
+            }
+
+            .side-market-time i {
+                color: #4a8754;
+            }
+
+        .view-market-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            background: #edf6ee;
+            color: #367342;
+            border-radius: 11px;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 750;
+            transition: .3s ease;
+        }
+
+            .view-market-btn:hover {
+                background: #347343;
+                color: #ffffff;
+            }
+
+
+        /* =====================================================
+               DELIVERY
+            ===================================================== */
+
+        .delivery-card {
+            background: #f2f8f2;
+            border-color: #e0ede1;
+        }
+
+        .delivery-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: #397548;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .delivery-card h3 {
+            color: #2f3f34;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .delivery-card > p {
+            color: #738077;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .delivery-feature {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #647168;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+            .delivery-feature i {
+                color: #4a8a55;
+            }
+
+
+        /* =====================================================
+               HELP
+            ===================================================== */
+
+        .help-card {
+            text-align: center;
+            background: #294f32;
+            border-color: #294f32;
+        }
+
+        .help-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,.1);
+            color: #ffffff;
+            font-size: 21px;
+        }
+
+        .help-card h3 {
+            color: #ffffff;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .help-card p {
+            color: #cdddcf;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .help-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 17px;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #30663a;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+
+        /* =====================================================
+               RELATED PRODUCTS
+            ===================================================== */
+
+        .related-products-section {
+            padding: 80px 0;
+            background: #f8faf8;
+        }
+
+        .related-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+            .related-heading > div span {
+                display: block;
+                color: #59905f;
+                font-size: 10px;
+                letter-spacing: 1.5px;
+                font-weight: 850;
+                margin-bottom: 7px;
+            }
+
+            .related-heading h2 {
+                color: #29392f;
+                font-size: 30px;
+                font-weight: 800;
+                margin: 0;
+            }
+
+            .related-heading > a {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                color: #397548;
+                text-decoration: none;
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+                .related-heading > a:hover {
+                    text-decoration: underline;
+                }
+
+        .related-product-card {
+            background: #ffffff;
+            border: 1px solid #edf0ed;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 100%;
+            transition: .3s ease;
+        }
+
+            .related-product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(30,54,35,.08);
+            }
+
+        .related-product-image {
+            height: 190px;
+            overflow: hidden;
+        }
+
+            .related-product-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: .4s ease;
+            }
+
+        .related-product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .related-product-content {
+            padding: 17px;
+        }
+
+            .related-product-content span {
+                color: #639169;
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .related-product-content h3 {
+                color: #304037;
+                font-size: 16px;
+                margin: 6px 0 8px;
+            }
+
+            .related-product-content strong {
+                color: #367543;
+                font-size: 14px;
+            }
+
+
+        /* =====================================================
+               CTA
+            ===================================================== */
+
+        .product-details-cta {
+            padding: 70px 0;
+            background: #294f32;
+        }
+
+        .product-details-cta-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+        }
+
+            .product-details-cta-content > div:first-child {
+                max-width: 700px;
+            }
+
+            .product-details-cta-content span {
+                color: #acd5b0;
+                font-size: 10px;
+                letter-spacing: 1.5px;
+                font-weight: 850;
+            }
+
+            .product-details-cta-content h2 {
+                color: #ffffff;
+                font-size: clamp(28px, 4vw, 42px);
+                font-weight: 800;
+                margin: 8px 0 10px;
+            }
+
+            .product-details-cta-content p {
+                color: #d1e1d3;
+                margin: 0;
+            }
+
+        .product-details-cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .product-cta-outline,
+        .product-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 750;
+            transition: .3s ease;
+        }
+
+        .product-cta-outline {
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,.3);
+        }
+
+            .product-cta-outline:hover {
+                color: #ffffff;
+                background: rgba(255,255,255,.1);
+            }
+
+        .product-cta-primary {
+            color: #2f6739;
+            background: #ffffff;
+        }
+
+            .product-cta-primary:hover {
+                color: #24542e;
+                transform: translateY(-2px);
+            }
+
+
+        /* =====================================================
+               RESPONSIVE
+            ===================================================== */
+
+        @@media (max-width: 991px) {
+
+            .product-details-hero {
+                padding: 18px 18px 0;
+            }
+
+            .product-details-hero-image {
+                min-height: 420px;
+            }
+
+            .product-details-hero-content {
+                padding: 70px 0;
+            }
+
+            .product-details-main {
+                padding-top: 60px;
+            }
+
+            .product-details-image {
+                height: 450px;
+            }
+
+            .product-details-cta-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+
+        @@media (max-width: 767px) {
+
+            .product-details-hero {
+                padding: 15px 14px 0;
+            }
+
+            .product-details-hero-image {
+                min-height: 400px;
+                border-radius: 0 0 22px 22px;
+            }
+
+            .product-details-hero-content {
+                padding: 60px 0 65px;
+            }
+
+            .product-details-hero .product-breadcrumb {
+                font-size: 12px;
+                gap: 8px;
+                margin-bottom: 27px;
+            }
+
+            .product-details-hero .product-details-category {
+                font-size: 10px;
+                margin-bottom: 18px;
+            }
+
+            .product-details-hero h1 {
+                font-size: 45px;
+            }
+
+            .product-details-hero-description {
+                font-size: 15px;
+            }
+
+            .product-details-main {
+                padding: 50px 0 65px;
+            }
+
+            .product-details-image {
+                height: 350px;
+            }
+
+            .product-purchase-row {
+                flex-direction: column;
+            }
+
+            .quantity-selector {
+                width: 100%;
+                justify-content: center;
+            }
+
+                .quantity-selector span {
+                    flex: 1;
+                }
+
+            .product-mini-info {
+                flex-direction: column;
+            }
+
+            .product-info-card {
+                padding: 22px;
+            }
+
+            .product-specification-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .farmer-profile {
+                flex-direction: column;
+            }
+
+            .related-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .product-details-cta-buttons {
+                width: 100%;
+            }
+
+            .product-cta-outline,
+            .product-cta-primary {
+                width: 100%;
+            }
+        }
+
+
+        @@media (max-width: 480px) {
+
+            .product-details-hero {
+                padding: 12px 10px 0;
+            }
+
+            .product-details-hero-image {
+                min-height: 390px;
+            }
+
+            .product-details-hero-content {
+                padding: 50px 0 55px;
+            }
+
+            .product-details-hero h1 {
+                font-size: 38px;
+            }
+
+            .product-details-hero-description {
+                font-size: 14px;
+            }
+
+            .product-details-image {
+                height: 290px;
+            }
+
+            .product-details-badge {
+                left: 12px;
+                bottom: 12px;
+                font-size: 10px;
+            }
+
+            .product-details-favorite {
+                top: 12px;
+                right: 12px;
+            }
+
+            .product-details-product-title {
+                font-size: 36px;
+            }
+
+            .product-details-farmer {
+                align-items: flex-start;
+            }
+
+            .verified-farmer {
+                display: none;
+            }
+
+            .related-product-image {
+                height: 210px;
+            }
+        }
+
+    </style>
+
+}
+
+
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+========================================================= -->
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+
+            /* =====================================================
+               FAVORITE BUTTON
+            ===================================================== */
+
+            const favoriteButton =
+                document.getElementById("detailsFavorite");
+
+
+            if (favoriteButton) {
+
+                favoriteButton.addEventListener("click", function() {
+
+                    favoriteButton.classList.toggle("active");
+
+
+                    const icon =
+                        favoriteButton.querySelector("i");
+
+
+                    if (
+                        favoriteButton.classList.contains("active")
+                    ) {
+
+                        icon.classList.remove("bi-heart");
+
+                        icon.classList.add("bi-heart-fill");
+
+                    }
+                    else {
+
+                        icon.classList.remove("bi-heart-fill");
+
+                        icon.classList.add("bi-heart");
+
+                    }
+
+                });
+
+            }
+
+
+
+            /* =====================================================
+               QUANTITY
+            ===================================================== */
+
+            const quantityElement =
+                document.getElementById("productQuantity");
+
+            const increaseButton =
+                document.getElementById("increaseQuantity");
+
+            const decreaseButton =
+                document.getElementById("decreaseQuantity");
+
+
+            let quantity = 1;
+
+
+            if (increaseButton && quantityElement) {
+
+                increaseButton.addEventListener("click", function() {
+
+                    quantity++;
+
+                    quantityElement.textContent =
+                        quantity;
+
+                });
+
+            }
+
+
+            if (decreaseButton && quantityElement) {
+
+                decreaseButton.addEventListener("click", function() {
+
+                    if (quantity > 1) {
+
+                        quantity--;
+
+                        quantityElement.textContent =
+                            quantity;
+
+                    }
+
+                });
+
+            }
+
+
+
+            /* =====================================================
+               ADD TO CART
+            ===================================================== */
+
+            const addToCartButton =
+                document.getElementById("addToCartBtn");
+
+
+            if (addToCartButton) {
+
+                addToCartButton.addEventListener("click", function() {
+
+                    const originalText =
+                        addToCartButton.innerHTML;
+
+
+                    addToCartButton.innerHTML =
+                        '<i class="bi bi-check-circle"></i> Added to Cart';
+
+
+                    addToCartButton.style.background =
+                        "#2d7040";
+
+
+                    setTimeout(function() {
+
+                        addToCartButton.innerHTML =
+                            originalText;
+
+                        addToCartButton.style.background =
+                            "";
+
+                    }, 1800);
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+}

@@ -1,0 +1,1641 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Checkout | MarketLink</title>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+            /* =========================================================
+                       GLOBAL
+                    ========================================================= */
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: #f7f8f4;
+                color: #24352b;
+            }
+
+            button,
+            input,
+            select {
+                font-family: inherit;
+            }
+
+
+            /* =========================================================
+                       CHECKOUT PAGE
+                    ========================================================= */
+
+            .checkout-page {
+                min-height: 100vh;
+                background: #f7f8f4;
+            }
+
+
+            /* =========================================================
+                       PAGE HERO
+                    ========================================================= */
+
+            .checkout-hero {
+                position: relative;
+                width: calc(100% - 56px);
+                max-width: 1288px;
+                min-height: 440px;
+                margin: 20px auto 0;
+                border-radius: 0 0 28px 28px;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                background-image: linear-gradient( 90deg, rgba(0, 73, 48, 0.96) 0%, rgba(0, 85, 55, 0.88) 38%, rgba(0, 70, 45, 0.48) 70%, rgba(0, 50, 35, 0.22) 100% ), url("https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1800&q=85");
+                ;
+                background-size: cover;
+                background-position: center;
+            }
+
+                .checkout-hero::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background: radial-gradient( circle at 85% 25%, rgba(255,255,255,0.08), transparent 25% );
+                }
+
+            .checkout-hero-content {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                max-width: 1288px;
+                padding: 55px 10%;
+            }
+
+
+            /* =========================================================
+                       BREADCRUMBS
+                    ========================================================= */
+
+            .checkout-breadcrumb {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                margin-bottom: 32px;
+                font-size: 14px;
+                color: rgba(255,255,255,0.72);
+            }
+
+                .checkout-breadcrumb a {
+                    color: white;
+                    text-decoration: none;
+                    font-weight: 600;
+                }
+
+                .checkout-breadcrumb i {
+                    color: #9bdd4e;
+                    font-size: 13px;
+                }
+
+                .checkout-breadcrumb span {
+                    color: rgba(255,255,255,0.75);
+                }
+
+
+            /* =========================================================
+                       HERO LABEL
+                    ========================================================= */
+
+            .checkout-hero-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                color: #b8e95c;
+                font-size: 13px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                margin-bottom: 20px;
+            }
+
+                .checkout-hero-label i {
+                    font-size: 17px;
+                }
+
+
+            /* =========================================================
+                       HERO TITLE
+                    ========================================================= */
+
+            .checkout-hero h1 {
+                color: white;
+                font-size: clamp(46px, 5vw, 72px);
+                line-height: 1;
+                font-weight: 750;
+                margin-bottom: 22px;
+            }
+
+            .checkout-hero p {
+                max-width: 650px;
+                color: rgba(255,255,255,0.9);
+                font-size: 17px;
+                line-height: 1.75;
+            }
+
+
+            /* =========================================================
+                       MAIN CONTENT
+                    ========================================================= */
+
+            .checkout-container {
+                width: calc(100% - 56px);
+                max-width: 1180px;
+                margin: 55px auto 90px;
+            }
+
+            .checkout-grid {
+                display: grid;
+                grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+                gap: 28px;
+                align-items: start;
+            }
+
+
+            /* =========================================================
+                       CARDS
+                    ========================================================= */
+
+            .checkout-card {
+                background: white;
+                border: 1px solid #e5e9e1;
+                border-radius: 20px;
+                box-shadow: 0 8px 30px rgba(30, 60, 40, 0.05);
+                overflow: hidden;
+            }
+
+            .checkout-card-header {
+                padding: 25px 28px;
+                border-bottom: 1px solid #edf0eb;
+                display: flex;
+                align-items: center;
+                gap: 13px;
+            }
+
+            .checkout-card-icon {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #edf7e8;
+                color: #236d43;
+                font-size: 19px;
+            }
+
+            .checkout-card-header h2 {
+                font-size: 20px;
+                color: #193528;
+                margin: 0;
+            }
+
+            .checkout-card-header p {
+                color: #7b887f;
+                font-size: 13px;
+                margin: 3px 0 0;
+            }
+
+            .checkout-card-body {
+                padding: 28px;
+            }
+
+
+            /* =========================================================
+                       FARMER INFO
+                    ========================================================= */
+
+            .farmer-box {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px;
+                background: #f6f9f3;
+                border: 1px solid #e2eadf;
+                border-radius: 14px;
+                margin-bottom: 28px;
+            }
+
+            .farmer-info {
+                display: flex;
+                align-items: center;
+                gap: 13px;
+            }
+
+            .farmer-icon {
+                width: 45px;
+                height: 45px;
+                border-radius: 12px;
+                background: #dff1d9;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #287448;
+                font-size: 20px;
+            }
+
+            .farmer-info strong {
+                display: block;
+                color: #203a2c;
+                font-size: 15px;
+                margin-bottom: 3px;
+            }
+
+            .farmer-info span {
+                display: block;
+                color: #78847c;
+                font-size: 12px;
+            }
+
+            .farmer-location {
+                color: #52715d;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+
+            /* =========================================================
+                       ORDER ITEMS
+                    ========================================================= */
+
+            .order-items {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .order-item {
+                display: grid;
+                grid-template-columns: 70px 1fr auto;
+                align-items: center;
+                gap: 15px;
+                padding: 17px 0;
+                border-bottom: 1px solid #edf0eb;
+            }
+
+                .order-item:first-child {
+                    padding-top: 0;
+                }
+
+                .order-item:last-child {
+                    border-bottom: none;
+                }
+
+            .order-item-image {
+                width: 70px;
+                height: 70px;
+                border-radius: 13px;
+                background: #edf3e9;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+                .order-item-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+            .order-item-details h4 {
+                font-size: 15px;
+                color: #263c30;
+                margin-bottom: 5px;
+            }
+
+            .order-item-details p {
+                color: #7b887f;
+                font-size: 12px;
+                margin: 0;
+            }
+
+            .order-item-qty {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                margin-top: 7px;
+                color: #647168;
+                font-size: 12px;
+            }
+
+            .order-item-price {
+                font-size: 15px;
+                font-weight: 700;
+                color: #24683f;
+                white-space: nowrap;
+            }
+
+
+            /* =========================================================
+                       FORM
+                    ========================================================= */
+
+            .form-section {
+                margin-top: 30px;
+            }
+
+                .form-section:first-child {
+                    margin-top: 0;
+                }
+
+            .form-section-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #294034;
+                margin-bottom: 16px;
+            }
+
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 17px;
+            }
+
+            .form-group {
+                margin-bottom: 17px;
+            }
+
+                .form-group label {
+                    display: block;
+                    color: #3d4c43;
+                    font-size: 13px;
+                    font-weight: 650;
+                    margin-bottom: 7px;
+                }
+
+            .form-control {
+                width: 100%;
+                height: 48px;
+                border: 1px solid #dce3dc;
+                border-radius: 10px;
+                background: #fbfcfa;
+                padding: 0 14px;
+                color: #28392f;
+                font-size: 13px;
+                outline: none;
+                transition: 0.2s ease;
+            }
+
+                .form-control:focus {
+                    border-color: #4e9565;
+                    background: white;
+                    box-shadow: 0 0 0 4px rgba(78,149,101,0.09);
+                }
+
+            textarea.form-control {
+                height: 90px;
+                padding: 13px 14px;
+                resize: vertical;
+            }
+
+
+            /* =========================================================
+                       PICKUP OPTIONS
+                    ========================================================= */
+
+            .pickup-options {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 13px;
+            }
+
+            .pickup-option {
+                position: relative;
+            }
+
+                .pickup-option input {
+                    position: absolute;
+                    opacity: 0;
+                    pointer-events: none;
+                }
+
+                .pickup-option label {
+                    display: block;
+                    border: 1px solid #dce4dc;
+                    border-radius: 12px;
+                    padding: 15px;
+                    cursor: pointer;
+                    transition: 0.2s ease;
+                    background: white;
+                }
+
+                    .pickup-option label strong {
+                        display: block;
+                        color: #304338;
+                        font-size: 13px;
+                        margin-bottom: 4px;
+                    }
+
+                    .pickup-option label span {
+                        color: #849087;
+                        font-size: 11px;
+                    }
+
+                .pickup-option input:checked + label {
+                    border-color: #41845a;
+                    background: #f0f8ed;
+                    box-shadow: 0 0 0 2px rgba(65,132,90,0.08);
+                }
+
+
+            /* =========================================================
+                       PAYMENT NOTE
+                    ========================================================= */
+
+            .payment-note {
+                display: flex;
+                gap: 13px;
+                padding: 17px;
+                background: #f4f8ee;
+                border: 1px solid #e0e9d9;
+                border-radius: 13px;
+            }
+
+            .payment-note-icon {
+                width: 38px;
+                height: 38px;
+                min-width: 38px;
+                border-radius: 10px;
+                background: #dfeeda;
+                color: #34734a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .payment-note strong {
+                display: block;
+                font-size: 13px;
+                color: #294133;
+                margin-bottom: 3px;
+            }
+
+            .payment-note p {
+                color: #738077;
+                font-size: 12px;
+                line-height: 1.55;
+                margin: 0;
+            }
+
+
+            /* =========================================================
+                       SUMMARY
+                    ========================================================= */
+
+            .summary-card {
+                position: sticky;
+                top: 25px;
+            }
+
+            .summary-body {
+                padding: 27px;
+            }
+
+            .summary-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 15px;
+                padding: 12px 0;
+                color: #69766e;
+                font-size: 13px;
+            }
+
+                .summary-row strong {
+                    color: #33463a;
+                }
+
+            .summary-divider {
+                height: 1px;
+                background: #e9ede8;
+                margin: 8px 0;
+            }
+
+            .summary-total {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px 0 20px;
+            }
+
+                .summary-total span {
+                    font-size: 15px;
+                    font-weight: 650;
+                    color: #34473b;
+                }
+
+                .summary-total strong {
+                    font-size: 25px;
+                    color: #1f6940;
+                }
+
+
+            /* =========================================================
+                       TERMS
+                    ========================================================= */
+
+            .terms-check {
+                display: flex;
+                align-items: flex-start;
+                gap: 9px;
+                margin-bottom: 17px;
+                cursor: pointer;
+            }
+
+                .terms-check input {
+                    margin-top: 3px;
+                    accent-color: #267344;
+                }
+
+                .terms-check span {
+                    color: #748078;
+                    font-size: 12px;
+                    line-height: 1.5;
+                }
+
+                .terms-check a {
+                    color: #267344;
+                    text-decoration: none;
+                    font-weight: 600;
+                }
+
+
+            /* =========================================================
+                       PLACE ORDER BUTTON
+                    ========================================================= */
+
+            .place-order-btn {
+                width: 100%;
+                height: 52px;
+                border: none;
+                border-radius: 11px;
+                background: #236b42;
+                color: white;
+                font-size: 14px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                cursor: pointer;
+                transition: 0.2s ease;
+            }
+
+                .place-order-btn:hover {
+                    background: #1b5b37;
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 20px rgba(35,107,66,0.18);
+                }
+
+                .place-order-btn:disabled {
+                    opacity: 0.65;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+
+
+            /* =========================================================
+                       SECURE NOTE
+                    ========================================================= */
+
+            .secure-note {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                color: #849088;
+                font-size: 11px;
+                margin-top: 15px;
+            }
+
+                .secure-note i {
+                    color: #4b875e;
+                }
+
+
+            /* =========================================================
+                       SUCCESS MESSAGE
+                    ========================================================= */
+
+            .order-success {
+                display: none;
+                text-align: center;
+                padding: 35px 25px;
+            }
+
+            .success-icon {
+                width: 68px;
+                height: 68px;
+                border-radius: 50%;
+                background: #e4f4e2;
+                color: #2c7b49;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 17px;
+                font-size: 29px;
+            }
+
+            .order-success h3 {
+                color: #244332;
+                font-size: 21px;
+                margin-bottom: 7px;
+            }
+
+            .order-success p {
+                color: #748078;
+                font-size: 13px;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+
+            .order-number {
+                display: inline-block;
+                background: #f1f6ed;
+                border: 1px solid #dfe9d9;
+                border-radius: 8px;
+                padding: 9px 14px;
+                color: #36724b;
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+
+            /* =========================================================
+                       RESPONSIVE
+                    ========================================================= */
+
+            @@media (max-width: 1000px) {
+
+                .checkout-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .summary-card {
+                    position: static;
+                }
+
+                .checkout-hero {
+                    min-height: 400px;
+                }
+            }
+
+
+            @@media (max-width: 700px) {
+
+                .checkout-hero {
+                    width: calc(100% - 30px);
+                    min-height: 390px;
+                    margin-top: 15px;
+                    border-radius: 0 0 22px 22px;
+                    background-position: center;
+                }
+
+                .checkout-hero-content {
+                    padding: 45px 28px;
+                }
+
+                .checkout-breadcrumb {
+                    margin-bottom: 25px;
+                }
+
+                .checkout-hero h1 {
+                    font-size: 46px;
+                }
+
+                .checkout-hero p {
+                    font-size: 14px;
+                }
+
+                .checkout-container {
+                    width: calc(100% - 30px);
+                    margin-top: 35px;
+                }
+
+                .checkout-card-body {
+                    padding: 21px;
+                }
+
+                .checkout-card-header {
+                    padding: 21px;
+                }
+
+                .form-row {
+                    grid-template-columns: 1fr;
+                    gap: 0;
+                }
+
+                .pickup-options {
+                    grid-template-columns: 1fr;
+                }
+
+                .farmer-box {
+                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+            }
+
+
+            @@media (max-width: 480px) {
+
+                .checkout-hero {
+                    min-height: 370px;
+                }
+
+                .checkout-hero-content {
+                    padding: 35px 23px;
+                }
+
+                .checkout-hero h1 {
+                    font-size: 40px;
+                }
+
+                .checkout-container {
+                    width: calc(100% - 22px);
+                }
+
+                .order-item {
+                    grid-template-columns: 58px 1fr;
+                }
+
+                .order-item-image {
+                    width: 58px;
+                    height: 58px;
+                }
+
+                .order-item-price {
+                    grid-column: 2;
+                }
+            }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="checkout-page">
+
+
+        <!-- =========================================================
+         CHECKOUT HERO
+    ========================================================== -->
+
+        <section class="checkout-hero">
+
+            <div class="checkout-hero-content">
+
+                <div class="checkout-breadcrumb">
+
+                    <a href="/">
+                        Home
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <a href="/Cart">
+                        Cart
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>
+                        Checkout
+                    </span>
+
+                </div>
+
+
+                <div class="checkout-hero-label">
+
+                    <i class="bi bi-bag-check-fill"></i>
+
+                    COMPLETE YOUR PRE-ORDER
+
+                </div>
+
+
+                <h1>
+                    Checkout
+                </h1>
+
+
+                <p>
+                    Confirm your order, choose a convenient pickup time,
+                    and reserve your fresh products from local farmers.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================================
+         CHECKOUT CONTENT
+    ========================================================== -->
+
+        <main class="checkout-container">
+
+            <div class="checkout-grid">
+
+
+                <!-- =================================================
+                 LEFT COLUMN
+            ================================================= -->
+
+                <div>
+
+
+                    <!-- =============================================
+                     ORDER ITEMS
+                ============================================== -->
+
+                    <section class="checkout-card">
+
+                        <div class="checkout-card-header">
+
+                            <div class="checkout-card-icon">
+
+                                <i class="bi bi-basket2-fill"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h2>
+                                    Your Order
+                                </h2>
+
+                                <p>
+                                    Review your selected products
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="checkout-card-body">
+
+
+                            <!-- FARMER -->
+
+                            <div class="farmer-box">
+
+                                <div class="farmer-info">
+
+                                    <div class="farmer-icon">
+
+                                        <i class="bi bi-person-heart"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Green Valley Farm
+                                        </strong>
+
+                                        <span>
+                                            Local Farmer
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="farmer-location">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    Green Market
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- ITEMS -->
+
+                            <div class="order-items">
+
+
+                                <!-- ITEM 1 -->
+
+                                <div class="order-item">
+
+                                    <div class="order-item-image">
+
+                                        <img src="/images/products/tomatoes.jpg"
+                                             alt="Fresh Tomatoes"
+                                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'bi bi-basket2\' style=\'font-size:25px;color:#7aa56f;\'></i>';" />
+
+                                    </div>
+
+
+                                    <div class="order-item-details">
+
+                                        <h4>
+                                            Fresh Tomatoes
+                                        </h4>
+
+                                        <p>
+                                            Freshly harvested • Rs. 180 / kg
+                                        </p>
+
+                                        <div class="order-item-qty">
+
+                                            <i class="bi bi-box"></i>
+
+                                            Quantity: 2 kg
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="order-item-price">
+                                        Rs. 360
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- ITEM 2 -->
+
+                                <div class="order-item">
+
+                                    <div class="order-item-image">
+
+                                        <img src="/images/products/apples.jpg"
+                                             alt="Fresh Apples"
+                                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'bi bi-apple\' style=\'font-size:25px;color:#7aa56f;\'></i>';" />
+
+                                    </div>
+
+
+                                    <div class="order-item-details">
+
+                                        <h4>
+                                            Fresh Apples
+                                        </h4>
+
+                                        <p>
+                                            Local produce • Rs. 320 / kg
+                                        </p>
+
+                                        <div class="order-item-qty">
+
+                                            <i class="bi bi-box"></i>
+
+                                            Quantity: 1 kg
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="order-item-price">
+                                        Rs. 320
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- ITEM 3 -->
+
+                                <div class="order-item">
+
+                                    <div class="order-item-image">
+
+                                        <img src="/images/products/carrots.jpg"
+                                             alt="Fresh Carrots"
+                                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'bi bi-flower1\' style=\'font-size:25px;color:#7aa56f;\'></i>';" />
+
+                                    </div>
+
+
+                                    <div class="order-item-details">
+
+                                        <h4>
+                                            Fresh Carrots
+                                        </h4>
+
+                                        <p>
+                                            Farm fresh • Rs. 150 / kg
+                                        </p>
+
+                                        <div class="order-item-qty">
+
+                                            <i class="bi bi-box"></i>
+
+                                            Quantity: 1 kg
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="order-item-price">
+                                        Rs. 150
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =============================================
+                     PICKUP INFORMATION
+                ============================================== -->
+
+                    <section class="checkout-card"
+                             style="margin-top:28px;">
+
+                        <div class="checkout-card-header">
+
+                            <div class="checkout-card-icon">
+
+                                <i class="bi bi-calendar-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h2>
+                                    Pickup Details
+                                </h2>
+
+                                <p>
+                                    Choose when you want to collect your order
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="checkout-card-body">
+
+
+                            <!-- DATE -->
+
+                            <div class="form-section">
+
+                                <div class="form-section-title">
+
+                                    Pickup Date
+
+                                </div>
+
+
+                                <div class="form-row">
+
+                                    <div class="form-group">
+
+                                        <label for="pickupDate">
+                                            Select Date
+                                        </label>
+
+                                        <input type="date"
+                                               id="pickupDate"
+                                               class="form-control" />
+
+                                    </div>
+
+
+                                    <div class="form-group">
+
+                                        <label for="pickupTime">
+                                            Pickup Time
+                                        </label>
+
+                                        <select id="pickupTime"
+                                                class="form-control">
+
+                                            <option value="">
+                                                Select a time slot
+                                            </option>
+
+                                            <option value="09:00 - 10:00">
+                                                09:00 AM – 10:00 AM
+                                            </option>
+
+                                            <option value="10:00 - 11:00">
+                                                10:00 AM – 11:00 AM
+                                            </option>
+
+                                            <option value="11:00 - 12:00">
+                                                11:00 AM – 12:00 PM
+                                            </option>
+
+                                            <option value="12:00 - 01:00">
+                                                12:00 PM – 01:00 PM
+                                            </option>
+
+                                            <option value="02:00 - 03:00">
+                                                02:00 PM – 03:00 PM
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- PICKUP METHOD -->
+
+                            <div class="form-section">
+
+                                <div class="form-section-title">
+
+                                    Pickup Location
+
+                                </div>
+
+
+                                <div class="pickup-options">
+
+
+                                    <div class="pickup-option">
+
+                                        <input type="radio"
+                                               id="marketPickup"
+                                               name="pickupLocation"
+                                               value="market"
+                                               checked />
+
+                                        <label for="marketPickup">
+
+                                            <strong>
+                                                Green Market Stall
+                                            </strong>
+
+                                            <span>
+                                                Main Farmers Market
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <div class="pickup-option">
+
+                                        <input type="radio"
+                                               id="farmPickup"
+                                               name="pickupLocation"
+                                               value="farm" />
+
+                                        <label for="farmPickup">
+
+                                            <strong>
+                                                Farmer Pickup Point
+                                            </strong>
+
+                                            <span>
+                                                Green Valley Farm
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- NOTES -->
+
+                            <div class="form-section">
+
+                                <div class="form-group">
+
+                                    <label for="orderNotes">
+                                        Order Notes
+                                        <span style="font-weight:400;color:#9aa39d;">
+                                            (Optional)
+                                        </span>
+                                    </label>
+
+                                    <textarea id="orderNotes"
+                                              class="form-control"
+                                              placeholder="Add any special instructions for the farmer..."></textarea>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- PAYMENT -->
+
+                            <div class="form-section">
+
+                                <div class="payment-note">
+
+                                    <div class="payment-note-icon">
+
+                                        <i class="bi bi-cash-stack"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Pay at Pickup
+                                        </strong>
+
+                                        <p>
+                                            No online payment is required.
+                                            Your order will be paid for directly
+                                            at the selected pickup location.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+
+                <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+                <aside class="checkout-card summary-card">
+
+
+                    <div class="checkout-card-header">
+
+                        <div class="checkout-card-icon">
+
+                            <i class="bi bi-receipt"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2>
+                                Order Summary
+                            </h2>
+
+                            <p>
+                                Your pre-order total
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-body">
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Fresh Tomatoes
+                            </span>
+
+                            <strong>
+                                Rs. 360
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Fresh Apples
+                            </span>
+
+                            <strong>
+                                Rs. 320
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Fresh Carrots
+                            </span>
+
+                            <strong>
+                                Rs. 150
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-divider"></div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Items
+                            </span>
+
+                            <strong>
+                                4 kg
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Pickup Fee
+                            </span>
+
+                            <strong>
+                                Free
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-divider"></div>
+
+
+                        <div class="summary-total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong>
+                                Rs. 830
+                            </strong>
+
+                        </div>
+
+
+
+                        <!-- TERMS -->
+
+                        <label class="terms-check">
+
+                            <input type="checkbox"
+                                   id="termsCheck" />
+
+                            <span>
+                                I confirm that the order details and pickup
+                                information are correct.
+                            </span>
+
+                        </label>
+
+
+
+                        <!-- PLACE ORDER -->
+
+                        <button type="button"
+                                class="place-order-btn"
+                                id="placeOrderBtn">
+
+                            <span>
+                                Place Pre-Order
+                            </span>
+
+                            <i class="bi bi-arrow-right"></i>
+
+                        </button>
+
+
+                        <div class="secure-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            Secure MarketLink order
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- SUCCESS -->
+
+                    <div class="order-success"
+                         id="orderSuccess">
+
+                        <div class="success-icon">
+
+                            <i class="bi bi-check-lg"></i>
+
+                        </div>
+
+                        <h3>
+                            Order Placed!
+                        </h3>
+
+                        <p>
+                            Your pre-order has been successfully submitted.
+                            You can collect it at your selected pickup time.
+                        </p>
+
+                        <span class="order-number">
+                            Order #ML-2026-00124
+                        </span>
+
+                    </div>
+
+                </aside>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =============================================================
+     JAVASCRIPT
+============================================================= -->
+
+    <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+
+                /* =========================================================
+                   SET MINIMUM PICKUP DATE
+                ========================================================= */
+
+                const pickupDate =
+                    document.getElementById("pickupDate");
+
+                const today = new Date();
+
+                const year =
+                    today.getFullYear();
+
+                const month =
+                    String(today.getMonth() + 1).padStart(2, "0");
+
+                const day =
+                    String(today.getDate()).padStart(2, "0");
+
+                const todayString =
+                    `${year}-${month}-${day}`;
+
+                pickupDate.min = todayString;
+
+
+
+                /* =========================================================
+                   PLACE ORDER
+                ========================================================= */
+
+                const placeOrderBtn =
+                    document.getElementById("placeOrderBtn");
+
+                const termsCheck =
+                    document.getElementById("termsCheck");
+
+                const orderSuccess =
+                    document.getElementById("orderSuccess");
+
+
+                placeOrderBtn.addEventListener("click", function () {
+
+
+                    /* -----------------------------------------
+                       TERMS VALIDATION
+                    ----------------------------------------- */
+
+                    if (!termsCheck.checked) {
+
+                        termsCheck.parentElement.style.color =
+                            "#b42323";
+
+                        termsCheck.parentElement.querySelector("span").textContent =
+                            "Please confirm your order details before placing the order.";
+
+                        return;
+                    }
+
+
+                    /* -----------------------------------------
+                       DATE VALIDATION
+                    ----------------------------------------- */
+
+                    if (!pickupDate.value) {
+
+                        alert("Please select a pickup date.");
+
+                        pickupDate.focus();
+
+                        return;
+                    }
+
+
+                    /* -----------------------------------------
+                       TIME VALIDATION
+                    ----------------------------------------- */
+
+                    const pickupTime =
+                        document.getElementById("pickupTime");
+
+
+                    if (!pickupTime.value) {
+
+                        alert("Please select a pickup time slot.");
+
+                        pickupTime.focus();
+
+                        return;
+                    }
+
+
+                    /* -----------------------------------------
+                       LOADING
+                    ----------------------------------------- */
+
+                    placeOrderBtn.disabled = true;
+
+                    placeOrderBtn.innerHTML =
+                        `
+                            <span>
+                                Placing Order...
+                            </span>
+
+                            <i class="bi bi-arrow-repeat"></i>
+                            `;
+
+
+                    /* -----------------------------------------
+                       DEMO SUCCESS
+                    ----------------------------------------- */
+
+                   setTimeout(function () {
+
+    window.location.href = "/Order/Index";
+
+}, 1000);
+
+                });
+
+            });
+
+    </script>
+
+
+</body>
+</html>

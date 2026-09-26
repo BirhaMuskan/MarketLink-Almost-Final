@@ -1,0 +1,1039 @@
+﻿@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Order Confirmation | MarketLink</title>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+
+            /* =========================================================
+                       GLOBAL
+                    ========================================================= */
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: #f5f8f5;
+                color: #243128;
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            .order-page {
+                min-height: 100vh;
+                background: #f5f8f5;
+            }
+
+
+            /* =========================================================
+                       ORDER HERO / BANNER
+                    ========================================================= */
+
+            .order-hero {
+                position: relative;
+                min-height: 390px;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                background-image: linear-gradient( 90deg, rgba(18, 57, 39, 0.94) 0%, rgba(24, 75, 48, 0.82) 45%, rgba(24, 75, 48, 0.38) 100% ), url('/images/order-banner.jpg');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+            }
+
+            .order-hero-pattern {
+                position: absolute;
+                inset: 0;
+                background-image: radial-gradient( circle at 80% 30%, rgba(142, 227, 168, 0.14), transparent 25% ), radial-gradient( circle at 90% 90%, rgba(255, 255, 255, 0.08), transparent 25% );
+                pointer-events: none;
+            }
+
+            .order-hero-container {
+                width: 100%;
+                max-width: 1200px;
+                margin: auto;
+                padding: 70px 30px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .order-breadcrumb {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                color: #c8ded0;
+                font-size: 13px;
+                margin-bottom: 22px;
+            }
+
+                .order-breadcrumb a {
+                    color: #d8e9df;
+                    transition: 0.2s ease;
+                }
+
+                    .order-breadcrumb a:hover {
+                        color: #8ee3a8;
+                    }
+
+                .order-breadcrumb i {
+                    font-size: 11px;
+                    color: #8ee3a8;
+                }
+
+            .order-hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                padding: 8px 14px;
+                border: 1px solid rgba(142, 227, 168, 0.25);
+                border-radius: 30px;
+                background: rgba(142, 227, 168, 0.10);
+                color: #9ae9b1;
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 1.2px;
+                margin-bottom: 18px;
+            }
+
+                .order-hero-badge i {
+                    font-size: 14px;
+                }
+
+            .order-hero h1 {
+                color: white;
+                font-size: 48px;
+                line-height: 1.1;
+                font-weight: 700;
+                margin-bottom: 17px;
+            }
+
+                .order-hero h1 span {
+                    color: #8ee3a8;
+                }
+
+            .order-hero-description {
+                max-width: 620px;
+                color: #d4e5da;
+                font-size: 16px;
+                line-height: 1.7;
+            }
+
+
+            /* =========================================================
+                       MAIN CONTENT
+                    ========================================================= */
+
+            .order-content {
+                max-width: 1100px;
+                margin: -55px auto 0;
+                padding: 0 25px 80px;
+                position: relative;
+                z-index: 5;
+            }
+
+
+            /* =========================================================
+                       SUCCESS CARD
+                    ========================================================= */
+
+            .success-card {
+                background: white;
+                border-radius: 20px;
+                padding: 45px 50px;
+                box-shadow: 0 18px 55px rgba(30, 60, 42, 0.10);
+                text-align: center;
+                margin-bottom: 28px;
+            }
+
+            .success-icon {
+                width: 78px;
+                height: 78px;
+                margin: 0 auto 20px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #e8f7ec;
+                color: #267542;
+                font-size: 36px;
+            }
+
+            .success-card h2 {
+                color: #193125;
+                font-size: 30px;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            .success-card > p {
+                max-width: 610px;
+                margin: 0 auto;
+                color: #718078;
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            .order-number {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 22px;
+                padding: 10px 17px;
+                background: #f0f8f2;
+                border-radius: 8px;
+                color: #267542;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+
+            /* =========================================================
+                       ORDER DETAILS GRID
+                    ========================================================= */
+
+            .order-grid {
+                display: grid;
+                grid-template-columns: 1.5fr 1fr;
+                gap: 25px;
+            }
+
+            .order-card {
+                background: white;
+                border-radius: 18px;
+                padding: 30px;
+                box-shadow: 0 12px 40px rgba(30, 60, 42, 0.07);
+            }
+
+            .card-heading {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #e5ebe6;
+                margin-bottom: 20px;
+            }
+
+            .card-heading-icon {
+                width: 42px;
+                height: 42px;
+                border-radius: 11px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #eaf7ed;
+                color: #267542;
+                font-size: 18px;
+            }
+
+            .card-heading h3 {
+                color: #1c2d22;
+                font-size: 19px;
+                font-weight: 700;
+                margin: 0;
+            }
+
+
+            /* =========================================================
+                       PRODUCT
+                    ========================================================= */
+
+            .order-product {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px 0;
+                border-bottom: 1px solid #edf1ee;
+            }
+
+                .order-product:last-child {
+                    border-bottom: none;
+                }
+
+            .product-image {
+                width: 62px;
+                height: 62px;
+                flex-shrink: 0;
+                border-radius: 12px;
+                overflow: hidden;
+                background: #edf5ef;
+            }
+
+                .product-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+            .product-info {
+                flex: 1;
+            }
+
+                .product-info h4 {
+                    color: #26362c;
+                    font-size: 15px;
+                    font-weight: 600;
+                    margin-bottom: 5px;
+                }
+
+                .product-info p {
+                    color: #829087;
+                    font-size: 12px;
+                    margin: 0;
+                }
+
+            .product-price {
+                text-align: right;
+            }
+
+                .product-price strong {
+                    display: block;
+                    color: #267542;
+                    font-size: 15px;
+                }
+
+                .product-price span {
+                    color: #89948d;
+                    font-size: 12px;
+                }
+
+
+            /* =========================================================
+                       ORDER SUMMARY
+                    ========================================================= */
+
+            .summary-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 0;
+                color: #68766e;
+                font-size: 14px;
+            }
+
+                .summary-row strong {
+                    color: #334139;
+                }
+
+            .summary-divider {
+                height: 1px;
+                background: #e5ebe6;
+                margin: 13px 0;
+            }
+
+            .summary-total {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 5px;
+            }
+
+                .summary-total span {
+                    color: #1e3025;
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+                .summary-total strong {
+                    color: #267542;
+                    font-size: 23px;
+                }
+
+
+            /* =========================================================
+                       PICKUP INFORMATION
+                    ========================================================= */
+
+            .pickup-info {
+                margin-top: 25px;
+                padding: 18px;
+                border-radius: 13px;
+                background: #f3f8f4;
+                border: 1px solid #dfece2;
+            }
+
+            .pickup-title {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                color: #267542;
+                font-size: 14px;
+                font-weight: 700;
+                margin-bottom: 12px;
+            }
+
+            .pickup-row {
+                display: flex;
+                gap: 11px;
+                margin-bottom: 10px;
+            }
+
+                .pickup-row:last-child {
+                    margin-bottom: 0;
+                }
+
+                .pickup-row i {
+                    color: #59906a;
+                    margin-top: 2px;
+                }
+
+                .pickup-row div {
+                    color: #59675e;
+                    font-size: 13px;
+                    line-height: 1.5;
+                }
+
+                .pickup-row strong {
+                    display: block;
+                    color: #26382c;
+                    font-size: 13px;
+                    margin-bottom: 2px;
+                }
+
+
+            /* =========================================================
+                       PAYMENT NOTICE
+                    ========================================================= */
+
+            .payment-notice {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-top: 20px;
+                padding: 15px;
+                background: #fff9ed;
+                border: 1px solid #f1e1b9;
+                border-radius: 11px;
+            }
+
+                .payment-notice i {
+                    color: #b47b18;
+                    font-size: 18px;
+                }
+
+                .payment-notice p {
+                    color: #756546;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    margin: 0;
+                }
+
+                .payment-notice strong {
+                    color: #5e4a25;
+                }
+
+
+            /* =========================================================
+                       ACTION BUTTONS
+                    ========================================================= */
+
+            .order-actions {
+                display: flex;
+                justify-content: center;
+                gap: 13px;
+                margin-top: 28px;
+            }
+
+            .order-btn {
+                min-height: 48px;
+                padding: 0 22px;
+                border-radius: 10px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                font-size: 13px;
+                font-weight: 600;
+                transition: all 0.2s ease;
+            }
+
+            .primary-order-btn {
+                background: #267542;
+                color: white;
+            }
+
+                .primary-order-btn:hover {
+                    background: #1d6135;
+                    color: white;
+                    transform: translateY(-1px);
+                    box-shadow: 0 8px 20px rgba(38, 117, 66, 0.20);
+                }
+
+            .secondary-order-btn {
+                background: white;
+                color: #267542;
+                border: 1px solid #d5e1d8;
+            }
+
+                .secondary-order-btn:hover {
+                    background: #f0f8f2;
+                    color: #267542;
+                }
+
+
+            /* =========================================================
+                       RESPONSIVE
+                    ========================================================= */
+
+            @@media (max-width: 900px) {
+
+                .order-hero {
+                    min-height: 350px;
+                }
+
+                    .order-hero h1 {
+                        font-size: 40px;
+                    }
+
+                .order-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .success-card {
+                    padding: 38px 30px;
+                }
+            }
+
+
+            @@media (max-width: 600px) {
+
+                .order-hero {
+                    min-height: 330px;
+                    background-attachment: scroll;
+                }
+
+                .order-hero-container {
+                    padding: 55px 22px;
+                }
+
+                .order-hero h1 {
+                    font-size: 34px;
+                }
+
+                .order-hero-description {
+                    font-size: 14px;
+                }
+
+                .order-content {
+                    padding: 0 15px 55px;
+                    margin-top: -35px;
+                }
+
+                .success-card {
+                    padding: 32px 20px;
+                    border-radius: 16px;
+                }
+
+                    .success-card h2 {
+                        font-size: 24px;
+                    }
+
+                .order-card {
+                    padding: 23px 18px;
+                    border-radius: 15px;
+                }
+
+                .order-actions {
+                    flex-direction: column;
+                }
+
+                .order-btn {
+                    width: 100%;
+                }
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="order-page">
+
+
+        <!-- =========================================================
+         ORDER HERO
+    ========================================================== -->
+
+        <section class="order-hero">
+
+            <div class="order-hero-pattern"></div>
+
+            <div class="order-hero-container">
+
+                <div class="order-breadcrumb">
+
+                    <a href="/">
+                        Home
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <a href="/Cart/Index">
+                        Cart
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>
+                        Order Confirmation
+                    </span>
+
+                </div>
+
+
+                <span class="order-hero-badge">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    PRE-ORDER CONFIRMED
+
+                </span>
+
+
+                <h1>
+                    Your order is <span>confirmed.</span>
+                </h1>
+
+
+                <p class="order-hero-description">
+
+                    Your pre-order has been placed successfully.
+                    Your selected items will be prepared for pickup
+                    at your chosen market location.
+
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================================
+         MAIN ORDER CONTENT
+    ========================================================== -->
+
+        <main class="order-content">
+
+
+            <!-- =====================================================
+             SUCCESS
+        ====================================================== -->
+
+            <section class="success-card">
+
+                <div class="success-icon">
+
+                    <i class="bi bi-check-lg"></i>
+
+                </div>
+
+
+                <h2>
+                    Thank You For Your Pre-Order!
+                </h2>
+
+
+                <p>
+
+                    Your order has been successfully submitted to the
+                    Farmer. Please bring your order details when you
+                    arrive at the selected pickup location.
+
+                </p>
+
+
+                <div class="order-number">
+
+                    <i class="bi bi-receipt"></i>
+
+                    Order #ML-2026-00125
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================================
+             ORDER GRID
+        ====================================================== -->
+
+            <div class="order-grid">
+
+
+                <!-- =================================================
+                 LEFT - PRODUCTS
+            ================================================== -->
+
+                <section class="order-card">
+
+
+                    <div class="card-heading">
+
+                        <div class="card-heading-icon">
+
+                            <i class="bi bi-basket3"></i>
+
+                        </div>
+
+                        <h3>
+                            Order Details
+                        </h3>
+
+                    </div>
+
+
+
+                    <!-- PRODUCT 1 -->
+
+                    <div class="order-product">
+
+                        <div class="product-image">
+
+                            <img src="/images/products/tomatoes.jpg"
+                                 alt="Fresh Tomatoes" />
+
+                        </div>
+
+
+                        <div class="product-info">
+
+                            <h4>
+                                Fresh Tomatoes
+                            </h4>
+
+                            <p>
+                                2 kg × Rs. 250 / kg
+                            </p>
+
+                        </div>
+
+
+                        <div class="product-price">
+
+                            <strong>
+                                Rs. 500
+                            </strong>
+
+                            <span>
+                                Qty: 2
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PRODUCT 2 -->
+
+                    <div class="order-product">
+
+                        <div class="product-image">
+
+                            <img src="/images/products/apples.jpg"
+                                 alt="Fresh Apples" />
+
+                        </div>
+
+
+                        <div class="product-info">
+
+                            <h4>
+                                Fresh Apples
+                            </h4>
+
+                            <p>
+                                1 kg × Rs. 450 / kg
+                            </p>
+
+                        </div>
+
+
+                        <div class="product-price">
+
+                            <strong>
+                                Rs. 450
+                            </strong>
+
+                            <span>
+                                Qty: 1
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PRODUCT 3 -->
+
+                    <div class="order-product">
+
+                        <div class="product-image">
+
+                            <img src="/images/products/spinach.jpg"
+                                 alt="Fresh Spinach" />
+
+                        </div>
+
+
+                        <div class="product-info">
+
+                            <h4>
+                                Fresh Spinach
+                            </h4>
+
+                            <p>
+                                2 bunches × Rs. 100
+                            </p>
+
+                        </div>
+
+
+                        <div class="product-price">
+
+                            <strong>
+                                Rs. 200
+                            </strong>
+
+                            <span>
+                                Qty: 2
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PICKUP -->
+
+                    <div class="pickup-info">
+
+                        <div class="pickup-title">
+
+                            <i class="bi bi-geo-alt-fill"></i>
+
+                            Pickup Information
+
+                        </div>
+
+
+                        <div class="pickup-row">
+
+                            <i class="bi bi-shop"></i>
+
+                            <div>
+
+                                <strong>
+                                    Green Valley Farmers Market
+                                </strong>
+
+                                Main Market Road, Karachi
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="pickup-row">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            <div>
+
+                                <strong>
+                                    Pickup Date
+                                </strong>
+
+                                Saturday, 28 September 2026
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="pickup-row">
+
+                            <i class="bi bi-clock"></i>
+
+                            <div>
+
+                                <strong>
+                                    Pickup Time
+                                </strong>
+
+                                10:00 AM – 12:00 PM
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                 RIGHT - SUMMARY
+            ================================================== -->
+
+                <section class="order-card">
+
+
+                    <div class="card-heading">
+
+                        <div class="card-heading-icon">
+
+                            <i class="bi bi-file-earmark-text"></i>
+
+                        </div>
+
+                        <h3>
+                            Order Summary
+                        </h3>
+
+                    </div>
+
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Items
+                        </span>
+
+                        <strong>
+                            3
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong>
+                            Rs. 1,150
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Pickup Fee
+                        </span>
+
+                        <strong>
+                            Rs. 0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            Rs. 1,150
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- PAYMENT -->
+
+                    <div class="payment-notice">
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                        <p>
+
+                            <strong>
+                                Payment at Pickup
+                            </strong>
+                            <br />
+
+                            No online payment is required.
+                            Please pay the Farmer when collecting
+                            your pre-order.
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- =====================================================
+             ACTIONS
+        ====================================================== -->
+
+            <div class="order-actions">
+
+
+                <a href="/Order/History"
+                   class="order-btn secondary-order-btn">
+
+                    <i class="bi bi-clock-history"></i>
+
+                    View My Orders
+
+                </a>
+
+
+                <a href="/"
+                   class="order-btn primary-order-btn">
+
+                    Continue Shopping
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+</body>
+</html>

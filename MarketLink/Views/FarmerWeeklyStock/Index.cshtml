@@ -1,0 +1,309 @@
+@model MarketLink.ViewModels.FarmerWeeklyStockPageViewModel
+
+@{
+    ViewData["Title"] = "Weekly Stock";
+    Layout = "~/Views/Shared/_FarmerDashboardLayout.cshtml";
+}
+
+<section class="ws-header">
+    <div>
+        <span class="ws-label">
+            <i class="bi bi-calendar-repeat"></i>
+            PRODUCTS & STOCK
+        </span>
+
+        <h2>Weekly Stock</h2>
+
+        <p>
+            Set your reusable weekly quantity, then generate actual dated inventory for the next market day.
+        </p>
+    </div>
+
+    <a asp-controller="FarmerInventory"
+       asp-action="Index"
+       class="ws-secondary-btn">
+        <i class="bi bi-box-seam"></i>
+        Current Inventory
+    </a>
+</section>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<section class="ws-stats">
+    <div>
+        <span>Templates</span>
+        <strong>@Model.TotalTemplates</strong>
+    </div>
+
+    <div>
+        <span>Active Templates</span>
+        <strong>@Model.ActiveTemplates</strong>
+    </div>
+
+    <div>
+        <span>Planned Weekly Qty</span>
+        <strong>@Model.TotalDefaultQuantity.ToString("N3")</strong>
+    </div>
+</section>
+
+<div class="ws-note">
+    <i class="bi bi-info-circle"></i>
+
+    <span>
+        Weekly Stock is only the reusable plan. Use “Generate Next Inventory”
+        to create the actual dated stock that customer checkout uses.
+    </span>
+</div>
+
+<section class="ws-card">
+
+    @if (!Model.Rows.Any())
+    {
+        <div class="ws-empty">
+            <i class="bi bi-calendar-x"></i>
+
+            <h3>No weekly stock combinations available</h3>
+
+            <p>
+                First add products and configure your active market pickup schedule.
+            </p>
+
+            <a asp-controller="FarmerMarkets"
+               asp-action="Index"
+               class="ws-primary-btn">
+                My Markets
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="ws-list">
+
+            @foreach (var item in Model.Rows)
+            {
+                <article class="ws-row">
+
+                    <div class="ws-heading">
+
+                        <div>
+                            <h3>@item.ProductName</h3>
+
+                            <span>
+                                @item.MarketName · @item.DayName
+                            </span>
+                        </div>
+
+                        @if (item.IsConfigured)
+                        {
+                            <span class="configured-badge">
+                                @(item.IsActive ? "Active" : "Paused")
+                            </span>
+                        }
+
+                    </div>
+
+                    <div class="ws-time">
+                        Pickup:
+                        @DateTime.Today.Add(item.PickupStartTime).ToString("hh:mm tt")
+                        -
+                        @DateTime.Today.Add(item.PickupEndTime).ToString("hh:mm tt")
+                    </div>
+
+                    <div class="next-date-box">
+
+                        <div>
+                            <span class="next-label">NEXT MARKET DATE</span>
+                            <strong>@item.NextInventoryDate.ToString("ddd, dd MMM yyyy")</strong>
+                        </div>
+
+                        <div>
+                            @if (item.NextInventoryExists)
+                            {
+                                <span class="mini-status good">
+                                    <i class="bi bi-check-circle"></i>
+                                    Inventory exists
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="mini-status warn">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    No inventory yet
+                                </span>
+                            }
+
+                            @if (item.NextPickupSlotExists)
+                            {
+                                <span class="mini-status good">
+                                    <i class="bi bi-check-circle"></i>
+                                    Pickup slot exists
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="mini-status warn">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    No pickup slot
+                                </span>
+                            }
+                        </div>
+
+                    </div>
+
+                    <form asp-controller="FarmerWeeklyStock"
+                          asp-action="Save"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="FarmerProductId"
+                               value="@item.FarmerProductId" />
+
+                        <input type="hidden"
+                               name="FarmerMarketDayId"
+                               value="@item.FarmerMarketDayId" />
+
+                        <div class="ws-form">
+
+                            <div>
+                                <label>
+                                    Default Quantity (@item.UnitName)
+                                </label>
+
+                                <input type="number"
+                                       name="DefaultQuantity"
+                                       min="0"
+                                       step="0.001"
+                                       value="@item.DefaultQuantity"
+                                       class="form-control"
+                                       required />
+                            </div>
+
+                            <label class="active-check">
+                                <input type="checkbox"
+                                       name="IsActive"
+                                       value="true"
+                                       @(item.IsActive ? "checked" : "") />
+
+                                <span>Use every week</span>
+                            </label>
+
+                            <button type="submit"
+                                    class="ws-primary-btn border-0">
+                                Save
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    @if (item.RecurringStockTemplateId.HasValue)
+                    {
+                        <div class="template-actions">
+
+                            <form asp-controller="FarmerWeeklyStock"
+                                  asp-action="GenerateNextInventory"
+                                  method="post">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@item.RecurringStockTemplateId.Value" />
+
+                                <button type="submit"
+                                        class="generate-btn"
+                                        @(item.NextInventoryExists || !item.IsActive ? "disabled" : "")>
+
+                                    <i class="bi bi-box-arrow-in-down"></i>
+
+                                    @(item.NextInventoryExists
+                                        ? "Inventory Already Generated"
+                                        : "Generate Next Inventory")
+                                </button>
+
+                            </form>
+
+                            <form asp-controller="FarmerWeeklyStock"
+                                  asp-action="Toggle"
+                                  method="post">
+
+                                @Html.AntiForgeryToken()
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@item.RecurringStockTemplateId.Value" />
+
+                                <button type="submit"
+                                        class="toggle-btn">
+                                    @(item.IsActive
+                                        ? "Pause Template"
+                                        : "Activate Template")
+                                </button>
+
+                            </form>
+
+                        </div>
+                    }
+
+                </article>
+            }
+
+        </div>
+    }
+
+</section>
+
+@section Styles {
+<style>
+.ws-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}
+.ws-label{color:#14836f;font-size:12px;font-weight:800;letter-spacing:.08em}
+.ws-header h2{margin:7px 0 5px;font-size:28px;font-weight:800}
+.ws-header p{margin:0;color:#667085}
+.ws-secondary-btn,.ws-primary-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;padding:9px 13px;border-radius:9px;font-size:12px;font-weight:700}
+.ws-secondary-btn{background:#fff;color:#344054;border:1px solid #d0d5dd}
+.ws-primary-btn{background:#13836e;color:#fff}
+.ws-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:15px}
+.ws-stats>div{background:#fff;border:1px solid #e7ebef;border-radius:16px;padding:17px}
+.ws-stats span{display:block;color:#667085;font-size:12px}
+.ws-stats strong{display:block;margin-top:4px;font-size:25px}
+.ws-note{display:flex;gap:8px;padding:11px 13px;background:#eff8ff;color:#175cd3;border-radius:10px;margin-bottom:15px;font-size:12px}
+.ws-card{background:#fff;border:1px solid #e7ebef;border-radius:18px;padding:12px}
+.ws-list{display:grid;gap:10px}
+.ws-row{padding:16px;border:1px solid #e8ebef;border-radius:14px}
+.ws-heading{display:flex;justify-content:space-between;gap:12px}
+.ws-heading h3{margin:0;font-size:16px;font-weight:800}
+.ws-heading span{color:#667085;font-size:11px}
+.configured-badge{background:#dcfae6;color:#067647;padding:5px 8px;border-radius:999px;font-size:10px!important;font-weight:800;height:max-content}
+.ws-time{margin-top:8px;color:#667085;font-size:11px}
+.next-date-box{margin-top:12px;padding:12px;background:#f8fafc;border-radius:11px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.next-label{display:block;color:#98a2b3;font-size:9px;font-weight:800}
+.next-date-box strong{display:block;margin-top:2px}
+.mini-status{display:inline-flex;align-items:center;gap:4px;padding:5px 7px;border-radius:999px;font-size:9px;font-weight:800;margin-left:5px}
+.mini-status.good{background:#dcfae6;color:#067647}
+.mini-status.warn{background:#fff4e5;color:#b54708}
+.ws-form{display:grid;grid-template-columns:1fr auto auto;align-items:end;gap:12px;margin-top:14px}
+.ws-form label{display:block;margin-bottom:6px;color:#344054;font-size:11px;font-weight:800}
+.active-check{display:flex!important;align-items:center;gap:7px;margin:0!important;padding-bottom:8px}
+.template-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px;flex-wrap:wrap}
+.generate-btn{border:0;background:#13836e;color:#fff;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:800}
+.generate-btn:disabled{background:#d0d5dd;color:#667085;cursor:not-allowed}
+.toggle-btn{border:1px solid #d0d5dd;background:#fff;color:#667085;border-radius:8px;padding:8px 11px;font-size:10px;font-weight:700}
+.ws-empty{text-align:center;padding:60px 20px;color:#667085}
+.ws-empty>i{font-size:34px;color:#13836e}
+@@media(max-width:700px){.ws-header{align-items:stretch;flex-direction:column}.ws-stats{grid-template-columns:1fr}.ws-form{grid-template-columns:1fr}.active-check{padding:0}.next-date-box{align-items:flex-start;flex-direction:column}}
+</style>
+}

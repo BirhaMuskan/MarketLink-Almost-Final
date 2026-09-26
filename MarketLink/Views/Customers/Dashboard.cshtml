@@ -1,0 +1,671 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+
+    Layout = "~/Views/Shared/_CustomerDashboardLayout.cshtml";
+}
+
+
+<!-- =====================================================
+     WELCOME SECTION
+====================================================== -->
+
+<section class="dashboard-welcome">
+
+    <div class="welcome-content">
+
+        <span class="welcome-label">
+            <i class="bi bi-sun"></i>
+            Good to see you
+        </span>
+
+        <h2>
+            Welcome back, Hooriya! 👋
+        </h2>
+
+        <p>
+            Discover fresh products, explore local markets
+            and manage your orders all in one place.
+        </p>
+
+    </div>
+
+
+    <div class="welcome-action">
+
+        <a asp-controller="Products"
+           asp-action="Index"
+           class="dashboard-primary-btn">
+
+            <i class="bi bi-search"></i>
+
+            Explore Products
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STATISTICS
+====================================================== -->
+
+<section class="dashboard-stats">
+
+
+    <!-- Orders -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon orders-icon">
+
+            <i class="bi bi-receipt"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span>Total Orders</span>
+
+            <strong>12</strong>
+
+            <small>
+                <i class="bi bi-arrow-up"></i>
+                3 this month
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- Active Orders -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon active-icon">
+
+            <i class="bi bi-box-seam"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span>Active Orders</span>
+
+            <strong>2</strong>
+
+            <small>
+                <i class="bi bi-clock"></i>
+                In progress
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- Favorites -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon favorite-icon">
+
+            <i class="bi bi-heart-fill"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span>Favorites</span>
+
+            <strong>8</strong>
+
+            <small>
+                <i class="bi bi-heart"></i>
+                Saved items
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- Saved Markets -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon market-icon">
+
+            <i class="bi bi-shop"></i>
+
+        </div>
+
+        <div class="stat-content">
+
+            <span>Saved Markets</span>
+
+            <strong>3</strong>
+
+            <small>
+                <i class="bi bi-geo-alt"></i>
+                Nearby
+            </small>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
+     MAIN DASHBOARD GRID
+====================================================== -->
+
+<div class="dashboard-grid">
+
+
+    <!-- =================================================
+         RECENT ORDERS
+    ================================================== -->
+
+    <section class="dashboard-card orders-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    SHOPPING ACTIVITY
+                </span>
+
+                <h3>Recent Orders</h3>
+
+            </div>
+
+            <a href="#"
+               class="view-all-link">
+
+                View All
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <div class="orders-list">
+
+
+            <!-- Order 1 -->
+
+            <div class="order-item">
+
+                <div class="order-product-icon">
+
+                    <i class="bi bi-basket-fill"></i>
+
+                </div>
+
+                <div class="order-info">
+
+                    <strong>Fresh Vegetable Basket</strong>
+
+                    <span>
+                        Order #ML-1024 · Sep 23, 2026
+                    </span>
+
+                </div>
+
+                <div class="order-price">
+
+                    <strong>$24.50</strong>
+
+                    <span class="status-badge ready">
+                        Ready
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Order 2 -->
+
+            <div class="order-item">
+
+                <div class="order-product-icon">
+
+                    <i class="bi bi-apple"></i>
+
+                </div>
+
+                <div class="order-info">
+
+                    <strong>Organic Fruits</strong>
+
+                    <span>
+                        Order #ML-1021 · Sep 21, 2026
+                    </span>
+
+                </div>
+
+                <div class="order-price">
+
+                    <strong>$18.75</strong>
+
+                    <span class="status-badge progress">
+                        Preparing
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Order 3 -->
+
+            <div class="order-item">
+
+                <div class="order-product-icon">
+
+                    <i class="bi bi-flower1"></i>
+
+                </div>
+
+                <div class="order-info">
+
+                    <strong>Fresh Herbs Pack</strong>
+
+                    <span>
+                        Order #ML-1017 · Sep 18, 2026
+                    </span>
+
+                </div>
+
+                <div class="order-price">
+
+                    <strong>$9.20</strong>
+
+                    <span class="status-badge completed">
+                        Completed
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <section class="dashboard-card quick-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    QUICK ACCESS
+                </span>
+
+                <h3>What would you like to do?</h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+
+            <a asp-controller="Markets"
+               asp-action="Index"
+               class="quick-action">
+
+                <span class="quick-icon market-quick">
+
+                    <i class="bi bi-shop"></i>
+
+                </span>
+
+                <span>
+
+                    <strong>Find a Market</strong>
+
+                    <small>Explore local markets</small>
+
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+
+            <a asp-controller="Products"
+               asp-action="Index"
+               class="quick-action">
+
+                <span class="quick-icon product-quick">
+
+                    <i class="bi bi-basket"></i>
+
+                </span>
+
+                <span>
+
+                    <strong>Browse Products</strong>
+
+                    <small>Shop fresh products</small>
+
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+
+            <a href="#"
+               class="quick-action">
+
+                <span class="quick-icon favorite-quick">
+
+                    <i class="bi bi-heart"></i>
+
+                </span>
+
+                <span>
+
+                    <strong>View Favorites</strong>
+
+                    <small>See your saved items</small>
+
+                </span>
+
+                <i class="bi bi-arrow-up-right"></i>
+
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+<!-- =====================================================
+     LOWER DASHBOARD GRID
+====================================================== -->
+
+<div class="dashboard-grid lower-grid">
+
+
+    <!-- =================================================
+         FAVORITE PRODUCTS
+    ================================================== -->
+
+    <section class="dashboard-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    YOUR PICKS
+                </span>
+
+                <h3>Favorite Products</h3>
+
+            </div>
+
+            <a href="#"
+               class="view-all-link">
+
+                View All
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <div class="favorite-products">
+
+
+            <div class="favorite-product">
+
+                <div class="product-thumb vegetable-thumb">
+
+                    <i class="bi bi-flower1"></i>
+
+                </div>
+
+                <div class="favorite-product-info">
+
+                    <strong>Fresh Tomatoes</strong>
+
+                    <span>Organic · Green Valley Farm</span>
+
+                    <b>$4.50 / kg</b>
+
+                </div>
+
+                <button class="heart-button"
+                        type="button">
+
+                    <i class="bi bi-heart-fill"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="favorite-product">
+
+                <div class="product-thumb fruit-thumb">
+
+                    <i class="bi bi-apple"></i>
+
+                </div>
+
+                <div class="favorite-product-info">
+
+                    <strong>Fresh Apples</strong>
+
+                    <span>Local · Sunrise Farm</span>
+
+                    <b>$6.20 / kg</b>
+
+                </div>
+
+                <button class="heart-button"
+                        type="button">
+
+                    <i class="bi bi-heart-fill"></i>
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =================================================
+         SAVED MARKETS
+    ================================================== -->
+
+    <section class="dashboard-card">
+
+
+        <div class="card-header-custom">
+
+            <div>
+
+                <span class="section-eyebrow">
+                    NEAR YOU
+                </span>
+
+                <h3>Saved Markets</h3>
+
+            </div>
+
+            <a asp-controller="Markets"
+               asp-action="Index"
+               class="view-all-link">
+
+                Explore
+
+                <i class="bi bi-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <div class="saved-markets">
+
+
+            <div class="saved-market-item">
+
+                <div class="market-mini-icon">
+
+                    <i class="bi bi-shop"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Central Farmers Market</strong>
+
+                    <span>
+                        <i class="bi bi-geo-alt"></i>
+                        1.2 km away
+                    </span>
+
+                </div>
+
+                <i class="bi bi-chevron-right"></i>
+
+            </div>
+
+
+            <div class="saved-market-item">
+
+                <div class="market-mini-icon">
+
+                    <i class="bi bi-shop"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Green Valley Market</strong>
+
+                    <span>
+                        <i class="bi bi-geo-alt"></i>
+                        2.8 km away
+                    </span>
+
+                </div>
+
+                <i class="bi bi-chevron-right"></i>
+
+            </div>
+
+
+            <div class="saved-market-item">
+
+                <div class="market-mini-icon">
+
+                    <i class="bi bi-shop"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>Weekend Fresh Market</strong>
+
+                    <span>
+                        <i class="bi bi-geo-alt"></i>
+                        4.1 km away
+                    </span>
+
+                </div>
+
+                <i class="bi bi-chevron-right"></i>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+<!-- =====================================================
+     MARKETMATE BANNER
+====================================================== -->
+
+<section class="marketmate-banner">
+
+
+    <div class="marketmate-icon">
+
+        <i class="bi bi-robot"></i>
+
+    </div>
+
+
+    <div class="marketmate-content">
+
+        <span>MEET MARKETMATE</span>
+
+        <h3>
+            Need help finding something fresh?
+        </h3>
+
+        <p>
+            Ask MarketMate about products, markets,
+            farmers or pickup options.
+        </p>
+
+    </div>
+
+
+    <a href="#"
+       class="marketmate-button">
+
+        Ask MarketMate
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+
+</section>
