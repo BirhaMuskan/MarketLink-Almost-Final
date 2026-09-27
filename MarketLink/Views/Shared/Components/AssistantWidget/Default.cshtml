@@ -1,0 +1,138 @@
+@{
+    var isCustomer =
+        User.Identity?.IsAuthenticated == true &&
+        User.IsInRole("Customer");
+}
+
+<link rel="stylesheet"
+      href="~/css/assistant-widget.css"
+      asp-append-version="true" />
+
+<div class="ml-assistant-widget"
+     id="mlAssistantWidget"
+     data-personalized="@(isCustomer ? "true" : "false")">
+
+    <button type="button"
+            class="ml-assistant-launcher"
+            id="mlAssistantLauncher"
+            aria-label="Open MarketLink Assistant"
+            aria-expanded="false">
+
+        <span class="ml-assistant-launcher-icon">
+            <i class="bi bi-chat-heart-fill"></i>
+        </span>
+
+        <span class="ml-assistant-launcher-text">
+            Ask MarketLink
+        </span>
+
+        <span class="ml-assistant-status-dot"></span>
+    </button>
+
+    <section class="ml-assistant-panel"
+             id="mlAssistantPanel"
+             aria-hidden="true">
+
+        <header class="ml-assistant-header">
+
+            <div class="ml-assistant-brand">
+                <span class="ml-assistant-avatar">
+                    <i class="bi bi-stars"></i>
+                </span>
+
+                <div>
+                    <strong>MarketLink Assistant</strong>
+
+                    <span>
+                        @(isCustomer
+                            ? "Personalized with your MarketLink account"
+                            : "Ask about products, farmers and markets")
+                    </span>
+                </div>
+            </div>
+
+            <button type="button"
+                    class="ml-assistant-close"
+                    id="mlAssistantClose"
+                    aria-label="Close assistant">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+        </header>
+
+        <div class="ml-assistant-messages"
+             id="mlAssistantMessages">
+
+            <div class="ml-widget-message assistant">
+                <div class="ml-widget-bubble">
+                    Hi! I can help you find products, farmers, markets,
+                    opening times and pickup availability.
+                </div>
+            </div>
+
+            <div class="ml-assistant-suggestions">
+                <button type="button"
+                        data-question="Where can I get tomatoes this Saturday?">
+                    Tomatoes this Saturday
+                </button>
+
+                <button type="button"
+                        data-question="What markets are open Sunday?">
+                    Markets open Sunday
+                </button>
+
+                <button type="button"
+                        data-question="Which farmers have spinach?">
+                    Farmers with spinach
+                </button>
+            </div>
+
+        </div>
+
+        <div class="ml-assistant-footer">
+
+            @if (isCustomer)
+            {
+                <a asp-controller="CustomerAssistant"
+                   asp-action="Index"
+                   class="ml-assistant-history-link">
+                    <i class="bi bi-clock-history"></i>
+                    Open full assistant & history
+                </a>
+            }
+            else
+            {
+                <div class="ml-assistant-public-note">
+                    <i class="bi bi-info-circle"></i>
+                    Sign in for favorites and conversation history.
+                </div>
+            }
+
+            <form id="mlAssistantForm"
+                  class="ml-assistant-form"
+                  autocomplete="off">
+
+                @Html.AntiForgeryToken()
+
+                <input type="text"
+                       id="mlAssistantInput"
+                       maxlength="500"
+                       placeholder="Ask MarketLink..."
+                       aria-label="Ask MarketLink" />
+
+                <button type="submit"
+                        id="mlAssistantSend"
+                        aria-label="Send">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script src="~/js/assistant-widget.js"
+        asp-append-version="true"></script>

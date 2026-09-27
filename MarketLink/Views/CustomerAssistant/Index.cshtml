@@ -1,0 +1,239 @@
+@model MarketLink.ViewModels.CustomerAssistantPageViewModel
+
+@{
+    ViewData["Title"] = "AI Assistant";
+    Layout = "~/Views/Shared/_CustomerDashboardLayout.cshtml";
+}
+
+@section Styles {
+<link rel="stylesheet"
+      href="~/css/customer-assistant-pro.css"
+      asp-append-version="true" />
+}
+
+@if (TempData["AssistantError"] != null)
+{
+    <div class="alert alert-danger mb-3">
+        @TempData["AssistantError"]
+    </div>
+}
+
+<div class="assistant-page">
+
+    <aside class="assistant-sidebar">
+        <div class="assistant-sidebar-top">
+            <div>
+                <span class="assistant-eyebrow">CONVERSATIONS</span>
+                <h3>Your chats</h3>
+            </div>
+
+            <form asp-controller="CustomerAssistant"
+                  asp-action="NewConversation"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <button type="submit"
+                        class="assistant-new-btn"
+                        title="New conversation">
+                    <i class="bi bi-plus-lg"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="assistant-history">
+            @if (!Model.Conversations.Any())
+            {
+                <div class="assistant-empty-history">
+                    No previous conversations yet.
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model.Conversations)
+                {
+                    var isActive =
+                        Model.ConversationId ==
+                        item.AssistantConversationId;
+
+                    <a asp-controller="CustomerAssistant"
+                       asp-action="Index"
+                       asp-route-conversationId="@item.AssistantConversationId"
+                       class="assistant-history-item @(isActive ? "active" : "")">
+
+                        <span class="assistant-history-icon">
+                            <i class="bi bi-chat-left-text"></i>
+                        </span>
+
+                        <span class="assistant-history-content">
+                            <strong>@item.Title</strong>
+                            <small>
+                                @item.LastActivityAt.ToString("dd MMM · h:mm tt")
+                            </small>
+                        </span>
+                    </a>
+                }
+            }
+        </div>
+    </aside>
+
+    <section class="assistant-chat">
+
+        <header class="assistant-chat-header">
+            <div class="assistant-title-wrap">
+                <span class="assistant-main-avatar">
+                    <i class="bi bi-stars"></i>
+                </span>
+
+                <div>
+                    <h2>MarketLink Assistant</h2>
+                    <p>
+                        Products, farmers, markets, availability and pickup help.
+                    </p>
+                </div>
+            </div>
+
+            <div class="assistant-ai-badge">
+                <span class="assistant-live-dot"></span>
+                Groq + MarketLink Data
+            </div>
+        </header>
+
+        <div class="assistant-thread"
+             id="assistantThread">
+
+            @if (!Model.Messages.Any())
+            {
+                <div class="assistant-welcome">
+                    <span class="assistant-welcome-icon">
+                        <i class="bi bi-chat-heart"></i>
+                    </span>
+
+                    <h3>What can I help you find?</h3>
+
+                    <p>
+                        Ask naturally. I’ll use MarketLink’s live data to answer.
+                    </p>
+
+                    <div class="assistant-prompts">
+                        @foreach (var example in Model.ExampleQuestions)
+                        {
+                            <button type="button"
+                                    class="assistant-prompt-chip"
+                                    data-question="@example">
+                                @example
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                @foreach (var message in Model.Messages)
+                {
+                    var isAssistant =
+                        message.Role.Equals(
+                            "assistant",
+                            StringComparison.OrdinalIgnoreCase);
+
+                    <div class="assistant-message-row @(isAssistant ? "assistant" : "user")">
+
+                        @if (isAssistant)
+                        {
+                            <span class="assistant-message-avatar">
+                                <i class="bi bi-stars"></i>
+                            </span>
+                        }
+
+                        <div class="assistant-message-content">
+                            <div class="assistant-message-meta">
+                                <strong>
+                                    @(isAssistant
+                                        ? "MarketLink Assistant"
+                                        : "You")
+                                </strong>
+
+                                <span>
+                                    @message.CreatedAt.ToString("h:mm tt")
+                                </span>
+                            </div>
+
+                            <div class="assistant-bubble">
+                                @message.Text
+                            </div>
+
+                            @if (message.Actions.Any())
+                            {
+                                <div class="assistant-actions">
+                                    @foreach (var action in message.Actions)
+                                    {
+                                        if (action.Id.HasValue)
+                                        {
+                                            <a asp-controller="@action.Controller"
+                                               asp-action="@action.Action"
+                                               asp-route-id="@action.Id.Value"
+                                               class="assistant-action-btn">
+                                                @action.Label
+                                                <i class="bi bi-arrow-up-right"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="@action.Controller"
+                                               asp-action="@action.Action"
+                                               class="assistant-action-btn">
+                                                @action.Label
+                                                <i class="bi bi-arrow-up-right"></i>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                }
+            }
+
+        </div>
+
+        <footer class="assistant-composer-wrap">
+
+            <form asp-controller="CustomerAssistant"
+                  asp-action="Ask"
+                  method="post"
+                  class="assistant-composer">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       asp-for="ConversationId" />
+
+                <textarea asp-for="Question"
+                          id="assistantQuestion"
+                          maxlength="500"
+                          rows="1"
+                          placeholder="Ask MarketLink anything about products, farmers, markets or pickup..."
+                          aria-label="Ask MarketLink"></textarea>
+
+                <button type="submit"
+                        class="assistant-send-btn">
+                    <i class="bi bi-arrow-up"></i>
+                </button>
+            </form>
+
+            <div class="assistant-grounding-note">
+                <i class="bi bi-shield-check"></i>
+                Answers are generated from verified MarketLink data.
+            </div>
+
+        </footer>
+
+    </section>
+
+</div>
+
+@section Scripts {
+<script src="~/js/customer-assistant-pro.js"
+        asp-append-version="true"></script>
+}

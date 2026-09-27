@@ -1,0 +1,165 @@
+@model MarketLink.ViewModels.FarmerAnomalyPageViewModel
+
+@{
+    ViewData["Title"] = "AI Demand Alerts";
+    Layout = "~/Views/Shared/_FarmerDashboardLayout.cshtml";
+    var showAcknowledged = (bool?)ViewBag.ShowAcknowledged ?? false;
+}
+
+<style>
+.anomaly-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:18px}
+.anomaly-head h2{margin:0;font-size:25px;font-weight:800}
+.anomaly-head p{margin:4px 0 0;color:#667085;font-size:11px}
+.anomaly-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-scan,.btn-history{border-radius:10px;padding:9px 12px;font-size:9px;font-weight:800;text-decoration:none}
+.btn-scan{border:0;background:#13836e;color:#fff}
+.btn-history{border:1px solid #d0d5dd;background:#fff;color:#344054}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid #e7ebef;border-radius:15px;padding:14px}
+.kpi span{display:block;font-size:8px;color:#667085;text-transform:uppercase;letter-spacing:.08em}
+.kpi strong{display:block;font-size:23px;margin-top:5px}
+.alert-list{display:flex;flex-direction:column;gap:10px}
+.alert-card{background:#fff;border:1px solid #e7ebef;border-radius:15px;padding:15px}
+.alert-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.alert-title h4{margin:0;font-size:14px}
+.alert-title div{font-size:9px;color:#667085;margin-top:3px}
+.severity{border-radius:999px;padding:5px 8px;font-size:8px;font-weight:800}
+.severity.Critical{background:#fef3f2;color:#b42318}
+.severity.High{background:#fff4ed;color:#b93815}
+.severity.Medium{background:#fffaeb;color:#b54708}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}
+.metric{background:#f8fafc;border-radius:10px;padding:9px}
+.metric span{display:block;font-size:8px;color:#667085}
+.metric strong{font-size:13px}
+.message{font-size:10px;color:#475467;line-height:1.55;margin-bottom:10px}
+.ack-btn{border:1px solid #cfe5dc;background:#f0fdf4;color:#067647;border-radius:8px;padding:7px 9px;font-size:8px;font-weight:800}
+.empty{background:#fff;border:1px solid #e7ebef;border-radius:16px;padding:42px;text-align:center;color:#667085}
+@@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@@media(max-width:600px){.anomaly-head{flex-direction:column;align-items:stretch}.kpi-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}}
+</style>
+
+<div class="anomaly-head">
+    <div>
+        <h2>AI Demand Alerts</h2>
+        <p>
+            MarketLink compares current reservations and sales with your recent demand history.
+        </p>
+    </div>
+
+    <div class="anomaly-actions">
+        <form asp-controller="FarmerAnomalies"
+              asp-action="ScanNow"
+              method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn-scan">
+                <i class="bi bi-stars"></i>
+                Scan Now
+            </button>
+        </form>
+
+        <a asp-controller="FarmerAnomalies"
+           asp-action="Index"
+           asp-route-showAcknowledged="@(!showAcknowledged)"
+           class="btn-history">
+            @(showAcknowledged ? "Open Alerts Only" : "Include Acknowledged")
+        </a>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <span>Open alerts</span>
+        <strong>@Model.TotalOpen</strong>
+    </div>
+    <div class="kpi">
+        <span>Critical</span>
+        <strong>@Model.CriticalCount</strong>
+    </div>
+    <div class="kpi">
+        <span>High</span>
+        <strong>@Model.HighCount</strong>
+    </div>
+    <div class="kpi">
+        <span>Medium</span>
+        <strong>@Model.MediumCount</strong>
+    </div>
+</div>
+
+@if (!Model.Items.Any())
+{
+    <div class="empty">
+        <i class="bi bi-shield-check" style="font-size:34px;color:#13836e"></i>
+        <h4>No demand anomalies to show</h4>
+        <p>
+            MarketLink needs at least three historical demand observations before it flags a spike.
+        </p>
+    </div>
+}
+else
+{
+    <div class="alert-list">
+        @foreach (var item in Model.Items)
+        {
+            <article class="alert-card">
+                <div class="alert-top">
+                    <div class="alert-title">
+                        <h4>@item.ProductName</h4>
+                        <div>
+                            <i class="bi bi-shop"></i>
+                            @item.MarketName
+                            · detected @item.DetectedAt.ToString("dd MMM yyyy, h:mm tt")
+                        </div>
+                    </div>
+
+                    <span class="severity @item.Severity">
+                        @item.Severity
+                    </span>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Recent baseline</span>
+                        <strong>@item.BaselineAverage.ToString("N1")</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Observed demand</span>
+                        <strong>@item.ObservedDemand.ToString("N1")</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Deviation</span>
+                        <strong>@item.DeviationRatio.ToString("N1")×</strong>
+                    </div>
+                </div>
+
+                <div class="message">
+                    @item.Message
+                </div>
+
+                @if (!item.IsAcknowledged)
+                {
+                    <form asp-controller="FarmerAnomalies"
+                          asp-action="Acknowledge"
+                          method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden"
+                               name="id"
+                               value="@item.AnomalyDetectionId" />
+
+                        <button type="submit"
+                                class="ack-btn">
+                            <i class="bi bi-check2-circle"></i>
+                            Acknowledge
+                        </button>
+                    </form>
+                }
+            </article>
+        }
+    </div>
+}

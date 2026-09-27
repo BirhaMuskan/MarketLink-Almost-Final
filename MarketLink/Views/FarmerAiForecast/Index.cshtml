@@ -1,0 +1,237 @@
+@model MarketLink.ViewModels.FarmerAiForecastPageViewModel
+
+@{
+    ViewData["Title"] = "AI Demand Forecast";
+    Layout = "~/Views/Shared/_FarmerDashboardLayout.cshtml";
+}
+
+@section Styles {
+<style>
+.ai-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px}
+.ai-label{color:#14836f;font-size:12px;font-weight:800;letter-spacing:.08em}
+.ai-head h2{margin:7px 0 5px;font-size:28px;font-weight:800}
+.ai-head p{margin:0;color:#667085}
+.ai-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+.ai-card{background:#fff;border:1px solid #e7ebef;border-radius:18px;overflow:hidden}
+.ai-card-head{padding:15px 18px;border-bottom:1px solid #edf0f4}
+.ai-card-head span{color:#13836e;font-size:10px;font-weight:800;letter-spacing:.08em}
+.ai-card-head h3{margin:3px 0 0;font-size:17px}
+.ai-form{padding:20px}
+.field{margin-bottom:15px}
+.field label{display:block;margin-bottom:6px;color:#344054;font-size:11px;font-weight:800}
+.field select,.field input{width:100%;border:1px solid #d0d5dd;border-radius:10px;padding:10px 11px;font-size:12px}
+.ai-note{padding:12px 13px;background:#f0fdf4;border:1px solid #d1fadf;border-radius:10px;color:#067647;font-size:10px;line-height:1.5;margin-bottom:16px}
+.run-btn{width:100%;border:0;background:#13836e;color:#fff;padding:11px 14px;border-radius:10px;font-size:11px;font-weight:800}
+.prediction{padding:15px 17px;border-top:1px solid #edf0f4}
+.prediction:first-child{border-top:0}
+.prediction-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.prediction h4{margin:0;font-size:14px}
+.prediction small{color:#667085}
+.risk{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:800}
+.risk.low{background:#dcfae6;color:#067647}
+.risk.medium{background:#fff4e5;color:#b54708}
+.risk.high{background:#fee4e2;color:#b42318}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.metric{background:#f8fafc;border-radius:10px;padding:10px}
+.metric span{display:block;color:#667085;font-size:8px;text-transform:uppercase}
+.metric strong{display:block;margin-top:4px;font-size:14px}
+.free-badge{display:inline-flex;align-items:center;gap:5px;background:#eef4ff;color:#3538cd;padding:6px 9px;border-radius:999px;font-size:9px;font-weight:800}
+.empty{padding:45px;text-align:center;color:#667085}
+.notice{margin-bottom:14px}
+@@media(max-width:900px){.ai-grid{grid-template-columns:1fr}}
+@@media(max-width:650px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+}
+
+<section class="ai-head">
+    <div>
+        <span class="ai-label">
+            <i class="bi bi-cpu"></i>
+            FARMER INTELLIGENCE
+        </span>
+
+        <h2>AI Demand Forecast</h2>
+
+        <p>
+            Predict expected demand and suggested preparation stock from your own MarketLink history.
+        </p>
+    </div>
+
+    <span class="free-badge">
+        <i class="bi bi-pc-display"></i>
+        100% Local · No Paid API
+    </span>
+</section>
+
+@if (TempData["AiSuccess"] != null)
+{
+    <div class="alert alert-success notice">
+        @TempData["AiSuccess"]
+    </div>
+}
+
+@if (TempData["AiError"] != null)
+{
+    <div class="alert alert-danger notice">
+        @TempData["AiError"]
+    </div>
+}
+
+<div class="ai-grid">
+
+    <section class="ai-card">
+
+        <div class="ai-card-head">
+            <span>NEW FORECAST</span>
+            <h3>Generate Demand Prediction</h3>
+        </div>
+
+        <form asp-controller="FarmerAiForecast"
+              asp-action="Generate"
+              method="post"
+              class="ai-form">
+
+            @Html.AntiForgeryToken()
+
+            <div class="ai-note">
+                <strong>How this works:</strong>
+                MarketLink sends up to the previous 12 weeks of this product/market history to your local Python service.
+                Nothing is sent to OpenAI, Gemini, or any paid cloud AI.
+            </div>
+
+            <div class="field">
+                <label>Product</label>
+
+                <select name="farmerProductId" required>
+                    <option value="">Select product</option>
+
+                    @foreach (var item in Model.Products)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Market</label>
+
+                <select name="farmerMarketId" required>
+                    <option value="">Select market</option>
+
+                    @foreach (var item in Model.Markets)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Prediction Date</label>
+
+                <input type="date"
+                       name="predictionDate"
+                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                       value="@Model.PredictionDate.ToString("yyyy-MM-dd")"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="run-btn">
+                <i class="bi bi-stars"></i>
+                Generate Forecast
+            </button>
+
+        </form>
+
+    </section>
+
+    <section class="ai-card">
+
+        <div class="ai-card-head">
+            <span>AI PREPARATION RECOMMENDATIONS</span>
+            <h3>Recent Predictions</h3>
+        </div>
+
+        @if (!Model.RecentPredictions.Any())
+        {
+            <div class="empty">
+                <i class="bi bi-graph-up-arrow"
+                   style="font-size:34px;color:#13836e;"></i>
+
+                <h4>No forecasts yet</h4>
+
+                <p>
+                    Generate the first prediction from your historical MarketLink inventory.
+                </p>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model.RecentPredictions)
+            {
+                <article class="prediction">
+
+                    <div class="prediction-top">
+
+                        <div>
+                            <h4>
+                                @item.ProductName · @item.MarketName
+                            </h4>
+
+                            <small>
+                                For @item.PredictionDate.ToString("ddd, dd MMM yyyy")
+                                · @item.ModelName
+                            </small>
+                        </div>
+
+                        <span class="risk @item.ShortageRisk.ToLowerInvariant()">
+                            @item.ShortageRisk Risk
+                        </span>
+
+                    </div>
+
+                    <div class="metric-grid">
+
+                        <div class="metric">
+                            <span>Predicted Demand</span>
+                            <strong>
+                                @item.PredictedDemand.ToString("N3")
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Recommended Stock</span>
+                            <strong>
+                                @item.RecommendedStock.ToString("N3")
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Reservations</span>
+                            <strong>
+                                @item.CurrentReservations.ToString("N3")
+                            </strong>
+                        </div>
+
+                        <div class="metric">
+                            <span>Confidence</span>
+                            <strong>
+                                @(item.ConfidenceScore.HasValue
+                                    ? (item.ConfidenceScore.Value * 100m).ToString("N0") + "%"
+                                    : "-")
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </article>
+            }
+        }
+
+    </section>
+
+</div>

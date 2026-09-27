@@ -1,0 +1,183 @@
+@model MarketLink.ViewModels.FarmerWasteRiskPageViewModel
+
+@{
+    ViewData["Title"] = "AI Waste Risk";
+    Layout = "~/Views/Shared/_FarmerDashboardLayout.cshtml";
+    var selectedRisk = ViewBag.Risk as string;
+}
+
+<style>
+.waste-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-end;margin-bottom:18px}
+.waste-head h2{margin:0;font-size:25px;font-weight:800}
+.waste-head p{margin:4px 0 0;color:#667085;font-size:11px;max-width:700px}
+.scan-btn{border:0;background:#13836e;color:#fff;border-radius:10px;padding:9px 12px;font-size:9px;font-weight:800}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:11px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid #e7ebef;border-radius:15px;padding:13px}
+.kpi span{display:block;color:#667085;font-size:8px;text-transform:uppercase;letter-spacing:.08em}
+.kpi strong{display:block;font-size:21px;margin-top:5px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.filter{border:1px solid #d0d5dd;background:#fff;color:#475467;text-decoration:none;border-radius:999px;padding:6px 9px;font-size:8px;font-weight:800}
+.filter.active{background:#13836e;color:#fff;border-color:#13836e}
+.cards{display:flex;flex-direction:column;gap:10px}
+.cardx{background:#fff;border:1px solid #e7ebef;border-radius:15px;padding:15px}
+.cardtop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.cardtop h4{margin:0;font-size:14px}
+.cardtop .sub{font-size:9px;color:#667085;margin-top:3px}
+.risk{border-radius:999px;padding:5px 8px;font-size:8px;font-weight:800}
+.risk.High{background:#fef3f2;color:#b42318}
+.risk.Medium{background:#fffaeb;color:#b54708}
+.risk.Low{background:#eef4ff;color:#3538cd}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.metric{background:#f8fafc;border-radius:10px;padding:9px}
+.metric span{display:block;font-size:8px;color:#667085}
+.metric strong{display:block;font-size:13px;margin-top:2px}
+.reco{background:#f7faf8;border:1px solid #e1ece7;border-radius:10px;padding:10px;font-size:10px;color:#475467;line-height:1.55}
+.note{margin-top:12px;color:#98a2b3;font-size:8px}
+.empty{background:#fff;border:1px solid #e7ebef;border-radius:16px;padding:42px;text-align:center;color:#667085}
+@@media(max-width:1050px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@@media(max-width:700px){.waste-head{flex-direction:column;align-items:stretch}.kpis{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<div class="waste-head">
+    <div>
+        <h2>AI Waste-Risk Intelligence</h2>
+        <p>
+            MarketLink compares your available stock with predicted demand and highlights potential overstock. These are risk indicators, not guarantees of waste.
+        </p>
+    </div>
+
+    <form asp-controller="FarmerWasteRisk"
+          asp-action="ScanNow"
+          method="post">
+        @Html.AntiForgeryToken()
+
+        <button type="submit"
+                class="scan-btn">
+            <i class="bi bi-stars"></i>
+            Scan Now
+        </button>
+    </form>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="kpis">
+    <div class="kpi">
+        <span>Risk items</span>
+        <strong>@Model.TotalItems</strong>
+    </div>
+    <div class="kpi">
+        <span>High</span>
+        <strong>@Model.HighCount</strong>
+    </div>
+    <div class="kpi">
+        <span>Medium</span>
+        <strong>@Model.MediumCount</strong>
+    </div>
+    <div class="kpi">
+        <span>Low</span>
+        <strong>@Model.LowCount</strong>
+    </div>
+    <div class="kpi">
+        <span>Predicted excess</span>
+        <strong>@Model.TotalPredictedExcess.ToString("N1")</strong>
+    </div>
+</div>
+
+<div class="filters">
+    <a asp-controller="FarmerWasteRisk"
+       asp-action="Index"
+       class="filter @(string.IsNullOrWhiteSpace(selectedRisk) ? "active" : "")">
+        All
+    </a>
+
+    <a asp-controller="FarmerWasteRisk"
+       asp-action="Index"
+       asp-route-risk="High"
+       class="filter @(selectedRisk == "High" ? "active" : "")">
+        High
+    </a>
+
+    <a asp-controller="FarmerWasteRisk"
+       asp-action="Index"
+       asp-route-risk="Medium"
+       class="filter @(selectedRisk == "Medium" ? "active" : "")">
+        Medium
+    </a>
+
+    <a asp-controller="FarmerWasteRisk"
+       asp-action="Index"
+       asp-route-risk="Low"
+       class="filter @(selectedRisk == "Low" ? "active" : "")">
+        Low
+    </a>
+</div>
+
+@if (!Model.Items.Any())
+{
+    <div class="empty">
+        <i class="bi bi-leaf" style="font-size:34px;color:#13836e"></i>
+        <h4>No overstock risk detected</h4>
+        <p>
+            Run a demand forecast first, then scan again. Waste-risk intelligence needs a current/future inventory row and a matching demand prediction.
+        </p>
+    </div>
+}
+else
+{
+    <div class="cards">
+        @foreach (var item in Model.Items)
+        {
+            <article class="cardx">
+                <div class="cardtop">
+                    <div>
+                        <h4>@item.ProductName</h4>
+                        <div class="sub">
+                            <i class="bi bi-shop"></i>
+                            @item.MarketName
+                            · inventory @item.InventoryDate.ToString("dd MMM yyyy")
+                            · evaluated @item.CreatedAt.ToString("dd MMM, h:mm tt")
+                        </div>
+                    </div>
+
+                    <span class="risk @item.RiskLevel">
+                        @item.RiskLevel risk
+                    </span>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <span>Available stock</span>
+                        <strong>@item.CurrentStock.ToString("N1")</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Predicted demand</span>
+                        <strong>@item.PredictedDemand.ToString("N1")</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Predicted excess</span>
+                        <strong>@item.PredictedExcess.ToString("N1")</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Excess share</span>
+                        <strong>@((item.ExcessPct * 100m).ToString("N0"))%</strong>
+                    </div>
+                </div>
+
+                <div class="reco">
+                    <i class="bi bi-lightbulb"></i>
+                    @item.Recommendation
+                </div>
+
+                <div class="note">
+                    Risk is based on the latest MarketLink demand forecast and currently available stock. Actual sales can differ.
+                </div>
+            </article>
+        }
+    </div>
+}

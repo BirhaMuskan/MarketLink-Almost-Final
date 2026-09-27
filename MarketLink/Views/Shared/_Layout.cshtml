@@ -557,6 +557,7 @@
 
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/js/loader.js"></script>
+@await Component.InvokeAsync("AssistantWidget")
 </body>
 
 </html>

@@ -47,6 +47,7 @@
     <span>My Markets</span>
 </a>
 
+
     <div class="farmer-menu-heading farmer-second-heading">
         PRODUCTS & STOCK
     </div>
@@ -118,6 +119,25 @@
    class="farmer-menu-link">
     <i class="bi bi-bell"></i>
     <span>Notifications</span>
+</a>
+
+    <a asp-controller="FarmerAiForecast"
+       asp-action="Index"
+       class="farmer-menu-link">
+        <i class="bi bi-cpu"></i>
+        <span>AI Demand Forecast</span>
+    </a>
+    <a asp-controller="FarmerAnomalies"
+   asp-action="Index"
+   class="farmer-menu-link">
+    <i class="bi bi-exclamation-triangle"></i>
+    <span>AI Demand Alerts</span>
+</a>
+<a asp-controller="FarmerWasteRisk"
+   asp-action="Index"
+   class="farmer-menu-link">
+    <i class="bi bi-recycle"></i>
+    <span>AI Waste Risk</span>
 </a>
 
 </nav>

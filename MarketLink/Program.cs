@@ -10,15 +10,54 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'userDbContextConnection' not found.");
+var connectionString =
+    builder.Configuration.GetConnectionString("ApplicationDbContextConnection")
+    ?? throw new InvalidOperationException(
+        "Connection string 'userDbContextConnection' not found."
+    );
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)
+);
 
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
+builder.Services.AddScoped<ICustomerRecommendationService, CustomerRecommendationService>();
+builder.Services.AddScoped<IIntelligentSearchService, IntelligentSearchService>();
+builder.Services.AddScoped<IMarketLinkAssistantService, MarketLinkAssistantService>();
 
+builder.Services.AddHttpClient<IGroqAssistantService, GroqAssistantService>(client =>
+{
+    var baseUrl = builder.Configuration["Groq:BaseUrl"]
+        ?? "https://api.groq.com/openai/v1/";
+
+    client.BaseAddress = new Uri(
+        baseUrl.EndsWith("/") ? baseUrl : baseUrl + "/"
+    );
+
+    client.Timeout = TimeSpan.FromSeconds(45);
+});
+
+builder.Services.AddHttpClient<IMarketLinkAiService, MarketLinkAiService>(client =>
+{
+    var baseUrl = builder.Configuration["AiService:BaseUrl"]
+        ?? "http://127.0.0.1:8001/";
+
+    client.BaseAddress = new Uri(
+        baseUrl.EndsWith("/") ? baseUrl : baseUrl + "/"
+    );
+
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
+
+builder.Services.AddHostedService<LocalAiHostedService>();
+builder.Services.AddScoped<IAssistantActionService, AssistantActionService>();
+builder.Services.AddHostedService<RestockAlertWorker>();
+builder.Services.AddScoped<IAnomalyDetectionService, AnomalyDetectionService>();
+builder.Services.AddHostedService<AnomalyDetectionWorker>();
+builder.Services.AddScoped<IWasteRiskService, WasteRiskService>();
+builder.Services.AddHostedService<WasteRiskWorker>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -47,12 +86,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ClockSkew = TimeSpan.Zero
         };
+
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
             {
-                // First use Authorization header if available.
-                // Otherwise use JWT stored in browser cookie.
                 if (string.IsNullOrEmpty(context.Token))
                 {
                     context.Token =
@@ -63,8 +101,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
-
-
 
 builder.Services.AddControllersWithViews();
 
@@ -99,11 +135,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -117,7 +151,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();

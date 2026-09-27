@@ -1,0 +1,247 @@
+@model MarketLink.ViewModels.CustomerSmartSearchPageViewModel
+
+@{
+    ViewData["Title"] = "Smart Search";
+    Layout = "~/Views/Shared/_CustomerDashboardLayout.cshtml";
+}
+
+@section Styles {
+<style>
+.smart-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;margin-bottom:18px}
+.smart-label{font-size:12px;font-weight:800;letter-spacing:.08em;color:#13836e}
+.smart-head h2{font-size:28px;font-weight:800;margin:7px 0 5px}
+.smart-head p{margin:0;color:#667085}
+.free-badge{display:inline-flex;gap:6px;align-items:center;background:#eef4ff;color:#3538cd;padding:7px 10px;border-radius:999px;font-size:9px;font-weight:800}
+.search-shell{background:#fff;border:1px solid #e7ebef;border-radius:18px;padding:18px;margin-bottom:18px}
+.search-row{display:grid;grid-template-columns:1fr auto;gap:10px}
+.search-input{width:100%;border:1px solid #d0d5dd;border-radius:12px;padding:13px 14px;font-size:13px}
+.search-btn{border:0;background:#13836e;color:#fff;border-radius:12px;padding:0 18px;font-weight:800;font-size:11px}
+.examples{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.example-chip{border:1px solid #dce4e8;background:#f8fafc;border-radius:999px;padding:6px 9px;font-size:9px;color:#475467;cursor:pointer}
+.interpret{background:#f0fdf4;border:1px solid #d1fadf;border-radius:14px;padding:13px 15px;margin-bottom:18px}
+.interpret strong{font-size:10px;color:#067647;display:block;margin-bottom:5px}
+.interpret p{margin:0;font-size:11px;color:#344054;line-height:1.5}
+.result-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.result-head h3{margin:0;font-size:18px}
+.result-head span{font-size:10px;color:#667085}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cardx{background:#fff;border:1px solid #e7ebef;border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.imgbox{height:165px;background:#f7faf8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.imgbox img{width:100%;height:100%;object-fit:cover}
+.placeholder{font-size:40px;color:#93b7aa}
+.body{padding:14px;display:flex;flex-direction:column;flex:1}
+.meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:7px}
+.cat{font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:#13836e;font-weight:800}
+.match{font-size:9px;font-weight:800;background:#eef4ff;color:#3538cd;padding:4px 7px;border-radius:999px}
+.body h4{font-size:15px;margin:0 0 3px}
+.sub{font-size:9px;color:#667085;margin-bottom:8px}
+.reason{font-size:9px;line-height:1.5;color:#475467;background:#f8fafc;border-radius:9px;padding:8px;margin-bottom:10px}
+.place{font-size:9px;color:#475467;margin-bottom:9px;line-height:1.45}
+.price-row{display:flex;justify-content:space-between;gap:10px;align-items:end;margin-top:auto}
+.price strong{font-size:14px}
+.price span{display:block;color:#667085;font-size:8px}
+.view-btn{display:inline-flex;align-items:center;gap:5px;background:#13836e;color:#fff;text-decoration:none;border-radius:8px;padding:8px 10px;font-size:9px;font-weight:800}
+.empty{background:#fff;border:1px solid #e7ebef;border-radius:18px;padding:50px;text-align:center;color:#667085}
+.validation{color:#b42318;font-size:10px;margin-top:6px}
+@@media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}}
+@@media(max-width:700px){.smart-head{flex-direction:column;align-items:stretch}.search-row{grid-template-columns:1fr}.search-btn{padding:12px}.grid{grid-template-columns:1fr}}
+</style>
+}
+
+<section class="smart-head">
+    <div>
+        <span class="smart-label">
+            <i class="bi bi-search-heart"></i>
+            MARKETLINK INTELLIGENT SEARCH
+        </span>
+
+        <h2>Search in Natural Language</h2>
+
+        <p>
+            Tell MarketLink what you need. It will interpret product, category, budget, market and day.
+        </p>
+    </div>
+
+    <span class="free-badge">
+        <i class="bi bi-cpu"></i>
+        Local · No Paid AI API
+    </span>
+</section>
+
+<section class="search-shell">
+    <form asp-controller="CustomerSmartSearch"
+          asp-action="Search"
+          method="post"
+          id="smartSearchForm">
+
+        @Html.AntiForgeryToken()
+
+        <div class="search-row">
+            <input asp-for="Query"
+                   class="search-input"
+                   maxlength="300"
+                   placeholder="Example: I need vegetables under Rs. 1000 for Saturday" />
+
+            <button type="submit"
+                    class="search-btn">
+                <i class="bi bi-stars"></i>
+                Search Smart
+            </button>
+        </div>
+
+        <span asp-validation-for="Query"
+              class="validation"></span>
+
+        <div class="examples">
+            @foreach (var example in Model.ExampleQueries)
+            {
+                <button type="button"
+                        class="example-chip"
+                        data-query="@example">
+                    @example
+                </button>
+            }
+        </div>
+    </form>
+</section>
+
+@if (Model.Interpretation != null)
+{
+    <section class="interpret">
+        <strong>
+            <i class="bi bi-lightbulb"></i>
+            AI INTERPRETATION
+        </strong>
+
+        <p>@Model.Interpretation.Summary</p>
+    </section>
+}
+
+@if (Model.HasSearched)
+{
+    <div class="result-head">
+        <h3>Matching Products</h3>
+        <span>@Model.ResultCount result(s)</span>
+    </div>
+
+    @if (!Model.Results.Any())
+    {
+        <section class="empty">
+            <i class="bi bi-search"
+               style="font-size:36px;color:#13836e;"></i>
+
+            <h4>No matching available products</h4>
+
+            <p>
+                @(string.IsNullOrWhiteSpace(Model.NoResultsMessage)
+                    ? "Try removing the day, market or price condition, or use a broader product/category phrase."
+                    : Model.NoResultsMessage)
+            </p>
+        </section>
+    }
+    else
+    {
+        <section class="grid">
+            @foreach (var item in Model.Results)
+            {
+                <article class="cardx">
+
+                    <div class="imgbox">
+                        @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl"
+                                 alt="@item.ProductName" />
+                        }
+                        else
+                        {
+                            <i class="bi bi-basket2 placeholder"></i>
+                        }
+                    </div>
+
+                    <div class="body">
+
+                        <div class="meta">
+                            <span class="cat">@item.CategoryName</span>
+
+                            <span class="match">
+                                Match @(item.MatchScore * 100m).ToString("N0")%
+                            </span>
+                        </div>
+
+                        <h4>@item.ProductName</h4>
+
+                        <div class="sub">
+                            <i class="bi bi-shop"></i>
+                            @item.FarmerName
+                        </div>
+
+                        <div class="reason">
+                            <i class="bi bi-stars"></i>
+                            @item.MatchReason
+                        </div>
+
+                        <div class="place">
+                            <div>
+                                <i class="bi bi-geo-alt"></i>
+                                @item.MarketName
+                            </div>
+
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                @item.InventoryDate.ToString("dddd, dd MMM yyyy")
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(item.MarketAddress))
+                            {
+                                <div>
+                                    <i class="bi bi-pin-map"></i>
+                                    @item.MarketAddress
+                                </div>
+                            }
+                        </div>
+
+                        <div class="price-row">
+
+                            <div class="price">
+                                <strong>
+                                    Rs. @item.Price.ToString("N2")
+                                </strong>
+
+                                <span>
+                                    per @item.UnitName
+                                </span>
+
+                                <span>
+                                    @item.AvailableQuantity.ToString("N3") available
+                                </span>
+                            </div>
+
+                            <a asp-controller="CustomerProducts"
+                               asp-action="Details"
+                               asp-route-id="@item.FarmerProductId"
+                               class="view-btn">
+                                View Product
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+            }
+        </section>
+    }
+}
+
+@section Scripts {
+<script>
+document.querySelectorAll(".example-chip").forEach(function (button) {
+    button.addEventListener("click", function () {
+        const input = document.getElementById("Query");
+        input.value = button.dataset.query || "";
+        input.focus();
+    });
+});
+</script>
+}
