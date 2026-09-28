@@ -8,14 +8,6 @@
     var heroProduct = Model.HeroProduct;
 
     // Images are only fallback/demo images because
-    // HomeMarketViewModel currently has no ImageUrl property.
-    var marketImages = new[]
-    {
-        "~/images/markets/riverside-market.jpg",
-        "~/images/markets/green-valley-market.jpg",
-        "~/images/markets/sunrise-market.jpg",
-        "~/images/markets/harvest-market.jpg"
-    };
 
    
     var fallbackProductImage =
@@ -25,6 +17,249 @@
     "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1200&q=90";
 }
 
+
+<style>
+    /* Home-only horizontal sliders.
+       Existing product/market card styling is intentionally left unchanged. */
+    .home-slider-shell {
+        position: relative;
+    }
+
+    .home-card-slider {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1.5rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 2px 1px;
+    }
+
+    .home-card-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .home-slide-card {
+        flex: 0 0 calc((100% - 4.5rem) / 4);
+        min-width: 0;
+        scroll-snap-align: start;
+    }
+
+    .home-slide-card > .fresh-card,
+    .home-slide-card > .market-card {
+        height: 100%;
+    }
+
+    .home-slider-arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 8;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(-50%);
+        transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .home-slider-arrow:hover {
+        transform: translateY(-50%) scale(1.04);
+    }
+
+    .home-slider-arrow-left {
+        left: -21px;
+    }
+
+    .home-slider-arrow-right {
+        right: -21px;
+    }
+
+    .home-slider-arrow:disabled {
+        opacity: .3;
+        cursor: default;
+    }
+
+    .home-slider-empty {
+        flex: 0 0 100%;
+    }
+
+    @@media (max-width: 1199.98px) {
+        .home-slide-card {
+            flex-basis: calc((100% - 1.5rem) / 2);
+        }
+
+        .home-slider-arrow-left {
+            left: -10px;
+        }
+
+        .home-slider-arrow-right {
+            right: -10px;
+        }
+    }
+
+    @@media (max-width: 575.98px) {
+        .home-slide-card {
+            flex-basis: 88%;
+        }
+
+        .home-card-slider {
+            gap: 1rem;
+        }
+
+        .home-slider-arrow {
+            width: 38px;
+            height: 38px;
+        }
+
+        .home-slider-arrow-left {
+            left: 4px;
+        }
+
+        .home-slider-arrow-right {
+            right: 4px;
+        }
+    }
+</style>
+
+
+
+<style>
+    /* Home market cards do not require market photographs */
+    .home-market-no-image {
+        min-height: 165px;
+        padding: 22px;
+        background:
+            radial-gradient(circle at 90% 10%, rgba(255,255,255,.16), transparent 36%),
+            linear-gradient(135deg, #174d36, #13836e);
+        display: flex;
+        align-items: flex-end;
+        gap: 13px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .home-market-symbol {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        background: rgba(255,255,255,.14);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 24px;
+        flex: 0 0 auto;
+    }
+
+    .home-market-heading {
+        color: #fff;
+        min-width: 0;
+    }
+
+    .home-market-heading span {
+        display: block;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .12em;
+        opacity: .76;
+        margin-bottom: 3px;
+    }
+
+    .home-market-heading strong {
+        display: block;
+        font-size: 18px;
+        line-height: 1.2;
+    }
+</style>
+
+
+<style>
+    /* Compact market-card treatment: no picture-shaped area */
+    .home-market-card-shell .market-card {
+        overflow: hidden;
+    }
+
+    .home-market-card-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 22px 14px;
+        background: transparent;
+        position: relative;
+    }
+
+    .home-market-card-top::after {
+        content: "";
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 0;
+        height: 1px;
+        background: #edf0ec;
+    }
+
+    .home-market-card-icon {
+        width: 48px;
+        height: 48px;
+        flex: 0 0 48px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: #edf7f2;
+        color: #13836e;
+        font-size: 22px;
+    }
+
+    .home-market-card-title {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .home-market-card-title span {
+        display: block;
+        color: #6b9b58;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .11em;
+        margin-bottom: 3px;
+    }
+
+    .home-market-card-title strong {
+        display: block;
+        color: #173c2f;
+        font-size: 18px;
+        line-height: 1.25;
+    }
+
+    .home-market-card-status {
+        flex: 0 0 auto;
+        border-radius: 999px;
+        background: #f2f8ef;
+        color: #4f8f36;
+        font-size: 9px;
+        font-weight: 800;
+        padding: 7px 10px;
+        white-space: nowrap;
+    }
+
+    @@media (max-width: 575.98px) {
+        .home-market-card-top {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .home-market-card-status {
+            margin-left: 60px;
+        }
+    }
+</style>
 
 <!-- =====================================================
      HERO SECTION
@@ -349,13 +584,24 @@
         </div>
 
 
-        <div class="row g-4">
+        <div class="home-slider-shell">
+
+            <button type="button"
+                    class="home-slider-arrow home-slider-arrow-left"
+                    data-slider-target="productSlider"
+                    data-slider-direction="-1"
+                    aria-label="Previous products">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div id="productSlider"
+                 class="home-card-slider">
 
             @if (Model.Products.Any())
             {
                 foreach (var product in Model.Products)
                 {
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="home-slide-card home-product-slide">
 
                         <div class="fresh-card">
 
@@ -401,12 +647,65 @@
                                         </small>
                                     </strong>
 
-                                    <button type="button"
-                                            class="quick-add">
+                                    @if (User.Identity?.IsAuthenticated == true &&
+                                         User.IsInRole("Customer") &&
+                                         product.FarmerMarketId > 0)
+                                    {
+                                        <form asp-controller="Cart"
+                                              asp-action="Add"
+                                              method="post"
+                                              style="display:contents;">
 
-                                        <i class="bi bi-plus"></i>
+                                            @Html.AntiForgeryToken()
 
-                                    </button>
+                                            <input type="hidden"
+                                                   name="FarmerProductId"
+                                                   value="@product.FarmerProductId" />
+
+                                            <input type="hidden"
+                                                   name="FarmerMarketId"
+                                                   value="@product.FarmerMarketId" />
+
+                                            <input type="hidden"
+                                                   name="Quantity"
+                                                   value="1" />
+
+                                            <input type="hidden"
+                                                   name="ReturnUrl"
+                                                   value="@Context.Request.Path@Context.Request.QueryString" />
+
+                                            <button type="submit"
+                                                    class="quick-add"
+                                                    title="Add @product.ProductName to cart">
+
+                                                <i class="bi bi-plus"></i>
+
+                                            </button>
+
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        var quickReturnUrl =
+                                            Url.Action(
+                                                "Details",
+                                                "Products",
+                                                new { id = product.FarmerProductId })
+                                            ?? "/Products";
+
+                                        var quickLoginUrl =
+                                            "/Auth/Login?returnUrl=" +
+                                            Uri.EscapeDataString(quickReturnUrl);
+
+                                        <button type="button"
+                                                class="quick-add"
+                                                title="Sign in to buy @product.ProductName"
+                                                onclick="window.location.href='@quickLoginUrl'">
+
+                                            <i class="bi bi-plus"></i>
+
+                                        </button>
+                                    }
 
                                 </div>
 
@@ -419,7 +718,7 @@
             }
             else
             {
-                <div class="col-12">
+                <div class="home-slider-empty">
 
                     <div class="text-center py-5">
 
@@ -437,6 +736,16 @@
 
                 </div>
             }
+
+            </div>
+
+            <button type="button"
+                    class="home-slider-arrow home-slider-arrow-right"
+                    data-slider-target="productSlider"
+                    data-slider-direction="1"
+                    aria-label="Next products">
+                <i class="bi bi-chevron-right"></i>
+            </button>
 
         </div>
 
@@ -508,7 +817,7 @@
 
 
                     <a asp-controller="Markets"
-                       asp-action="Index"
+                       asp-action="Map"
                        class="btn explorer-btn">
 
                         Explore the Map
@@ -846,9 +1155,9 @@
                         </div>
 
 
-                        <a asp-controller="MarketMate"
-                           asp-action="Index"
-                           class="ai-link">
+                        <a href="#"
+                           class="ai-link"
+                           onclick="event.preventDefault(); document.getElementById('mlAssistantLauncher')?.click();">
 
                             Meet MarketMate
 
@@ -1155,57 +1464,49 @@
 
         <!-- MARKET CARDS -->
 
-        <div id="marketCards"
-             class="row g-4">
+        <div class="home-slider-shell">
+
+            <button type="button"
+                    class="home-slider-arrow home-slider-arrow-left"
+                    data-slider-target="marketCards"
+                    data-slider-direction="-1"
+                    aria-label="Previous markets">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div id="marketCards"
+                 class="home-card-slider home-market-slider">
 
             @if (Model.Markets.Any())
             {
-                var marketIndex = 0;
-
                 foreach (var market in Model.Markets)
                 {
-                    var imageIndex =
-                        marketIndex % marketImages.Length;
 
-                    var imagePath =
-                        marketImages[imageIndex];
-
-                    <div class="col-md-6 col-xl-3 market-card-item"
+                    <div class="home-slide-card home-market-slide market-card-item home-market-card-shell"
                          data-name="@market.MarketName"
                          data-location="@market.Address.ToLowerInvariant()"
                          data-days="@market.OperatingDaysText.ToLowerInvariant()">
 
                         <article class="market-card">
 
-                            <div class="market-card-image">
+                            <div class="home-market-card-top">
 
-                                <img src="@Url.Content(imagePath)"
-                                     alt="@market.MarketName"
-                                     loading="lazy" />
+                                <div class="home-market-card-icon">
+                                    <i class="bi bi-shop"></i>
+                                </div>
 
-                                <span class="market-status">
+                                <div class="home-market-card-title">
+                                    <span>LOCAL MARKET</span>
+                                    <strong>@market.MarketName</strong>
+                                </div>
 
-                                    <i class="bi bi-circle-fill"></i>
-
+                                <span class="home-market-card-status">
                                     @market.StatusText
-
                                 </span>
 
                             </div>
 
-
                             <div class="market-card-body">
-
-                                <span class="market-card-category">
-
-                                    LOCAL MARKET
-
-                                </span>
-
-
-                                <h4>
-                                    @market.MarketName
-                                </h4>
 
 
                                 <p class="market-card-address">
@@ -1285,7 +1586,6 @@
 
                     </div>
 
-                    marketIndex++;
                 }
             }
             else
@@ -1308,6 +1608,16 @@
 
                 </div>
             }
+
+            </div>
+
+            <button type="button"
+                    class="home-slider-arrow home-slider-arrow-right"
+                    data-slider-target="marketCards"
+                    data-slider-direction="1"
+                    aria-label="Next markets">
+                <i class="bi bi-chevron-right"></i>
+            </button>
 
         </div>
 
@@ -1513,3 +1823,85 @@
     </div>
 
 </section>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sliderButtons = document.querySelectorAll('[data-slider-target]');
+
+        function visibleCards(slider) {
+            return Array.from(slider.children).filter(function (card) {
+                return card.offsetParent !== null;
+            });
+        }
+
+        function updateButtons(slider) {
+            const shell = slider.closest('.home-slider-shell');
+            if (!shell) return;
+
+            const left = shell.querySelector('[data-slider-direction="-1"]');
+            const right = shell.querySelector('[data-slider-direction="1"]');
+
+            const maxScroll = Math.max(0, slider.scrollWidth - slider.clientWidth);
+            const tolerance = 4;
+
+            if (left) {
+                left.disabled = slider.scrollLeft <= tolerance;
+            }
+
+            if (right) {
+                right.disabled = slider.scrollLeft >= (maxScroll - tolerance);
+            }
+        }
+
+        function scrollSlider(slider, direction) {
+            const cards = visibleCards(slider);
+            if (!cards.length) return;
+
+            const firstCard = cards[0];
+            const sliderStyle = window.getComputedStyle(slider);
+            const gap = parseFloat(sliderStyle.columnGap || sliderStyle.gap || '0') || 0;
+            const amount = firstCard.getBoundingClientRect().width + gap;
+
+            slider.scrollBy({
+                left: amount * direction,
+                behavior: 'smooth'
+            });
+        }
+
+        sliderButtons.forEach(function (button) {
+            const slider = document.getElementById(button.dataset.sliderTarget);
+            if (!slider) return;
+
+            button.addEventListener('click', function () {
+                const direction = Number(button.dataset.sliderDirection || 1);
+                scrollSlider(slider, direction);
+            });
+
+            slider.addEventListener('scroll', function () {
+                updateButtons(slider);
+            }, { passive: true });
+
+            updateButtons(slider);
+        });
+
+        window.addEventListener('resize', function () {
+            document.querySelectorAll('.home-card-slider').forEach(updateButtons);
+        });
+
+        // Market filters may hide/show cards. Recalculate arrow state after filtering.
+        const marketSlider = document.getElementById('marketCards');
+        if (marketSlider) {
+            const observer = new MutationObserver(function () {
+                updateButtons(marketSlider);
+            });
+
+            observer.observe(marketSlider, {
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class', 'style']
+            });
+        }
+    });
+</script>
+

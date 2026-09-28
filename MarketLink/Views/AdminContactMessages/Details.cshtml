@@ -1,0 +1,196 @@
+@model MarketLink.ViewModels.AdminContactMessageDetailsViewModel
+
+@{
+    ViewData["Title"] = "Contact Message";
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+
+    var statusClass =
+        Model.Status == "In Progress" ? "status-in-progress" :
+        Model.Status == "Replied" ? "status-replied" :
+        Model.Status == "Resolved" ? "status-resolved" :
+        "status-new";
+}
+
+@section Styles {
+<style>
+.contact-detail-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:18px}
+.contact-detail-back{text-decoration:none;color:#174d36;font-size:12px;font-weight:800}
+.contact-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.contact-box{background:#fff;border:1px solid #e7ebef;border-radius:18px;overflow:hidden}
+.contact-box-head{padding:18px 20px;border-bottom:1px solid #edf0f4;background:#fbfcfb}
+.contact-box-head span{display:block;color:#6b9b58;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.contact-box-head h2{margin:5px 0 0;color:#173c2f;font-size:21px}
+.contact-message-body{padding:22px}
+.contact-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.contact-meta{border:1px solid #edf0f4;border-radius:12px;padding:12px}
+.contact-meta span{display:block;color:#8a938e;font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.contact-meta strong{display:block;margin-top:4px;color:#34443c;font-size:12px;overflow-wrap:anywhere}
+.contact-message-text{white-space:pre-wrap;line-height:1.7;color:#38473f;font-size:13px;padding:18px;border-radius:14px;background:#f8faf9;border:1px solid #edf0f4}
+.contact-actions{padding:18px}
+.contact-actions label{display:block;margin-bottom:6px;color:#34443c;font-size:11px;font-weight:800}
+.contact-actions select,.contact-actions textarea{width:100%;border:1px solid #d8dfdc;border-radius:10px;padding:10px 11px;font-size:12px;margin-bottom:12px}
+.contact-actions button{width:100%;border:0;border-radius:10px;background:#174d36;color:#fff;padding:11px;font-weight:800}
+.contact-reply{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:10px;border:1px solid #cfe0d8;border-radius:10px;padding:10px;text-decoration:none;color:#13836e;font-weight:800;font-size:12px}
+.contact-badge{display:inline-flex;border-radius:999px;padding:6px 10px;font-size:9px;font-weight:800}
+.status-new{background:#fff3cd;color:#8a6100}
+.status-in-progress{background:#e8f2ff;color:#265e9e}
+.status-replied{background:#eaf8ef;color:#267245}
+.status-resolved{background:#eef1f0;color:#667085}
+.contact-system{padding:18px;border-top:1px solid #edf0f4;color:#7b8780;font-size:10px;line-height:1.6}
+@@media(max-width:900px){.contact-detail-grid{grid-template-columns:1fr}.contact-detail-head{align-items:flex-start;flex-direction:column}.contact-meta-grid{grid-template-columns:1fr}}
+</style>
+}
+
+<div class="contact-detail-head">
+    <div>
+        <div style="color:#13836e;font-size:10px;font-weight:800;letter-spacing:.1em;">
+            @Model.Reference
+        </div>
+        <h2 style="margin:5px 0 0;color:#173c2f;">@Model.Subject</h2>
+    </div>
+
+    <a asp-controller="AdminContactMessages"
+       asp-action="Index"
+       class="contact-detail-back">
+        <i class="bi bi-arrow-left"></i>
+        Back to Contact Messages
+    </a>
+</div>
+
+@if (TempData["ContactAdminSuccess"] != null)
+{
+    <div class="alert alert-success">@TempData["ContactAdminSuccess"]</div>
+}
+
+@if (TempData["ContactAdminError"] != null)
+{
+    <div class="alert alert-danger">@TempData["ContactAdminError"]</div>
+}
+
+<div class="contact-detail-grid">
+
+    <section class="contact-box">
+        <div class="contact-box-head">
+            <span>@Model.InquiryType</span>
+            <h2>Message from @Model.Name</h2>
+        </div>
+
+        <div class="contact-message-body">
+
+            <div class="contact-meta-grid">
+                <div class="contact-meta">
+                    <span>Email</span>
+                    <strong>@Model.Email</strong>
+                </div>
+
+                <div class="contact-meta">
+                    <span>Phone</span>
+                    <strong>@(string.IsNullOrWhiteSpace(Model.Phone) ? "Not provided" : Model.Phone)</strong>
+                </div>
+
+                <div class="contact-meta">
+                    <span>Received</span>
+                    <strong>@Model.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")</strong>
+                </div>
+
+                <div class="contact-meta">
+                    <span>Status</span>
+                    <strong>
+                        <span class="contact-badge @statusClass">@Model.Status</span>
+                    </strong>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.TargetFarmerName))
+                {
+                    <div class="contact-meta">
+                        <span>Target Farmer</span>
+                        <strong>@Model.TargetFarmerName</strong>
+                    </div>
+                }
+
+                @if (Model.SubmittedByUserId.HasValue)
+                {
+                    <div class="contact-meta">
+                        <span>Logged-in User ID</span>
+                        <strong>@Model.SubmittedByUserId</strong>
+                    </div>
+                }
+            </div>
+
+            <div class="contact-message-text">@Model.Message</div>
+
+        </div>
+
+        <div class="contact-system">
+            @if (!string.IsNullOrWhiteSpace(Model.IpAddress))
+            {
+                <div>IP: @Model.IpAddress</div>
+            }
+
+            @if (Model.StatusUpdatedAt.HasValue)
+            {
+                <div>
+                    Last workflow update:
+                    @Model.StatusUpdatedAt.Value.ToString("dd MMM yyyy, hh:mm tt")
+                </div>
+            }
+        </div>
+    </section>
+
+    <aside class="contact-box">
+
+        <div class="contact-box-head">
+            <span>WORKFLOW</span>
+            <h2>Manage inquiry</h2>
+        </div>
+
+        <div class="contact-actions">
+
+            <form asp-controller="AdminContactMessages"
+                  asp-action="Update"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden"
+                       name="AuditLogId"
+                       value="@Model.AuditLogId" />
+
+                <label for="Status">Status</label>
+
+                <select id="Status"
+                        name="Status">
+                    <option value="New" selected="@(Model.Status == "New")">New</option>
+                    <option value="In Progress" selected="@(Model.Status == "In Progress")">In Progress</option>
+                    <option value="Replied" selected="@(Model.Status == "Replied")">Replied</option>
+                    <option value="Resolved" selected="@(Model.Status == "Resolved")">Resolved</option>
+                </select>
+
+                <label for="AdminNote">Internal admin note</label>
+
+                <textarea id="AdminNote"
+                          name="AdminNote"
+                          rows="5"
+                          placeholder="Add an internal note...">@Model.AdminNote</textarea>
+
+                <button type="submit">
+                    <i class="bi bi-check2-circle"></i>
+                    Save Status
+                </button>
+
+            </form>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ReplyMailtoUrl))
+            {
+                <a href="@Model.ReplyMailtoUrl"
+                   class="contact-reply">
+                    <i class="bi bi-reply-fill"></i>
+                    Reply by Email
+                </a>
+            }
+
+        </div>
+
+    </aside>
+
+</div>

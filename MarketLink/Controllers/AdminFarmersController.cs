@@ -1,4 +1,4 @@
-using MarketLink.Models;
+﻿using MarketLink.Models;
 using MarketLink.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -106,6 +106,32 @@ namespace MarketLink.Controllers
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
+                if (farmer.User != null)
+                {
+                    try
+                    {
+                        _context.notifications.Add(
+                            new Notification
+                            {
+                                UserId = farmer.User.UserId,
+                                Title = "Farmer Account Approved",
+                                Message =
+                                    $"Your MarketLink farmer account for {farmer.BusinessName} has been approved. You can now sign in and use your farmer dashboard.",
+                                NotificationType = "AccountApproval",
+                                ActionUrl = "/Auth/Login",
+                                IsRead = false,
+                                CreatedAt = DateTime.Now
+                            });
+
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        // Approval is already committed. Notification/email failure
+                        // must not reverse the farmer approval.
+                    }
+                }
+
                 TempData["SuccessMessage"] =
                     $"{farmer.BusinessName} has been approved successfully.";
             }
@@ -155,6 +181,32 @@ namespace MarketLink.Controllers
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
+
+                if (farmer.User != null)
+                {
+                    try
+                    {
+                        _context.notifications.Add(
+                            new Notification
+                            {
+                                UserId = farmer.User.UserId,
+                                Title = "Farmer Application Update",
+                                Message =
+                                    $"Your MarketLink farmer application for {farmer.BusinessName} was not approved. Please contact MarketLink support if you need more information.",
+                                NotificationType = "AccountApproval",
+                                ActionUrl = "/Contact",
+                                IsRead = false,
+                                CreatedAt = DateTime.Now
+                            });
+
+                        await _context.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                        // Rejection is already committed. Notification/email failure
+                        // must not reverse the farmer status change.
+                    }
+                }
 
                 TempData["SuccessMessage"] =
                     $"{farmer.BusinessName} has been rejected.";

@@ -227,7 +227,8 @@
     <!-- MarketMate -->
     <a href="#"
        class="market-action marketmate-action"
-       title="MarketMate AI">
+       title="MarketMate AI"
+       onclick="event.preventDefault(); document.getElementById('mlAssistantLauncher')?.click();">
 
         <i class="bi bi-robot"></i>
         <span>MarketMate</span>
@@ -235,27 +236,50 @@
     </a>
 
 
-    <!-- Favorites -->
-    <a href="#"
-       class="market-action"
-       title="Favorites">
-
-        <i class="bi bi-heart"></i>
-        <span>Favorites</span>
-
-    </a>
+    @* <!-- Favorites -->
+    @if (User.Identity?.IsAuthenticated == true &&
+         User.IsInRole("Customer"))
+    {
+        <a asp-controller="CustomerFavorites"
+           asp-action="Index"
+           class="market-action"
+           title="Favorites">
+            <i class="bi bi-heart"></i>
+            <span>Favorites</span>
+        </a>
+    }
+    else
+    {
+        <a href="/Auth/Login?returnUrl=%2FCustomerFavorites"
+           class="market-action"
+           title="Sign in to view favorites">
+            <i class="bi bi-heart"></i>
+            <span>Favorites</span>
+        </a>
+    } *@
 
 
     <!-- Cart -->
-    <a asp-controller="Cart"
-   asp-action="Index"
-       class="market-action"
-       title="Shopping Cart">
-
-        <i class="bi bi-cart3"></i>
-        <span>Cart</span>
-
-    </a>
+    @if (User.Identity?.IsAuthenticated == true &&
+         User.IsInRole("Customer"))
+    {
+        <a asp-controller="Cart"
+           asp-action="Index"
+           class="market-action"
+           title="Shopping Cart">
+            <i class="bi bi-cart3"></i>
+            <span>Cart</span>
+        </a>
+    }
+    else
+    {
+        <a href="/Auth/Login?returnUrl=%2FCart"
+           class="market-action"
+           title="Sign in to view cart">
+            <i class="bi bi-cart3"></i>
+            <span>Cart</span>
+        </a>
+    }
 
 
     @if (User.Identity?.IsAuthenticated == true)

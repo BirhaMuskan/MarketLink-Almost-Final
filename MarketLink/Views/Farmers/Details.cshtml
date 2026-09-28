@@ -1,4 +1,4 @@
-﻿@model MarketLink.ViewModels.FarmerDetailsViewModel
+@model MarketLink.ViewModels.FarmerDetailsViewModel
 
 @{
     ViewData["Title"] = Model.BusinessName + " - Farmer Details";
@@ -137,26 +137,65 @@
                     <!-- Actions -->
                     <div class="profile-actions">
 
-                        <button type="button"
-                                class="btn btn-farmer-contact">
+                        <a href="@(string.IsNullOrWhiteSpace(Model.ContactEmail)
+                                    ? Url.Action("Index", "Contact", new { farmer = Model.BusinessName })
+                                    : "mailto:" + Model.ContactEmail +
+                                      "?subject=" + Uri.EscapeDataString("MarketLink inquiry for " + Model.BusinessName))"
+                           class="btn btn-farmer-contact">
 
-                            <i class="bi bi-chat-dots-fill"></i>
+                            <i class="bi bi-envelope-fill"></i>
                             Contact Farmer
 
-                        </button>
+                        </a>
 
+                        @if (User.Identity?.IsAuthenticated == true &&
+                             User.IsInRole("Customer"))
+                        {
+                            <form asp-controller="CustomerFarmers"
+                                  asp-action="ToggleFavorite"
+                                  method="post"
+                                  style="display:contents;">
 
-                        <button type="button"
-                                class="btn btn-farmer-favorite @(Model.IsFavorite ? "active" : "")"
-                                id="favoriteFarmer">
+                                @Html.AntiForgeryToken()
 
-                            <i class="bi @(Model.IsFavorite ? "bi-heart-fill" : "bi-heart")"></i>
+                                <input type="hidden"
+                                       name="farmerId"
+                                       value="@Model.FarmerId" />
 
-                            <span>
-                                @(Model.IsFavorite ? "Saved" : "Save Farmer")
-                            </span>
+                                <input type="hidden"
+                                       name="returnUrl"
+                                       value="@Context.Request.Path@Context.Request.QueryString" />
 
-                        </button>
+                                <button type="submit"
+                                        class="btn btn-farmer-favorite @(Model.IsFavorite ? "active" : "")">
+
+                                    <i class="bi @(Model.IsFavorite ? "bi-heart-fill" : "bi-heart")"></i>
+
+                                    <span>
+                                        @(Model.IsFavorite ? "Saved" : "Save Farmer")
+                                    </span>
+
+                                </button>
+
+                            </form>
+                        }
+                        else
+                        {
+                            var farmerLoginUrl =
+                                "/Auth/Login?returnUrl=" +
+                                Uri.EscapeDataString(
+                                    Context.Request.Path +
+                                    Context.Request.QueryString);
+
+                            <button type="button"
+                                    class="btn btn-farmer-favorite"
+                                    onclick="window.location.href='@farmerLoginUrl'">
+
+                                <i class="bi bi-heart"></i>
+                                <span>Save Farmer</span>
+
+                            </button>
+                        }
 
                     </div>
 

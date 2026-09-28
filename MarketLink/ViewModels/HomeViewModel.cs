@@ -34,6 +34,8 @@ namespace MarketLink.ViewModels
     {
         public int FarmerProductId { get; set; }
 
+        public int FarmerMarketId { get; set; }
+
         public string ProductName { get; set; } = "";
 
         public string CategoryName { get; set; } = "Uncategorized";

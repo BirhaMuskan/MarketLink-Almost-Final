@@ -1,0 +1,171 @@
+@model MarketLink.ViewModels.AdminContactMessagesIndexViewModel
+
+@{
+    ViewData["Title"] = "Contact Messages";
+    Layout = "~/Views/Shared/_AdminDashboardLayout.cshtml";
+}
+
+@section Styles {
+<style>
+.contact-admin-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.contact-stat{background:#fff;border:1px solid #e7ebef;border-radius:16px;padding:16px}
+.contact-stat span{display:block;color:#7a8580;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.contact-stat strong{display:block;margin-top:5px;color:#173c2f;font-size:25px}
+.contact-admin-panel{background:#fff;border:1px solid #e7ebef;border-radius:18px;overflow:hidden}
+.contact-filter{display:grid;grid-template-columns:1fr 180px 190px auto;gap:10px;padding:16px;border-bottom:1px solid #edf0f4}
+.contact-filter input,.contact-filter select{border:1px solid #d8dfdc;border-radius:10px;padding:10px 12px;font-size:12px}
+.contact-filter button{border:0;border-radius:10px;background:#174d36;color:#fff;padding:10px 16px;font-weight:800}
+.contact-table-wrap{overflow-x:auto}
+.contact-table{width:100%;border-collapse:collapse;min-width:940px}
+.contact-table th{padding:12px 14px;background:#f8faf9;color:#728078;font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-align:left;border-bottom:1px solid #edf0f4}
+.contact-table td{padding:14px;border-bottom:1px solid #edf0f4;vertical-align:top;font-size:12px}
+.contact-table tr:last-child td{border-bottom:0}
+.contact-ref{font-weight:800;color:#174d36}
+.contact-subject{font-weight:800;color:#25332d}
+.contact-preview{color:#77827c;margin-top:4px;max-width:370px}
+.contact-person strong{display:block;color:#25332d}
+.contact-person span{display:block;color:#8a938e;font-size:10px;margin-top:2px}
+.contact-badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:9px;font-weight:800}
+.status-new{background:#fff3cd;color:#8a6100}
+.status-in-progress{background:#e8f2ff;color:#265e9e}
+.status-replied{background:#eaf8ef;color:#267245}
+.status-resolved{background:#eef1f0;color:#667085}
+.contact-type{display:inline-block;border-radius:999px;background:#f3f6f5;color:#50635a;padding:5px 8px;font-size:9px;font-weight:700}
+.contact-view{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#13836e;font-weight:800}
+.contact-empty{padding:60px;text-align:center;color:#7b8780}
+@@media(max-width:1000px){.contact-admin-stats{grid-template-columns:repeat(2,1fr)}.contact-filter{grid-template-columns:1fr 1fr}.contact-filter input{grid-column:1/-1}}
+</style>
+}
+
+<div class="contact-admin-stats">
+    <div class="contact-stat"><span>Total</span><strong>@Model.TotalCount</strong></div>
+    <div class="contact-stat"><span>New</span><strong>@Model.NewCount</strong></div>
+    <div class="contact-stat"><span>In Progress</span><strong>@Model.InProgressCount</strong></div>
+    <div class="contact-stat"><span>Replied</span><strong>@Model.RepliedCount</strong></div>
+    <div class="contact-stat"><span>Resolved</span><strong>@Model.ResolvedCount</strong></div>
+</div>
+
+<section class="contact-admin-panel">
+
+    <form asp-controller="AdminContactMessages"
+          asp-action="Index"
+          method="get"
+          class="contact-filter">
+
+        <input type="search"
+               name="search"
+               value="@Model.Search"
+               placeholder="Search reference, customer, email or subject..." />
+
+        <select name="status">
+            <option value="">All statuses</option>
+            <option value="New" selected="@(Model.Status == "New")">New</option>
+            <option value="In Progress" selected="@(Model.Status == "In Progress")">In Progress</option>
+            <option value="Replied" selected="@(Model.Status == "Replied")">Replied</option>
+            <option value="Resolved" selected="@(Model.Status == "Resolved")">Resolved</option>
+        </select>
+
+        <select name="inquiryType">
+            <option value="">All inquiry types</option>
+            <option value="General" selected="@(Model.InquiryType == "General")">General</option>
+            <option value="Order Help" selected="@(Model.InquiryType == "Order Help")">Order Help</option>
+            <option value="Farmer Inquiry" selected="@(Model.InquiryType == "Farmer Inquiry")">Farmer Inquiry</option>
+            <option value="Market Help" selected="@(Model.InquiryType == "Market Help")">Market Help</option>
+            <option value="Account Help" selected="@(Model.InquiryType == "Account Help")">Account Help</option>
+            <option value="Technical Issue" selected="@(Model.InquiryType == "Technical Issue")">Technical Issue</option>
+            <option value="Partnership" selected="@(Model.InquiryType == "Partnership")">Partnership</option>
+        </select>
+
+        <button type="submit">
+            <i class="bi bi-funnel"></i>
+            Filter
+        </button>
+    </form>
+
+    @if (!Model.Messages.Any())
+    {
+        <div class="contact-empty">
+            <i class="bi bi-inbox" style="font-size:34px;color:#13836e;"></i>
+            <h4 style="margin:10px 0 4px;">No contact messages found</h4>
+            <p style="margin:0;">Try changing the search or filter.</p>
+        </div>
+    }
+    else
+    {
+        <div class="contact-table-wrap">
+            <table class="contact-table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Customer</th>
+                        <th>Inquiry</th>
+                        <th>Subject / Message</th>
+                        <th>Status</th>
+                        <th>Received</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Messages)
+                {
+                    var statusClass =
+                        item.Status == "In Progress" ? "status-in-progress" :
+                        item.Status == "Replied" ? "status-replied" :
+                        item.Status == "Resolved" ? "status-resolved" :
+                        "status-new";
+
+                    <tr>
+                        <td>
+                            <span class="contact-ref">@item.Reference</span>
+                        </td>
+
+                        <td class="contact-person">
+                            <strong>@item.Name</strong>
+                            <span>@item.Email</span>
+                        </td>
+
+                        <td>
+                            <span class="contact-type">@item.InquiryType</span>
+                            @if (!string.IsNullOrWhiteSpace(item.TargetFarmerName))
+                            {
+                                <div style="margin-top:5px;color:#7a8580;font-size:10px;">
+                                    Farmer: @item.TargetFarmerName
+                                </div>
+                            }
+                        </td>
+
+                        <td>
+                            <div class="contact-subject">@item.Subject</div>
+                            <div class="contact-preview">@item.MessagePreview</div>
+                        </td>
+
+                        <td>
+                            <span class="contact-badge @statusClass">
+                                @item.Status
+                            </span>
+                        </td>
+
+                        <td>
+                            @item.CreatedAt.ToString("dd MMM yyyy")
+                            <div style="color:#8a938e;font-size:10px;">
+                                @item.CreatedAt.ToString("hh:mm tt")
+                            </div>
+                        </td>
+
+                        <td>
+                            <a asp-controller="AdminContactMessages"
+                               asp-action="Details"
+                               asp-route-id="@item.AuditLogId"
+                               class="contact-view">
+                                View
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+
+</section>

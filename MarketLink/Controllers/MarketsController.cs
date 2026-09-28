@@ -1,4 +1,4 @@
-﻿using MarketLink.Models;
+using MarketLink.Models;
 using MarketLink.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -99,5 +99,24 @@ namespace MarketLink.Controllers
 
             return View(market);
         }
+
+        // =========================================================
+        // PUBLIC OPENSTREETMAP - ALL ACTIVE MARKETS
+        // =========================================================
+        [HttpGet]
+        public async Task<IActionResult> Map()
+        {
+            var markets = await _context.markets
+                .AsNoTracking()
+                .Where(m =>
+                    m.IsActive &&
+                    m.Latitude.HasValue &&
+                    m.Longitude.HasValue)
+                .OrderBy(m => m.MarketName)
+                .ToListAsync();
+
+            return View(markets);
+        }
+
     }
 }

@@ -1,8 +1,84 @@
-﻿@model MarketLink.ViewModels.MarketsViewModel
+@model MarketLink.ViewModels.MarketsViewModel
 
 @{
     ViewData["Title"] = "Markets";
 }
+
+
+<style>
+    /* Market cards intentionally do not reserve an image area */
+    .markets-page-card-top {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 22px 24px 16px;
+        position: relative;
+    }
+
+    .markets-page-card-top::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        right: 24px;
+        bottom: 0;
+        height: 1px;
+        background: #edf0ec;
+    }
+
+    .markets-page-card-icon {
+        width: 52px;
+        height: 52px;
+        flex: 0 0 52px;
+        border-radius: 15px;
+        display: grid;
+        place-items: center;
+        background: #edf7f2;
+        color: #13836e;
+        font-size: 23px;
+    }
+
+    .markets-page-card-heading {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .markets-page-card-heading span {
+        display: block;
+        color: #6b9b58;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: .11em;
+        margin-bottom: 4px;
+    }
+
+    .markets-page-card-heading strong {
+        color: #173c2f;
+        font-size: 20px;
+        line-height: 1.25;
+        display: block;
+    }
+
+    .markets-page-status {
+        border-radius: 999px;
+        background: #f2f8ef;
+        color: #4f8f36;
+        font-size: 9px;
+        font-weight: 800;
+        padding: 7px 10px;
+        white-space: nowrap;
+    }
+
+    @@media (max-width: 575.98px) {
+        .markets-page-card-top {
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .markets-page-status {
+            margin-left: 65px;
+        }
+    }
+</style>
 
 <!-- =========================================================
      MARKETLINK - MARKETS HERO
@@ -298,32 +374,61 @@
 
                         <article class="market-card">
 
-                            <!-- IMAGE -->
+                            <!-- IMAGE-FREE MARKET HEADER -->
 
-                            <div class="market-card-image">
+                            <div class="market-card-image market-card-no-image">
 
-                                <img src="@item.ImageUrl"
-                                     alt="@market.MarketName"
-                                     loading="lazy">
+                                <div class="market-card-icon-wrap">
+                                    <i class="bi bi-shop"></i>
+                                </div>
 
+                                <div class="market-card-header-text">
+                                    <span>LOCAL MARKET</span>
+                                    <strong>@market.MarketName</strong>
+                                </div>
 
                                 <span class="market-status">
-
                                     <i class="bi bi-circle-fill"></i>
-
                                     Open Weekly
-
                                 </span>
 
+                                @if (User.Identity?.IsAuthenticated == true &&
+                                     User.IsInRole("Customer"))
+                                {
+                                    <form asp-controller="CustomerMarkets"
+                                          asp-action="ToggleFavorite"
+                                          method="post"
+                                          style="display:contents;">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden"
+                                               name="marketId"
+                                               value="@market.MarketId" />
+                                        <input type="hidden"
+                                               name="returnUrl"
+                                               value="@Context.Request.Path@Context.Request.QueryString" />
+                                        <button type="submit"
+                                                class="favorite-market"
+                                                aria-label="Save @market.MarketName"
+                                                data-market-id="@market.MarketId">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    var marketLoginUrl =
+                                        "/Auth/Login?returnUrl=" +
+                                        Uri.EscapeDataString(
+                                            Context.Request.Path +
+                                            Context.Request.QueryString);
 
-                                <button type="button"
-                                        class="favorite-market"
-                                        aria-label="Save @market.MarketName"
-                                        data-market-id="@market.MarketId">
-
-                                    <i class="bi bi-heart"></i>
-
-                                </button>
+                                    <button type="button"
+                                            class="favorite-market"
+                                            aria-label="Sign in to save @market.MarketName"
+                                            onclick="window.location.href='@marketLoginUrl'">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
+                                }
 
                             </div>
 
@@ -346,11 +451,6 @@
                                     }
 
                                 </span>
-
-
-                                <h3>
-                                    @market.MarketName
-                                </h3>
 
 
                                 <p class="market-location">
@@ -532,10 +632,22 @@
 
                     <i class="bi bi-info-circle"></i>
 
-                    Interactive map integration will be connected
-                    in the next development phase.
+                    @Model.Markets.Count(x =>
+                        x.Market.Latitude.HasValue &&
+                        x.Market.Longitude.HasValue)
+                    live market location(s) are available on OpenStreetMap.
 
                 </p>
+
+                <a asp-controller="Markets"
+                   asp-action="Map"
+                   class="btn btn-market mt-3">
+
+                    Open Full Map
+
+                    <i class="bi bi-arrow-up-right"></i>
+
+                </a>
 
             </div>
 
@@ -547,74 +659,18 @@
                     <div class="map-preview-top">
 
                         <span>
-
                             <i class="bi bi-geo-alt-fill"></i>
-
                             Market Explorer
-
                         </span>
-
 
                         <span class="map-preview-label">
-
-                            Map Preview
-
+                            Live OpenStreetMap
                         </span>
 
                     </div>
 
-
-                    <div class="map-visual">
-
-                        <div class="map-road road-one"></div>
-
-                        <div class="map-road road-two"></div>
-
-                        <div class="map-road road-three"></div>
-
-
-                        <div class="map-pin pin-one">
-
-                            <i class="bi bi-geo-alt-fill"></i>
-
-                        </div>
-
-
-                        <div class="map-pin pin-two">
-
-                            <i class="bi bi-geo-alt-fill"></i>
-
-                        </div>
-
-
-                        <div class="map-pin pin-three">
-
-                            <i class="bi bi-geo-alt-fill"></i>
-
-                        </div>
-
-
-                        <div class="map-label label-one">
-
-                            Riverside Market
-
-                        </div>
-
-
-                        <div class="map-label label-two">
-
-                            Green Valley
-
-                        </div>
-
-
-                        <div class="map-label label-three">
-
-                            Sunrise Market
-
-                        </div>
-
-                    </div>
+                    <div id="marketsPreviewMap"
+                         style="height:390px;border-radius:0 0 22px 22px;"></div>
 
                 </div>
 
@@ -905,6 +961,7 @@
 }
 
 @section Styles {
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
 
         /* =========================================================
@@ -2260,7 +2317,213 @@
             }
         }
 
-    </style>
+    
+        /* IMAGE-FREE MARKET CARD */
+        .market-card-no-image {
+            min-height: 178px;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top right, rgba(255,255,255,.18), transparent 38%),
+                linear-gradient(135deg, #174d36, #13836e);
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .market-card-no-image::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 50%;
+            right: -45px;
+            bottom: -70px;
+        }
+
+        .market-card-icon-wrap {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: rgba(255,255,255,.14);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 25px;
+            flex: 0 0 auto;
+            backdrop-filter: blur(6px);
+        }
+
+        .market-card-header-text {
+            color: #fff;
+            min-width: 0;
+            padding-bottom: 3px;
+        }
+
+        .market-card-header-text span {
+            display: block;
+            font-size: 10px;
+            letter-spacing: .12em;
+            font-weight: 800;
+            opacity: .78;
+            margin-bottom: 4px;
+        }
+
+        .market-card-header-text strong {
+            display: block;
+            font-size: 20px;
+            line-height: 1.2;
+            font-family: Manrope, sans-serif;
+        }
+
+        .market-card-detail-title {
+            font-size: 13px !important;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #13836e;
+            margin-bottom: 12px !important;
+        }
+
+</style>
+
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const mapElement =
+                document.getElementById("marketsPreviewMap");
+
+            if (!mapElement) {
+                return;
+            }
+
+            const marketPoints = [
+                @foreach (var item in Model.Markets.Where(x =>
+                    x.Market.Latitude.HasValue &&
+                    x.Market.Longitude.HasValue))
+                {
+                    <text>
+                    {
+                        id: @item.Market.MarketId,
+                        name: @Html.Raw(
+                            System.Text.Json.JsonSerializer.Serialize(
+                                item.Market.MarketName
+                            )
+                        ),
+                        address: @Html.Raw(
+                            System.Text.Json.JsonSerializer.Serialize(
+                                item.Market.Address
+                            )
+                        ),
+                        lat: @item.Market.Latitude.Value.ToString(
+                            System.Globalization.CultureInfo.InvariantCulture
+                        ),
+                        lng: @item.Market.Longitude.Value.ToString(
+                            System.Globalization.CultureInfo.InvariantCulture
+                        )
+                    },
+                    </text>
+                }
+            ];
+
+            if (marketPoints.length === 0) {
+
+                mapElement.innerHTML =
+                    '<div style="' +
+                    'height:100%;display:grid;place-items:center;' +
+                    'padding:30px;text-align:center;color:#667085;' +
+                    'background:#f7faf8;">' +
+                    '<div><strong>No mapped markets yet.</strong><br>' +
+                    'Add latitude and longitude to an active market ' +
+                    'and it will appear here automatically.</div>' +
+                    '</div>';
+
+                return;
+            }
+
+            const map = L.map(
+                "marketsPreviewMap",
+                {
+                    scrollWheelZoom: false
+                }
+            );
+
+            L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+                    maxZoom: 19,
+                    attribution:
+                        "&copy; OpenStreetMap contributors"
+                }
+            ).addTo(map);
+
+            const bounds = [];
+
+            marketPoints.forEach(function (market) {
+
+                const point = [
+                    market.lat,
+                    market.lng
+                ];
+
+                bounds.push(point);
+
+                const popup =
+                    '<div style="min-width:160px;">' +
+                    '<strong style="color:#173c2f;">' +
+                    market.name +
+                    '</strong>' +
+                    '<div style="' +
+                    'font-size:11px;color:#667085;margin-top:4px;">' +
+                    (market.address || "Market location") +
+                    '</div>' +
+                    '<a href="/Markets/Details/' +
+                    market.id +
+                    '" style="' +
+                    'display:inline-block;margin-top:7px;' +
+                    'font-size:11px;font-weight:700;' +
+                    'color:#13836e;text-decoration:none;">' +
+                    'View Market →</a>' +
+                    '</div>';
+
+                L.marker(point)
+                    .addTo(map)
+                    .bindPopup(popup);
+            });
+
+            if (bounds.length === 1) {
+
+                map.setView(
+                    bounds[0],
+                    14
+                );
+
+            }
+            else {
+
+                map.fitBounds(
+                    bounds,
+                    {
+                        padding: [30, 30],
+                        maxZoom: 14
+                    }
+                );
+
+            }
+
+            // Leaflet sometimes initializes before the card finishes
+            // its final layout. Force a size refresh.
+            setTimeout(function () {
+                map.invalidateSize();
+            }, 150);
+
+        });
+    </script>
+
 }
 
 
@@ -2495,4 +2758,5 @@
         });
 
     </script>
+
 } *@

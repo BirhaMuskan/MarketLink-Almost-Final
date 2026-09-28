@@ -2,12 +2,12 @@
 
 @{
     ViewData["Title"] = "Checkout";
-    Layout = "~/Views/Shared/_CustomerDashboardLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section Styles {
 <style>
-.checkout-header{margin-bottom:18px}
+.website-buying-page{max-width:1240px;margin:0 auto;padding:42px 20px 70px}.checkout-header{margin-bottom:18px}
 .checkout-label{color:#14836f;font-size:12px;font-weight:800;letter-spacing:.08em}
 .checkout-header h2{margin:7px 0 5px;font-size:28px;font-weight:800}
 .checkout-header p{margin:0;color:#667085}
@@ -31,6 +31,8 @@
 @@media(max-width:900px){.checkout-grid{grid-template-columns:1fr}}
 </style>
 }
+
+<div class="website-buying-page">
 
 <section class="checkout-header">
     <span class="checkout-label">
@@ -166,5 +168,7 @@
         </div>
 
     </aside>
+
+</div>
 
 </div>

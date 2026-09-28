@@ -225,6 +225,9 @@ namespace MarketLink.Controllers
                         FarmerProductId =
                             fp.FarmerProductId,
 
+                        FarmerMarketId =
+                            inventory.FarmerMarketId,
+
                         ProductName =
                             fp.Product?.ProductName
                             ?? "Product",

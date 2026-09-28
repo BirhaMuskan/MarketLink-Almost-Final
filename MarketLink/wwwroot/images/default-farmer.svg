@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#edf7f2"/>
+    <stop offset="1" stop-color="#dbeee4"/>
+  </linearGradient>
+</defs>
+<rect width="900" height="600" rx="34" fill="url(#bg)"/>
+<circle cx="450" cy="235" r="78" fill="#76a887"/>
+<path d="M315 475c0-87 60-145 135-145s135 58 135 145" fill="#76a887"/>
+<path d="M399 144c20-42 83-48 105-2 11 24 5 55-15 72H414c-22-18-28-47-15-70z" fill="#174d36"/>
+<path d="M367 170h166c-9-39-44-68-83-68s-74 29-83 68z" fill="#13836e"/>
+<path d="M537 486c38-49 72-83 129-108-7 65-42 112-98 140-12 6-26-4-31-32z" fill="#62a744"/>
+<path d="M363 486c-38-49-72-83-129-108 7 65 42 112 98 140 12 6 26-4 31-32z" fill="#62a744"/>
+<text x="450" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#174d36">LOCAL FARMER</text>
+</svg>

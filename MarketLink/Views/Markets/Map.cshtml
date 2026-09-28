@@ -1,0 +1,195 @@
+@model List<MarketLink.Models.Market>
+
+@{
+    ViewData["Title"] = "Market Map";
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        .public-market-map-page {
+            padding: 42px 0 70px;
+        }
+
+        .public-market-map-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .public-market-map-head span {
+            color: #13836e;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .08em;
+        }
+
+        .public-market-map-head h1 {
+            margin: 6px 0 4px;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 800;
+            color: #173c2f;
+        }
+
+        .public-market-map-head p {
+            margin: 0;
+            color: #667085;
+        }
+
+        #publicMarketsMap {
+            height: 620px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid #e5e9e7;
+            box-shadow: 0 18px 45px rgba(16, 24, 40, .08);
+        }
+
+        .market-map-back {
+            text-decoration: none;
+            font-weight: 700;
+            color: #174d36;
+            white-space: nowrap;
+        }
+
+        .market-popup-name {
+            font-weight: 800;
+            color: #173c2f;
+            margin-bottom: 4px;
+        }
+
+        .market-popup-address {
+            color: #667085;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .market-popup-link {
+            color: #13836e;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        @@media (max-width: 767.98px) {
+            .public-market-map-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            #publicMarketsMap {
+                height: 520px;
+            }
+        }
+    </style>
+}
+
+<section class="public-market-map-page">
+    <div class="container">
+
+        <div class="public-market-map-head">
+            <div>
+                <span>OPENSTREETMAP</span>
+                <h1>Explore all markets</h1>
+                <p>
+                    View every active MarketLink market that has a saved map location.
+                </p>
+            </div>
+
+            <a asp-controller="Markets"
+               asp-action="Index"
+               class="market-map-back">
+                <i class="bi bi-arrow-left"></i>
+                Back to Markets
+            </a>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div id="publicMarketsMap"></div>
+        }
+        else
+        {
+            <div class="alert alert-light border rounded-4 p-4">
+                No active market locations have been added yet.
+            </div>
+        }
+
+    </div>
+</section>
+
+@section Scripts {
+    @if (Model.Any())
+    {
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const markets = [
+                    @foreach (var market in Model)
+                    {
+                        <text>
+                        {
+                            id: @market.MarketId,
+                            name: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(market.MarketName)),
+                            address: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(market.Address)),
+                            lat: @market.Latitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                            lng: @market.Longitude.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                        },
+                        </text>
+                    }
+                ];
+
+                const first = markets[0];
+
+                const map = L.map("publicMarketsMap")
+                    .setView([first.lat, first.lng], 12);
+
+                L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {
+                        maxZoom: 19,
+                        attribution: "&copy; OpenStreetMap contributors"
+                    }
+                ).addTo(map);
+
+                const bounds = [];
+
+                markets.forEach(function (market) {
+
+                    const latLng = [market.lat, market.lng];
+                    bounds.push(latLng);
+
+                    const detailsUrl =
+                        "/Markets/Details/" + market.id;
+
+                    const popup =
+                        '<div class="market-popup-name">' +
+                            market.name +
+                        '</div>' +
+                        '<div class="market-popup-address">' +
+                            (market.address || "Location saved on map") +
+                        '</div>' +
+                        '<a class="market-popup-link" href="' +
+                            detailsUrl +
+                        '">View Market</a>';
+
+                    L.marker(latLng)
+                        .addTo(map)
+                        .bindPopup(popup);
+                });
+
+                if (bounds.length > 1) {
+                    map.fitBounds(bounds, {
+                        padding: [40, 40],
+                        maxZoom: 14
+                    });
+                }
+            });
+        </script>
+    }
+}

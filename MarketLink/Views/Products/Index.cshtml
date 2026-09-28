@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MarketLink.ViewModels.ProductListingViewModel>
+@model IEnumerable<MarketLink.ViewModels.ProductListingViewModel>
 
 @{
     ViewData["Title"] = "Fresh Products";
@@ -7,6 +7,132 @@
         ViewBag.Categories as IEnumerable<MarketLink.ViewModels.ProductCategoryViewModel>
         ?? Enumerable.Empty<MarketLink.ViewModels.ProductCategoryViewModel>();
 }
+
+<style>
+    /* Product page only: preserves existing card layout and upgrades the buy button */
+    .add-to-cart-form {
+        display: inline-flex;
+        margin: 0;
+    }
+
+    .product-add-cart-btn {
+        border: 0;
+        outline: 0;
+        min-height: 42px;
+        padding: 10px 17px;
+        border-radius: 12px;
+        background: #174d36;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+        box-shadow: 0 7px 18px rgba(23, 77, 54, 0.16);
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease,
+            background-color .18s ease;
+    }
+
+    .product-add-cart-btn i {
+        font-size: 17px;
+        line-height: 1;
+    }
+
+    .product-add-cart-btn:hover {
+        background: #103d2a;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(23, 77, 54, 0.22);
+    }
+
+    .product-add-cart-btn:active {
+        transform: translateY(0);
+    }
+
+    .product-add-cart-btn:focus-visible {
+        box-shadow:
+            0 0 0 3px rgba(255, 255, 255, .95),
+            0 0 0 6px rgba(23, 77, 54, .28);
+    }
+
+    .product-add-cart-btn:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    @@media (max-width: 575.98px) {
+        .product-add-cart-btn {
+            min-height: 40px;
+            padding: 9px 14px;
+            font-size: 13px;
+        }
+    }
+</style>
+
+
+
+<style>
+    /* Website product-card action alignment */
+    .product-card-bottom {
+        align-items: flex-end !important;
+        gap: 12px !important;
+    }
+
+    .product-card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        flex: 0 0 auto;
+    }
+
+    .product-card-actions .add-to-cart-form {
+        margin: 0;
+    }
+
+    .product-card-actions .product-add-cart-btn {
+        min-height: 40px;
+        padding: 9px 13px;
+        border-radius: 11px;
+        font-size: 12px;
+        box-shadow: none;
+    }
+
+    .product-card-actions .product-view-btn {
+        flex: 0 0 40px;
+        margin: 0;
+    }
+
+    @@media (max-width: 575.98px) {
+        .product-card-bottom {
+            align-items: flex-start !important;
+            flex-direction: column;
+        }
+
+        .product-card-actions {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .product-card-actions .add-to-cart-form {
+            flex: 1;
+        }
+
+        .product-card-actions .product-add-cart-btn {
+            width: 100%;
+        }
+    }
+</style>
+
 <!-- =========================================================
      MARKETLINK - PRODUCTS HERO
 ========================================================= -->
@@ -322,13 +448,42 @@
 
 
                     <!-- FAVORITE -->
-                    <button type="button"
-                            class="product-favorite"
-                            aria-label="Add @product.ProductName to favorites">
+                    @if (User.Identity?.IsAuthenticated == true &&
+                         User.IsInRole("Customer"))
+                    {
+                        <form asp-controller="CustomerProducts"
+                              asp-action="ToggleFavorite"
+                              method="post"
+                              style="display:contents;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden"
+                                   name="farmerProductId"
+                                   value="@product.FarmerProductId" />
+                            <input type="hidden"
+                                   name="returnUrl"
+                                   value="@Context.Request.Path@Context.Request.QueryString" />
+                            <button type="submit"
+                                    class="product-favorite"
+                                    aria-label="Add @product.ProductName to favorites">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        var favoriteLoginUrl =
+                            "/Auth/Login?returnUrl=" +
+                            Uri.EscapeDataString(
+                                Context.Request.Path +
+                                Context.Request.QueryString);
 
-                        <i class="bi bi-heart"></i>
-
-                    </button>
+                        <button type="button"
+                                class="product-favorite"
+                                aria-label="Sign in to save @product.ProductName"
+                                onclick="window.location.href='@favoriteLoginUrl'">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                    }
 
                 </div>
 
@@ -451,38 +606,69 @@
 
     <div class="product-card-actions">
 
-        <!-- ADD TO CART -->
+        <!-- ADD TO CART / SIGN IN TO BUY -->
 
-        <form asp-controller="Cart"
-              asp-action="AddToCart"
-              method="post"
-              class="add-to-cart-form">
+        @if (User.Identity?.IsAuthenticated == true &&
+             User.IsInRole("Customer"))
+        {
+            <form asp-controller="Cart"
+                  asp-action="Add"
+                  method="post"
+                  class="add-to-cart-form">
 
-            @Html.AntiForgeryToken()
+                @Html.AntiForgeryToken()
 
-            <input type="hidden"
-                   name="farmerProductId"
-                   value="@product.FarmerProductId" />
+                <input type="hidden"
+                       name="FarmerProductId"
+                       value="@product.FarmerProductId" />
 
-            <input type="hidden"
-                   name="farmerMarketId"
-                   value="@product.FarmerMarketId" />
+                <input type="hidden"
+                       name="FarmerMarketId"
+                       value="@product.FarmerMarketId" />
 
-            <input type="hidden"
-                   name="quantity"
-                   value="1" />
+                <input type="hidden"
+                       name="Quantity"
+                       value="1" />
 
-            <button type="submit"
+                <input type="hidden"
+                       name="ReturnUrl"
+                       value="/Cart" />
+
+                <button type="submit"
+                        class="product-add-cart-btn"
+                        title="Add @product.ProductName to cart">
+
+                    <i class="bi bi-cart-plus"></i>
+
+                    <span>Add to Cart</span>
+
+                </button>
+
+            </form>
+        }
+        else
+        {
+            var productReturnUrl =
+                Url.Action("Details",
+                           "Products",
+                           new { id = product.FarmerProductId })
+                ?? "/Products";
+
+            var productLoginUrl =
+                "/Auth/Login?returnUrl=" +
+                Uri.EscapeDataString(productReturnUrl);
+
+            <button type="button"
                     class="product-add-cart-btn"
-                    title="Add @product.ProductName to cart">
+                    title="Sign in to buy @product.ProductName"
+                    onclick="window.location.href='@productLoginUrl'">
 
-                <i class="bi bi-cart-plus"></i>
+                <i class="bi bi-box-arrow-in-right"></i>
 
-                <span>Add to Cart</span>
+                <span>Sign In to Buy</span>
 
             </button>
-
-        </form>
+        }
 
 
         <!-- PRODUCT DETAILS -->

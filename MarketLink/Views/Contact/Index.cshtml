@@ -1,4 +1,6 @@
-﻿@{
+@model MarketLink.ViewModels.ContactPageViewModel
+
+@{
     ViewData["Title"] = "Contact Us";
 }
 
@@ -100,7 +102,7 @@
 
                         <div>
                             <small>Our Location</small>
-                            <strong>Karachi, Sindh, Pakistan</strong>
+                            <strong>@Model.Location</strong>
                         </div>
 
                     </div>
@@ -115,7 +117,12 @@
 
                         <div>
                             <small>Email Address</small>
-                            <strong>hello@marketlink.com</strong>
+                            <strong>
+                                <a href="mailto:@Model.SupportEmail"
+                                   class="contact-direct-link">
+                                    @Model.SupportEmail
+                                </a>
+                            </strong>
                         </div>
 
                     </div>
@@ -130,7 +137,12 @@
 
                         <div>
                             <small>Phone Number</small>
-                            <strong>+92 300 1234567</strong>
+                            <strong>
+                                <a href="tel:@Model.PhoneNumber"
+                                   class="contact-direct-link">
+                                    @Model.PhoneNumber
+                                </a>
+                            </strong>
                         </div>
 
                     </div>
@@ -145,38 +157,68 @@
 
                         <div>
                             <small>Support Hours</small>
-                            <strong>Mon - Sat, 09:00 AM - 06:00 PM</strong>
+                            <strong>@Model.SupportHours</strong>
                         </div>
 
                     </div>
 
 
                     <!-- SOCIAL -->
-                    <div class="contact-social">
+                    @if (!string.IsNullOrWhiteSpace(Model.FacebookUrl) ||
+                         !string.IsNullOrWhiteSpace(Model.InstagramUrl) ||
+                         !string.IsNullOrWhiteSpace(Model.TwitterUrl) ||
+                         !string.IsNullOrWhiteSpace(Model.LinkedInUrl))
+                    {
+                        <div class="contact-social">
 
-                        <span>Follow MarketLink</span>
+                            <span>Follow MarketLink</span>
 
-                        <div class="social-links">
+                            <div class="social-links">
 
-                            <a href="javascript:void(0)">
-                                <i class="bi bi-facebook"></i>
-                            </a>
+                                @if (!string.IsNullOrWhiteSpace(Model.FacebookUrl))
+                                {
+                                    <a href="@Model.FacebookUrl"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Facebook">
+                                        <i class="bi bi-facebook"></i>
+                                    </a>
+                                }
 
-                            <a href="javascript:void(0)">
-                                <i class="bi bi-instagram"></i>
-                            </a>
+                                @if (!string.IsNullOrWhiteSpace(Model.InstagramUrl))
+                                {
+                                    <a href="@Model.InstagramUrl"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Instagram">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+                                }
 
-                            <a href="javascript:void(0)">
-                                <i class="bi bi-twitter-x"></i>
-                            </a>
+                                @if (!string.IsNullOrWhiteSpace(Model.TwitterUrl))
+                                {
+                                    <a href="@Model.TwitterUrl"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="Twitter">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                }
 
-                            <a href="javascript:void(0)">
-                                <i class="bi bi-linkedin"></i>
-                            </a>
+                                @if (!string.IsNullOrWhiteSpace(Model.LinkedInUrl))
+                                {
+                                    <a href="@Model.LinkedInUrl"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       aria-label="LinkedIn">
+                                        <i class="bi bi-linkedin"></i>
+                                    </a>
+                                }
+
+                            </div>
 
                         </div>
-
-                    </div>
+                    }
 
                 </div>
 
@@ -205,28 +247,67 @@
                     </div>
 
 
-                    <form id="contactForm">
+                    @if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+                    {
+                        <div class="contact-success show contact-success-server">
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            <div>
+                                <strong>@Model.SuccessMessage</strong>
+
+                                @if (!string.IsNullOrWhiteSpace(Model.ReferenceNumber))
+                                {
+                                    <span>
+                                        Reference:
+                                        <b>@Model.ReferenceNumber</b>
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.TargetFarmerName))
+                    {
+                        <div class="contact-target-banner">
+                            <i class="bi bi-person-check-fill"></i>
+
+                            <div>
+                                <span>Farmer inquiry</span>
+                                <strong>@Model.TargetFarmerName</strong>
+                            </div>
+                        </div>
+                    }
+
+                    <form asp-controller="Contact"
+                          asp-action="Index"
+                          method="post"
+                          id="contactForm">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="TargetFarmerId"
+                               type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="contact-validation-summary"></div>
 
                         <div class="row g-4">
 
                             <!-- NAME -->
                             <div class="col-md-6">
 
-                                <label for="contactName">
-                                    Your Name
-                                </label>
+                                <label asp-for="Name"></label>
 
                                 <div class="input-wrapper">
-
                                     <i class="bi bi-person"></i>
 
-                                    <input type="text"
-                                           id="contactName"
+                                    <input asp-for="Name"
                                            class="form-control"
-                                           placeholder="Enter your name"
-                                           required />
-
+                                           placeholder="Enter your name" />
                                 </div>
+
+                                <span asp-validation-for="Name"
+                                      class="contact-field-error"></span>
 
                             </div>
 
@@ -234,21 +315,18 @@
                             <!-- EMAIL -->
                             <div class="col-md-6">
 
-                                <label for="contactEmail">
-                                    Email Address
-                                </label>
+                                <label asp-for="Email"></label>
 
                                 <div class="input-wrapper">
-
                                     <i class="bi bi-envelope"></i>
 
-                                    <input type="email"
-                                           id="contactEmail"
+                                    <input asp-for="Email"
                                            class="form-control"
-                                           placeholder="Enter your email"
-                                           required />
-
+                                           placeholder="Enter your email" />
                                 </div>
+
+                                <span asp-validation-for="Email"
+                                      class="contact-field-error"></span>
 
                             </div>
 
@@ -256,41 +334,63 @@
                             <!-- PHONE -->
                             <div class="col-md-6">
 
-                                <label for="contactPhone">
-                                    Phone Number
-                                </label>
+                                <label asp-for="Phone"></label>
 
                                 <div class="input-wrapper">
-
                                     <i class="bi bi-telephone"></i>
 
-                                    <input type="tel"
-                                           id="contactPhone"
+                                    <input asp-for="Phone"
                                            class="form-control"
                                            placeholder="+92 300 1234567" />
-
                                 </div>
+
+                                <span asp-validation-for="Phone"
+                                      class="contact-field-error"></span>
+
+                            </div>
+
+
+                            <!-- INQUIRY TYPE -->
+                            <div class="col-md-6">
+
+                                <label asp-for="InquiryType"></label>
+
+                                <div class="input-wrapper">
+                                    <i class="bi bi-ui-checks-grid"></i>
+
+                                    <select asp-for="InquiryType"
+                                            class="form-control">
+                                        <option value="General">General</option>
+                                        <option value="Order Help">Order Help</option>
+                                        <option value="Farmer Inquiry">Farmer Inquiry</option>
+                                        <option value="Market Help">Market Help</option>
+                                        <option value="Account Help">Account Help</option>
+                                        <option value="Technical Issue">Technical Issue</option>
+                                        <option value="Partnership">Partnership</option>
+                                    </select>
+                                </div>
+
+                                <span asp-validation-for="InquiryType"
+                                      class="contact-field-error"></span>
 
                             </div>
 
 
                             <!-- SUBJECT -->
-                            <div class="col-md-6">
+                            <div class="col-12">
 
-                                <label for="contactSubject">
-                                    Subject
-                                </label>
+                                <label asp-for="Subject"></label>
 
                                 <div class="input-wrapper">
-
                                     <i class="bi bi-chat-left-text"></i>
 
-                                    <input type="text"
-                                           id="contactSubject"
+                                    <input asp-for="Subject"
                                            class="form-control"
                                            placeholder="How can we help?" />
-
                                 </div>
+
+                                <span asp-validation-for="Subject"
+                                      class="contact-field-error"></span>
 
                             </div>
 
@@ -298,20 +398,24 @@
                             <!-- MESSAGE -->
                             <div class="col-12">
 
-                                <label for="contactMessage">
-                                    Your Message
-                                </label>
+                                <label asp-for="Message"></label>
 
                                 <div class="input-wrapper textarea-wrapper">
-
                                     <i class="bi bi-pencil-square"></i>
 
-                                    <textarea id="contactMessage"
+                                    <textarea asp-for="Message"
                                               class="form-control"
                                               rows="6"
-                                              placeholder="Write your message here..."
-                                              required></textarea>
+                                              placeholder="Write your message here..."></textarea>
+                                </div>
 
+                                <div class="contact-message-meta">
+                                    <span asp-validation-for="Message"
+                                          class="contact-field-error"></span>
+
+                                    <span id="contactMessageCount">
+                                        0 / 4000
+                                    </span>
                                 </div>
 
                             </div>
@@ -330,24 +434,16 @@
 
                                 </button>
 
+                                <p class="contact-submit-note">
+                                    <i class="bi bi-shield-check"></i>
+                                    Your inquiry is recorded in MarketLink and routed to the appropriate team.
+                                </p>
+
                             </div>
 
                         </div>
 
                     </form>
-
-                    <div id="contactSuccess"
-                         class="contact-success">
-
-                        <i class="bi bi-check-circle-fill"></i>
-
-                        <div>
-                            <strong>Message Sent Successfully!</strong>
-                            <span>
-                                Thank you for contacting MarketLink.
-                                We'll get back to you soon.
-                            </span>
-                        </div>
 
                     </div>
 
@@ -399,8 +495,8 @@
                     <h3>Find Markets</h3>
 
                     <p>
-                        Discover local farmers markets and their
-                        opening days and locations.
+                        Discover @Model.ActiveMarketCount active local markets,
+                        their opening days and locations.
                     </p>
 
                     <a asp-controller="Markets"
@@ -427,8 +523,8 @@
                     <h3>Explore Products</h3>
 
                     <p>
-                        Browse fresh products from local farmers
-                        available through MarketLink.
+                        Browse @Model.AvailableProductCount currently available
+                        farmer products on MarketLink.
                     </p>
 
                     <a asp-controller="Products"
@@ -455,8 +551,8 @@
                     <h3>Meet Farmers</h3>
 
                     <p>
-                        Learn more about local farmers and discover
-                        where they sell their products.
+                        Meet @Model.ActiveFarmerCount approved local farmers
+                        and discover where they sell their products.
                     </p>
 
                     <a asp-controller="Farmers"
@@ -1170,6 +1266,103 @@
             }
         }
 
+
+        /* =========================
+           DYNAMIC / ACTIONABLE FORM
+        ========================= */
+
+        .contact-direct-link {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-direct-link:hover {
+            color: #2d9955;
+        }
+
+        .input-wrapper select.form-control {
+            appearance: none;
+            cursor: pointer;
+            padding-right: 42px;
+        }
+
+        .contact-validation-summary {
+            margin-bottom: 18px;
+            color: #b42318;
+            font-size: 13px;
+        }
+
+        .contact-validation-summary ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .contact-field-error {
+            display: block;
+            margin-top: 6px;
+            color: #b42318;
+            font-size: 11px;
+        }
+
+        .contact-message-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            margin-top: 5px;
+            color: #8a938e;
+            font-size: 10px;
+        }
+
+        .contact-target-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 20px;
+            padding: 13px 15px;
+            border: 1px solid #d7eadf;
+            border-radius: 13px;
+            background: #f2f9f5;
+            color: #174d36;
+        }
+
+        .contact-target-banner i {
+            font-size: 20px;
+            color: #2d9955;
+        }
+
+        .contact-target-banner span {
+            display: block;
+            color: #718078;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .contact-target-banner strong {
+            display: block;
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .contact-success-server {
+            margin-bottom: 22px;
+        }
+
+        .contact-submit-note {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin: 10px 0 0;
+            color: #8a938e;
+            font-size: 10px;
+        }
+
+        .btn-contact-submit.is-submitting {
+            opacity: .75;
+            pointer-events: none;
+        }
+
     </style>
 
 }
@@ -1177,32 +1370,75 @@
 
 @section Scripts {
 
-    <script>
+    <partial name="_ValidationScriptsPartial" />
 
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
 
-            const contactForm = document.getElementById("contactForm");
-            const successMessage = document.getElementById("contactSuccess");
+            const contactForm =
+                document.getElementById("contactForm");
 
-            contactForm.addEventListener("submit", function (e) {
+            const message =
+                document.getElementById("Message");
 
-                e.preventDefault();
+            const counter =
+                document.getElementById("contactMessageCount");
 
-                const button = document.getElementById("contactSubmit");
+            const submitButton =
+                document.getElementById("contactSubmit");
 
-                button.innerHTML =
-                    '<i class="bi bi-check-circle-fill"></i> Message Sent';
 
-                button.style.background = "#237c44";
+            function updateCount() {
 
-                successMessage.classList.add("show");
+                if (!message || !counter) {
+                    return;
+                }
 
-                contactForm.reset();
+                const length =
+                    message.value.length;
 
-            });
+                counter.textContent =
+                    length + " / 4000";
+
+            }
+
+
+            if (message) {
+
+                message.addEventListener(
+                    "input",
+                    updateCount
+                );
+
+                updateCount();
+
+            }
+
+
+            if (contactForm && submitButton) {
+
+                contactForm.addEventListener(
+                    "submit",
+                    function () {
+
+                        if (!contactForm.checkValidity()) {
+                            return;
+                        }
+
+                        submitButton.classList.add(
+                            "is-submitting"
+                        );
+
+                        submitButton.innerHTML =
+                            '<span>Sending...</span>' +
+                            '<i class="bi bi-arrow-repeat"></i>';
+
+                    }
+                );
+
+            }
 
         });
-
     </script>
 
 }

@@ -1,4 +1,4 @@
-﻿@model MarketLink.ViewModels.ProductDetailsViewModel
+@model MarketLink.ViewModels.ProductDetailsViewModel
 
 @{
     ViewData["Title"] = Model.ProductName;
@@ -393,20 +393,78 @@
                     </div>
 
 
-                    <!-- CART -->
+                    <!-- CART / SIGN IN TO BUY -->
 
-                    <button type="button"
-                            class="add-to-cart-btn"
-                            id="addToCartBtn"
-                        @(Model.IsAvailable ? "" : "disabled")>
+                    @if (User.Identity?.IsAuthenticated == true &&
+                         User.IsInRole("Customer") &&
+                         Model.FarmerMarketId.HasValue)
+                    {
+                        <form asp-controller="Cart"
+                              asp-action="Add"
+                              method="post"
+                              id="websiteAddToCartForm"
+                              style="display:contents;">
 
-                        <i class="bi bi-cart-plus"></i>
+                            @Html.AntiForgeryToken()
 
-                        @(Model.IsAvailable
-                            ? "Add to Cart"
-                            : "Out of Stock")
+                            <input type="hidden"
+                                   name="FarmerProductId"
+                                   value="@Model.FarmerProductId" />
 
-                    </button>
+                            <input type="hidden"
+                                   name="FarmerMarketId"
+                                   value="@Model.FarmerMarketId.Value" />
+
+                            <input type="hidden"
+                                   name="Quantity"
+                                   id="cartQuantityInput"
+                                   value="1" />
+
+                            <input type="hidden"
+                                   name="ReturnUrl"
+                                   value="@Context.Request.Path@Context.Request.QueryString" />
+
+                            <button type="submit"
+                                    class="add-to-cart-btn"
+                                    id="addToCartBtn"
+                                @(Model.IsAvailable ? "" : "disabled")>
+
+                                <i class="bi bi-cart-plus"></i>
+
+                                @(Model.IsAvailable
+                                    ? "Add to Cart"
+                                    : "Out of Stock")
+
+                            </button>
+
+                        </form>
+                    }
+                    else
+                    {
+                        var detailsReturnUrl =
+                            Url.Action("Details",
+                                       "Products",
+                                       new { id = Model.FarmerProductId })
+                            ?? "/Products";
+
+                        var detailsLoginUrl =
+                            "/Auth/Login?returnUrl=" +
+                            Uri.EscapeDataString(detailsReturnUrl);
+
+                        <button type="button"
+                                class="add-to-cart-btn"
+                                id="addToCartBtn"
+                                data-login-url="@detailsLoginUrl"
+                            @(Model.IsAvailable ? "" : "disabled")>
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            @(Model.IsAvailable
+                                ? "Sign In to Buy"
+                                : "Out of Stock")
+
+                        </button>
+                    }
 
                 </div>
 
@@ -1218,41 +1276,65 @@
 
 
             /* =====================================================
-               ADD TO CART - VISUAL FEEDBACK
+               WEBSITE BUYING FLOW
             ===================================================== */
 
             const addToCartButton =
                 document.getElementById("addToCartBtn");
 
+            const cartQuantityInput =
+                document.getElementById("cartQuantityInput");
+
+
+            function syncCartQuantity() {
+
+                if (cartQuantityInput) {
+                    cartQuantityInput.value =
+                        quantity.toString();
+                }
+
+            }
+
+
+            if (increaseButton) {
+                increaseButton.addEventListener(
+                    "click",
+                    syncCartQuantity
+                );
+            }
+
+
+            if (decreaseButton) {
+                decreaseButton.addEventListener(
+                    "click",
+                    syncCartQuantity
+                );
+            }
+
+
+            syncCartQuantity();
+
 
             if (addToCartButton &&
                 !addToCartButton.disabled) {
 
-                addToCartButton.addEventListener("click", function() {
+                addToCartButton.addEventListener(
+                    "click",
+                    function(event) {
 
-                    const originalText =
-                        addToCartButton.innerHTML;
+                        const loginUrl =
+                            addToCartButton.dataset.loginUrl;
 
+                        if (loginUrl) {
+                            event.preventDefault();
+                            window.location.href = loginUrl;
+                            return;
+                        }
 
-                    addToCartButton.innerHTML =
-                        '<i class="bi bi-check-circle"></i> Added to Cart';
+                        syncCartQuantity();
 
-
-                    addToCartButton.style.background =
-                        "#2d7040";
-
-
-                    setTimeout(function() {
-
-                        addToCartButton.innerHTML =
-                            originalText;
-
-                        addToCartButton.style.background =
-                            "";
-
-                    }, 1800);
-
-                });
+                    }
+                );
 
             }
 

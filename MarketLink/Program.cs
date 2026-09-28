@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MarketLink.Models;
@@ -16,9 +16,19 @@ var connectionString =
         "Connection string 'userDbContextConnection' not found."
     );
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString)
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings")
 );
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<NotificationEmailInterceptor>();
+
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    options.UseSqlServer(connectionString);
+    options.AddInterceptors(
+        serviceProvider.GetRequiredService<NotificationEmailInterceptor>()
+    );
+});
 
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<TokenService>();

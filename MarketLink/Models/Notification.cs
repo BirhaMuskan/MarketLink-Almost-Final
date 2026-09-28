@@ -20,5 +20,12 @@ namespace MarketLink.Models
         public bool IsRead { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? ReadAt { get; set; }
+
+        // Email delivery tracking. Email failures never remove the in-app notification.
+        public bool EmailSent { get; set; } = false;
+        public DateTime? EmailSentAt { get; set; }
+
+        [StringLength(1000)]
+        public string? EmailError { get; set; }
     }
 }

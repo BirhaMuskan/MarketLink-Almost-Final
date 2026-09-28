@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MarketLink.ViewModels.FarmerListViewModel>
+@model IEnumerable<MarketLink.ViewModels.FarmerListViewModel>
 
 @{
     ViewData["Title"] = "Farmers";
@@ -205,7 +205,7 @@
                     var farmerImage =
                         !string.IsNullOrWhiteSpace(farmer.ProfileImageUrl)
                             ? farmer.ProfileImageUrl
-                            : "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=700&q=85";
+                            : "/images/default-farmer.svg";
 
                     <div class="col-md-6 col-lg-4 farmer-item"
                          data-name="@farmerName.ToLowerInvariant()"
@@ -263,13 +263,36 @@
 
                                     <!-- FAVORITE -->
 
-                                    <button class="favorite-farmer"
-                                            type="button"
-                                            aria-label="Favorite farmer">
-
-                                        <i class="bi bi-heart"></i>
-
-                                    </button>
+                                    @if (User.Identity?.IsAuthenticated == true &&
+                                         User.IsInRole("Customer"))
+                                    {
+                                        <form asp-controller="CustomerFarmers"
+                                              asp-action="ToggleFavorite"
+                                              method="post"
+                                              style="display:contents;">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden"
+                                                   name="farmerId"
+                                                   value="@farmer.FarmerId" />
+                                            <input type="hidden"
+                                                   name="returnUrl"
+                                                   value="@Context.Request.Path@Context.Request.QueryString" />
+                                            <button class="favorite-farmer"
+                                                    type="submit"
+                                                    aria-label="Favorite farmer">
+                                                <i class="bi bi-heart"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button class="favorite-farmer"
+                                                type="button"
+                                                aria-label="Sign in to favorite farmer"
+                                                onclick="window.location.href='/Auth/Login?returnUrl=%2FFarmers'">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    }
 
                                 </div>
 

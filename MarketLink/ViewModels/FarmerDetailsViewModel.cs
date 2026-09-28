@@ -1,4 +1,4 @@
-﻿namespace MarketLink.ViewModels
+namespace MarketLink.ViewModels
 {
     public class FarmerDetailsViewModel
     {
@@ -15,6 +15,8 @@
         public string Address { get; set; } = "";
 
         public string? ProfileImageUrl { get; set; }
+
+        public string? ContactEmail { get; set; }
 
         public bool IsApproved { get; set; }
 

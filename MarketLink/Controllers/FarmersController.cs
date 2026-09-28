@@ -1,7 +1,8 @@
-﻿using MarketLink.Models;
+using MarketLink.Models;
 using MarketLink.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace MarketLink.Controllers
 {
@@ -178,6 +179,7 @@ namespace MarketLink.Controllers
 
             var farmer = await _context.farmers
                 .AsNoTracking()
+                .Include(f => f.User)
                 .FirstOrDefaultAsync(
                     f =>
                         f.FarmerId == id &&
@@ -312,7 +314,37 @@ namespace MarketLink.Controllers
 
 
             // =========================================================
-            // 7. BUILD FARMER DETAILS VIEW MODEL
+            // 7. CUSTOMER FAVORITE STATE
+            // =========================================================
+
+            bool isFavorite = false;
+
+            if (User.Identity?.IsAuthenticated == true &&
+                int.TryParse(
+                    User.FindFirstValue(ClaimTypes.NameIdentifier),
+                    out var userId))
+            {
+                var customerId = await _context.customers
+                    .AsNoTracking()
+                    .Where(c => c.UserId == userId)
+                    .Select(c => (int?)c.CustomerId)
+                    .FirstOrDefaultAsync(cancellationToken);
+
+                if (customerId.HasValue)
+                {
+                    isFavorite = await _context.favoritefarmers
+                        .AsNoTracking()
+                        .AnyAsync(
+                            ff =>
+                                ff.CustomerId == customerId.Value &&
+                                ff.FarmerId == farmer.FarmerId,
+                            cancellationToken);
+                }
+            }
+
+
+            // =========================================================
+            // 8. BUILD FARMER DETAILS VIEW MODEL
             // =========================================================
 
             var model = new FarmerDetailsViewModel
@@ -337,6 +369,12 @@ namespace MarketLink.Controllers
 
                 ProfileImageUrl =
                     farmer.ProfileImageUrl,
+
+                ContactEmail =
+                    farmer.User?.Email,
+
+                IsFavorite =
+                    isFavorite,
 
                 IsApproved =
                     farmer.IsApproved,

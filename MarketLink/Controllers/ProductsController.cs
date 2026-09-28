@@ -1,4 +1,4 @@
-﻿
+
 using MarketLink.Models;
 using MarketLink.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -276,6 +276,9 @@ namespace MarketLink.Controllers
                             FarmerName =
                                 fp.Farmer?.BusinessName
                                 ?? "Local Farmer",
+
+                            FarmerMarketId =
+                                inventory.FarmerMarketId,
 
                             MarketName =
                                 inventory.FarmerMarket
