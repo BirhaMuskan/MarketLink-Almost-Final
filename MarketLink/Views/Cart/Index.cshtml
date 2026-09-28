@@ -1,16 +1,14 @@
-﻿@{
+﻿@model MarketLink.ViewModels.CartViewModel
+
+@{
     ViewData["Title"] = "Shopping Cart";
 }
 
-<!-- =========================================================
-     MARKETLINK CART PAGE
-========================================================= -->
-
 <div class="cart-page">
 
-    <!-- =====================================================
-         CART HERO / BANNER
-    ====================================================== -->
+    <!-- =========================================================
+         CART HERO
+    ========================================================== -->
 
     <section class="cart-page-hero">
 
@@ -22,23 +20,19 @@
 
             <div class="cart-hero-content">
 
-                <!-- Breadcrumb -->
                 <div class="cart-breadcrumbs">
 
-                    <a href="/">
+                    <a asp-controller="Home"
+                       asp-action="Index">
                         Home
                     </a>
 
                     <i class="bi bi-chevron-right"></i>
 
-                    <span>
-                        Cart
-                    </span>
+                    <span>Cart</span>
 
                 </div>
 
-
-                <!-- Small Label -->
                 <div class="cart-hero-label">
 
                     <i class="bi bi-basket3-fill"></i>
@@ -47,14 +41,10 @@
 
                 </div>
 
-
-                <!-- Heading -->
                 <h1>
                     Your Cart
                 </h1>
 
-
-                <!-- Description -->
                 <p>
                     Review your selected fresh products and get
                     everything ready for your next market pickup.
@@ -67,10 +57,9 @@
     </section>
 
 
-
-    <!-- =====================================================
+    <!-- =========================================================
          CART CONTENT
-    ====================================================== -->
+    ========================================================== -->
 
     <section class="cart-section">
 
@@ -80,15 +69,14 @@
 
 
                 <!-- =================================================
-                     LEFT - CART ITEMS
+                     CART ITEMS
                 ================================================== -->
 
                 <div class="col-lg-8">
 
                     <div class="cart-main-card">
 
-
-                        <!-- CART HEADER -->
+                        <!-- HEADER -->
 
                         <div class="cart-card-header">
 
@@ -108,10 +96,11 @@
 
                             </div>
 
-
                             <span class="cart-items-count">
 
-                                <span id="cartCount">2</span>
+                                <span id="cartCount">
+                                    @Model.TotalQuantity.ToString("0.###")
+                                </span>
 
                                 Items
 
@@ -120,229 +109,152 @@
                         </div>
 
 
-
                         <!-- =================================================
                              CART ITEMS
                         ================================================== -->
 
                         <div id="cartItems">
 
+                            @if (!Model.IsEmpty)
+                            {
+                                foreach (var item in Model.Items)
+                                {
+                                    <div class="cart-item"
+                                         data-id="@item.CartItemId"
+                                         data-price="@item.UnitPrice">
 
-                            <!-- ITEM 1 -->
+                                        <!-- IMAGE -->
 
-                            <div class="cart-item"
-                                 data-id="1"
-                                 data-price="250">
+                                        <div class="cart-product-image">
 
-                                <!-- Product Image -->
+                                            @if (!string.IsNullOrWhiteSpace(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl"
+                                                     alt="@item.ProductName"
+                                                     onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80';" />
+                                            }
+                                            else
+                                            {
+                                                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80"
+                                                     alt="@item.ProductName" />
+                                            }
 
-                                <div class="cart-product-image">
-
-                                    <img src="/images/products/vegetable-basket.jpg"
-                                         alt="Fresh Vegetable Basket"
-                                         onerror="this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=300&q=80';">
-
-                                </div>
-
-
-                                <!-- Product Details -->
-
-                                <div class="cart-product-details">
-
-                                    <span class="cart-product-category">
-                                        Fresh Produce
-                                    </span>
-
-                                    <h3>
-                                        Fresh Vegetable Basket
-                                    </h3>
-
-                                    <p>
-                                        Fresh locally grown seasonal vegetables.
-                                    </p>
-
-                                    <span class="cart-product-price">
-                                        Rs. 250
-                                    </span>
-
-                                </div>
+                                        </div>
 
 
-                                <!-- Quantity -->
+                                        <!-- PRODUCT DETAILS -->
 
-                                <div class="cart-quantity">
+                                        <div class="cart-product-details">
 
-                                    <span class="quantity-label">
-                                        Quantity
-                                    </span>
+                                            <span class="cart-product-category">
+                                                @item.CategoryName
+                                            </span>
 
-                                    <div class="quantity-box">
+                                            <h3>
+                                                @item.ProductName
+                                            </h3>
 
-                                        <button type="button"
-                                                class="quantity-btn minus-btn"
-                                                aria-label="Decrease quantity">
+                                            @if (!string.IsNullOrWhiteSpace(item.ProductDescription))
+                                            {
+                                                <p>
+                                                    @item.ProductDescription
+                                                </p>
+                                            }
 
-                                            <i class="bi bi-dash"></i>
+                                            <span class="cart-product-price">
 
-                                        </button>
+                                                Rs.
+                                                @item.UnitPrice.ToString("N2")
 
-                                        <span class="quantity-value">
-                                            1
-                                        </span>
+                                                @if (!string.IsNullOrWhiteSpace(item.UnitName))
+                                                {
+                                                    <small>
+                                                        / @item.UnitName
+                                                    </small>
+                                                }
 
-                                        <button type="button"
-                                                class="quantity-btn plus-btn"
-                                                aria-label="Increase quantity">
+                                            </span>
 
-                                            <i class="bi bi-plus"></i>
-
-                                        </button>
-
-                                    </div>
-
-                                </div>
-
-
-                                <!-- Item Total -->
-
-                                <div class="cart-item-total">
-
-                                    <span class="item-total-label">
-                                        Total
-                                    </span>
-
-                                    <strong class="item-total-value">
-                                        Rs. 250
-                                    </strong>
-
-                                </div>
+                                        </div>
 
 
-                                <!-- Remove -->
+                                        <!-- QUANTITY -->
 
-                                <button type="button"
-                                        class="remove-item"
-                                        aria-label="Remove item">
+                                        <div class="cart-quantity">
 
-                                    <i class="bi bi-trash3"></i>
+                                            <span class="quantity-label">
+                                                Quantity
+                                            </span>
 
-                                </button>
+                                            <div class="quantity-box">
 
-                            </div>
+                                                <button type="button"
+                                                        class="quantity-btn minus-btn"
+                                                        aria-label="Decrease quantity">
 
+                                                    <i class="bi bi-dash"></i>
 
+                                                </button>
 
-                            <!-- ITEM 2 -->
+                                                <span class="quantity-value">
+                                                    @item.Quantity.ToString("0.###")
+                                                </span>
 
-                            <div class="cart-item"
-                                 data-id="2"
-                                 data-price="180">
+                                                <button type="button"
+                                                        class="quantity-btn plus-btn"
+                                                        aria-label="Increase quantity">
 
-                                <!-- Product Image -->
+                                                    <i class="bi bi-plus"></i>
 
-                                <div class="cart-product-image">
+                                                </button>
 
-                                    <img src="/images/products/apples.jpg"
-                                         alt="Farm Fresh Apples"
-                                         onerror="this.src='https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=300&q=80';">
+                                            </div>
 
-                                </div>
-
-
-                                <!-- Product Details -->
-
-                                <div class="cart-product-details">
-
-                                    <span class="cart-product-category">
-                                        Fresh Fruits
-                                    </span>
-
-                                    <h3>
-                                        Farm Fresh Apples
-                                    </h3>
-
-                                    <p>
-                                        Crisp and naturally sweet farm fresh apples.
-                                    </p>
-
-                                    <span class="cart-product-price">
-                                        Rs. 180
-                                    </span>
-
-                                </div>
+                                        </div>
 
 
-                                <!-- Quantity -->
+                                        <!-- TOTAL -->
 
-                                <div class="cart-quantity">
+                                        <div class="cart-item-total">
 
-                                    <span class="quantity-label">
-                                        Quantity
-                                    </span>
+                                            <span class="item-total-label">
+                                                Total
+                                            </span>
 
-                                    <div class="quantity-box">
+                                            <strong class="item-total-value">
+
+                                                Rs.
+                                                @item.TotalPrice.ToString("N2")
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <!-- REMOVE -->
 
                                         <button type="button"
-                                                class="quantity-btn minus-btn"
-                                                aria-label="Decrease quantity">
+                                                class="remove-item"
+                                                aria-label="Remove item">
 
-                                            <i class="bi bi-dash"></i>
-
-                                        </button>
-
-                                        <span class="quantity-value">
-                                            1
-                                        </span>
-
-                                        <button type="button"
-                                                class="quantity-btn plus-btn"
-                                                aria-label="Increase quantity">
-
-                                            <i class="bi bi-plus"></i>
+                                            <i class="bi bi-trash3"></i>
 
                                         </button>
 
                                     </div>
-
-                                </div>
-
-
-                                <!-- Item Total -->
-
-                                <div class="cart-item-total">
-
-                                    <span class="item-total-label">
-                                        Total
-                                    </span>
-
-                                    <strong class="item-total-value">
-                                        Rs. 180
-                                    </strong>
-
-                                </div>
-
-
-                                <!-- Remove -->
-
-                                <button type="button"
-                                        class="remove-item"
-                                        aria-label="Remove item">
-
-                                    <i class="bi bi-trash3"></i>
-
-                                </button>
-
-                            </div>
+                                }
+                            }
 
                         </div>
 
 
-
-                        <!-- EMPTY CART -->
+                        <!-- =================================================
+                             EMPTY CART
+                        ================================================== -->
 
                         <div id="emptyCart"
                              class="empty-cart"
-                             style="display:none;">
+                             style="@(Model.IsEmpty ? "" : "display:none;")">
 
                             <div class="empty-cart-icon">
 
@@ -358,7 +270,8 @@
                                 You haven't added any products to your cart yet.
                             </p>
 
-                            <a href="/Products"
+                            <a asp-controller="Products"
+                               asp-action="Index"
                                class="continue-shopping-btn">
 
                                 <i class="bi bi-arrow-left"></i>
@@ -370,13 +283,16 @@
                         </div>
 
 
-
-                        <!-- CONTINUE SHOPPING -->
+                        <!-- =================================================
+                             BOTTOM ACTIONS
+                        ================================================== -->
 
                         <div class="cart-bottom-actions"
-                             id="cartBottomActions">
+                             id="cartBottomActions"
+                             style="@(Model.IsEmpty ? "display:none;" : "")">
 
-                            <a href="/Products"
+                            <a asp-controller="Products"
+                               asp-action="Index"
                                class="continue-shopping">
 
                                 <i class="bi bi-arrow-left"></i>
@@ -384,7 +300,6 @@
                                 Continue Shopping
 
                             </a>
-
 
                             <button type="button"
                                     class="clear-cart-btn"
@@ -403,9 +318,8 @@
                 </div>
 
 
-
                 <!-- =================================================
-                     RIGHT - ORDER SUMMARY
+                     ORDER SUMMARY
                 ================================================== -->
 
                 <div class="col-lg-4">
@@ -413,8 +327,7 @@
                     <div class="cart-summary-card"
                          id="cartSummaryCard">
 
-
-                        <!-- Summary Header -->
+                        <!-- HEADER -->
 
                         <div class="summary-header">
 
@@ -433,8 +346,7 @@
                         </div>
 
 
-
-                        <!-- Summary Items -->
+                        <!-- SUMMARY -->
 
                         <div class="summary-items">
 
@@ -445,7 +357,9 @@
                                 </span>
 
                                 <strong id="summaryItems">
-                                    2
+
+                                    @Model.TotalQuantity.ToString("0.###")
+
                                 </strong>
 
                             </div>
@@ -458,7 +372,10 @@
                                 </span>
 
                                 <strong id="subtotal">
-                                    Rs. 430
+
+                                    Rs.
+                                    @Model.Subtotal.ToString("N2")
+
                                 </strong>
 
                             </div>
@@ -479,14 +396,10 @@
                         </div>
 
 
-
-                        <!-- Divider -->
-
                         <div class="summary-divider"></div>
 
 
-
-                        <!-- Total -->
+                        <!-- TOTAL -->
 
                         <div class="summary-total">
 
@@ -495,14 +408,16 @@
                             </span>
 
                             <strong id="grandTotal">
-                                Rs. 430
+
+                                Rs.
+                                @Model.GrandTotal.ToString("N2")
+
                             </strong>
 
                         </div>
 
 
-
-                        <!-- Pickup Notice -->
+                        <!-- PICKUP NOTICE -->
 
                         <div class="pickup-notice">
 
@@ -528,22 +443,24 @@
                         </div>
 
 
-                        <!-- Checkout -->
+                        <!-- CHECKOUT -->
+
                         <a asp-controller="Checkout"
-   asp-action="Index"
-   class="checkout-btn">
+                           asp-action="Index"
+                           class="checkout-btn"
+                           id="checkoutBtn"
+                           style="@(Model.IsEmpty ? "pointer-events:none;opacity:.5;" : "")">
 
-    <span>
-        Continue to Pre-Order
-    </span>
+                            <span>
+                                Continue to Pre-Order
+                            </span>
 
-    <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"></i>
 
-</a>
+                        </a>
 
 
-
-                        <!-- Secure -->
+                        <!-- SECURITY -->
 
                         <div class="secure-checkout">
 
@@ -566,15 +483,31 @@
 </div>
 
 
+<!-- =========================================================
+     ANTI FORGERY TOKEN
+========================================================== -->
 
-<!-- Cart CSS -->
+<form id="cartAntiForgeryForm"
+      asp-controller="Cart"
+      asp-action="UpdateQuantity"
+      method="post"
+      style="display:none;">
 
-<link rel="stylesheet"
-      href="~/css/cart.css"
-      asp-append-version="true" />
+    @Html.AntiForgeryToken()
+
+</form>
 
 
-<!-- Cart JavaScript -->
+@section Styles {
 
-<script src="~/js/cart.js"
-        asp-append-version="true"></script>
+    <link rel="stylesheet"
+          href="~/css/cart.css"
+          asp-append-version="true" />
+}
+
+
+@section Scripts {
+
+    <script src="~/js/cart.js"
+            asp-append-version="true"></script>
+}

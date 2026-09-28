@@ -1,7 +1,4 @@
-﻿
-@{
-    ViewData["Title"] = "Explore Markets";
-}
+﻿@model MarketLink.ViewModels.MarketsViewModel
 
 @{
     ViewData["Title"] = "Markets";
@@ -13,20 +10,13 @@
 
 <section class="markets-banner-hero">
 
-    <!-- Background Image -->
     <div class="markets-banner-image"></div>
 
-    <!-- Dark Green Overlay -->
     <div class="markets-banner-overlay"></div>
-
 
     <div class="container">
 
         <div class="markets-banner-content">
-
-            <!-- =================================================
-                 BREADCRUMB
-            ================================================== -->
 
             <nav class="markets-banner-breadcrumb"
                  aria-label="Breadcrumb">
@@ -45,10 +35,6 @@
             </nav>
 
 
-            <!-- =================================================
-                 LABEL
-            ================================================== -->
-
             <div class="markets-banner-label">
 
                 <i class="bi bi-shop-window"></i>
@@ -58,18 +44,10 @@
             </div>
 
 
-            <!-- =================================================
-                 TITLE
-            ================================================== -->
-
             <h1>
                 Markets
             </h1>
 
-
-            <!-- =================================================
-                 DESCRIPTION
-            ================================================== -->
 
             <p>
                 Explore nearby farmers markets, discover fresh
@@ -116,12 +94,7 @@
             </div>
 
 
-            <!-- =================================================
-                 FILTER ROW
-            ================================================== -->
-
             <div class="row g-3 align-items-end">
-
 
                 <!-- SEARCH -->
 
@@ -218,6 +191,22 @@
                             Friday
                         </option>
 
+                        <option value="monday">
+                            Monday
+                        </option>
+
+                        <option value="tuesday">
+                            Tuesday
+                        </option>
+
+                        <option value="wednesday">
+                            Wednesday
+                        </option>
+
+                        <option value="thursday">
+                            Thursday
+                        </option>
+
                     </select>
 
                 </div>
@@ -256,10 +245,7 @@
 
     <div class="container">
 
-
-        <!-- =================================================
-             SECTION HEADING
-        ================================================== -->
+        <!-- SECTION HEADING -->
 
         <div class="section-heading-row">
 
@@ -284,7 +270,7 @@
             <span class="market-count"
                   id="marketCount">
 
-                6 Markets Found
+                @Model.Markets.Count Markets Found
 
             </span>
 
@@ -298,684 +284,166 @@
         <div class="row g-4"
              id="marketsGrid">
 
+            @if (Model.Markets.Any())
+            {
+                foreach (var item in Model.Markets)
+                {
+                    var market = item.Market;
 
-            <!-- =================================================
-                 MARKET 1
-            ================================================== -->
+                    <div class="col-md-6 col-xl-4 market-item"
+                         data-name="@market.MarketName"
+                         data-location="@market.Address"
+                         data-address="@market.Address"
+                         data-day="@item.AllDays">
 
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Riverside Farmers Market"
-                 data-location="karachi"
-                 data-address="Clifton Karachi"
-                 data-day="saturday">
+                        <article class="market-card">
 
-                <article class="market-card">
+                            <!-- IMAGE -->
 
-                    <div class="market-card-image">
+                            <div class="market-card-image">
 
-                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=85"
-                             alt="Fresh produce at Riverside Farmers Market"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
+                                <img src="@item.ImageUrl"
+                                     alt="@market.MarketName"
+                                     loading="lazy">
 
 
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Riverside Farmers Market">
+                                <span class="market-status">
 
-                            <i class="bi bi-heart"></i>
+                                    <i class="bi bi-circle-fill"></i>
 
-                        </button>
+                                    Open Weekly
+
+                                </span>
+
+
+                                <button type="button"
+                                        class="favorite-market"
+                                        aria-label="Save @market.MarketName"
+                                        data-market-id="@market.MarketId">
+
+                                    <i class="bi bi-heart"></i>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- BODY -->
+
+                            <div class="market-card-body">
+
+                                <span class="market-day">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    @if (item.MarketDays.Any())
+                                    {
+                                        @item.DisplayDays
+                                    }
+                                    else
+                                    {
+                                        <span>Schedule not available</span>
+                                    }
+
+                                </span>
+
+
+                                <h3>
+                                    @market.MarketName
+                                </h3>
+
+
+                                <p class="market-location">
+
+                                    <i class="bi bi-geo-alt"></i>
+
+                                    @market.Address
+
+                                </p>
+
+
+                                <p class="market-description">
+
+                                    @if (!string.IsNullOrWhiteSpace(market.Description))
+                                    {
+                                        @market.Description
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            Fresh products from local farmers
+                                            in your community.
+                                        </span>
+                                    }
+
+                                </p>
+
+
+                                <div class="market-info-row">
+
+                                    <span>
+
+                                        <i class="bi bi-people"></i>
+
+                                        @item.FarmerCount Farmers
+
+                                    </span>
+
+
+                                    <span>
+
+                                        <i class="bi bi-clock"></i>
+
+                                        @item.OperatingTime
+
+                                    </span>
+
+                                </div>
+
+
+                                <a asp-controller="Markets"
+                                   asp-action="Details"
+                                   asp-route-id="@market.MarketId"
+                                   class="market-outline-btn">
+
+                                    View Market
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
 
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
 
+                    <div class="no-markets-message">
 
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Saturday
-
-                        </span>
-
+                        <i class="bi bi-shop"></i>
 
                         <h3>
-                            Riverside Farmers Market
+                            No markets available
                         </h3>
 
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Clifton, Karachi
-
+                        <p>
+                            There are currently no active markets.
                         </p>
-
-
-                        <p class="market-description">
-
-                            Discover fresh vegetables, seasonal fruits,
-                            dairy products, and local handmade goods.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                18 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                8 AM – 2 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="1"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
 
                     </div>
 
-                </article>
-
-            </div>
-
-
-            <!-- =================================================
-                 MARKET 2
-            ================================================== -->
-
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Green Valley Market"
-                 data-location="lahore"
-                 data-address="Model Town Lahore"
-                 data-day="sunday">
-
-                <article class="market-card">
-
-                    <div class="market-card-image">
-
-                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=85"
-                             alt="Green Valley farmers market produce"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
-
-
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Green Valley Market">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Sunday
-
-                        </span>
-
-
-                        <h3>
-                            Green Valley Market
-                        </h3>
-
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Model Town, Lahore
-
-                        </p>
-
-
-                        <p class="market-description">
-
-                            Shop locally grown produce and meet farmers
-                            who bring fresh harvests every week.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                24 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                7 AM – 1 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="2"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- =================================================
-                 MARKET 3
-            ================================================== -->
-
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Sunrise Organic Market"
-                 data-location="islamabad"
-                 data-address="F7 Islamabad"
-                 data-day="friday">
-
-                <article class="market-card">
-
-                    <div class="market-card-image">
-
-                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=85"
-                             alt="Organic produce at Sunrise Market"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
-
-
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Sunrise Organic Market">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Friday
-
-                        </span>
-
-
-                        <h3>
-                            Sunrise Organic Market
-                        </h3>
-
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            F-7, Islamabad
-
-                        </p>
-
-
-                        <p class="market-description">
-
-                            Find organic vegetables, fresh herbs, fruits,
-                            and carefully selected local products.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                15 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                8 AM – 3 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="3"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- =================================================
-                 MARKET 4
-            ================================================== -->
-
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Harvest Community Market"
-                 data-location="karachi"
-                 data-address="DHA Karachi"
-                 data-day="sunday">
-
-                <article class="market-card">
-
-                    <div class="market-card-image">
-
-                        <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=800&q=85"
-                             alt="Harvest Community Market"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
-
-
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Harvest Community Market">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Sunday
-
-                        </span>
-
-
-                        <h3>
-                            Harvest Community Market
-                        </h3>
-
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            DHA, Karachi
-
-                        </p>
-
-
-                        <p class="market-description">
-
-                            A friendly community market with fresh
-                            produce, homemade foods, and local sellers.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                20 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                9 AM – 3 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="4"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- =================================================
-                 MARKET 5
-            ================================================== -->
-
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Meadow Fresh Market"
-                 data-location="lahore"
-                 data-address="Gulberg Lahore"
-                 data-day="saturday">
-
-                <article class="market-card">
-
-                    <div class="market-card-image">
-
-                        <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650?auto=format&fit=crop&w=800&q=85"
-                             alt="Meadow Fresh Market"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
-
-
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Meadow Fresh Market">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Saturday
-
-                        </span>
-
-
-                        <h3>
-                            Meadow Fresh Market
-                        </h3>
-
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Gulberg, Lahore
-
-                        </p>
-
-
-                        <p class="market-description">
-
-                            Fresh seasonal produce from trusted local
-                            farmers and small food businesses.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                16 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                8 AM – 2 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="5"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- =================================================
-                 MARKET 6
-            ================================================== -->
-
-            <div class="col-md-6 col-xl-4 market-item"
-                 data-name="Community Harvest Market"
-                 data-location="islamabad"
-                 data-address="G9 Islamabad"
-                 data-day="saturday">
-
-                <article class="market-card">
-
-                    <div class="market-card-image">
-
-                        <img src="https://images.unsplash.com/photo-1498579397066-22750a3cb424?auto=format&fit=crop&w=800&q=85"
-                             alt="Community Harvest Market"
-                             loading="lazy">
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open Weekly
-
-                        </span>
-
-
-                        <button type="button"
-                                class="favorite-market"
-                                aria-label="Save Community Harvest Market">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-                        <span class="market-day">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Every Saturday
-
-                        </span>
-
-
-                        <h3>
-                            Community Harvest Market
-                        </h3>
-
-
-                        <p class="market-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            G-9, Islamabad
-
-                        </p>
-
-
-                        <p class="market-description">
-
-                            Meet local producers and discover seasonal
-                            products at this community market.
-
-                        </p>
-
-
-                        <div class="market-info-row">
-
-                            <span>
-
-                                <i class="bi bi-people"></i>
-
-                                12 Farmers
-
-                            </span>
-
-
-                            <span>
-
-                                <i class="bi bi-clock"></i>
-
-                                8 AM – 1 PM
-
-                            </span>
-
-                        </div>
-
-
-                        <a asp-controller="Markets"
-                           asp-action="Details"
-                           asp-route-id="6"
-                           class="market-outline-btn">
-
-                            View Market
-
-                            <i class="bi bi-arrow-right"></i>
-
-                        </a>
-
-                    </div>
-
-                </article>
-
-            </div>
+                </div>
+            }
 
         </div>
 
 
-        <!-- =================================================
-             NO RESULTS
-        ================================================== -->
+        <!-- NO RESULTS -->
 
         <div id="noMarkets"
              class="no-markets-message d-none">
@@ -1007,11 +475,6 @@
 
         <div class="row align-items-center g-5">
 
-
-            <!-- =================================================
-                 MAP CONTENT
-            ================================================== -->
-
             <div class="col-lg-5">
 
                 <span class="section-tag">
@@ -1029,10 +492,8 @@
 
 
                 <p>
-
                     Discover market locations and plan your next
                     pickup with convenient location information.
-
                 </p>
 
 
@@ -1079,14 +540,9 @@
             </div>
 
 
-            <!-- =================================================
-                 MAP PREVIEW
-            ================================================== -->
-
             <div class="col-lg-7">
 
                 <div class="market-map-preview">
-
 
                     <div class="map-preview-top">
 
@@ -1110,17 +566,12 @@
 
                     <div class="map-visual">
 
-
-                        <!-- Roads -->
-
                         <div class="map-road road-one"></div>
 
                         <div class="map-road road-two"></div>
 
                         <div class="map-road road-three"></div>
 
-
-                        <!-- Pins -->
 
                         <div class="map-pin pin-one">
 
@@ -1142,8 +593,6 @@
 
                         </div>
 
-
-                        <!-- Labels -->
 
                         <div class="map-label label-one">
 
@@ -1188,7 +637,6 @@
 
         <div class="markets-cta">
 
-
             <div>
 
                 <span class="section-tag">
@@ -1228,6 +676,233 @@
 
 </section>
 
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const searchInput =
+                document.getElementById("marketSearch");
+
+            const locationFilter =
+                document.getElementById("locationFilter");
+
+            const dayFilter =
+                document.getElementById("dayFilter");
+
+            const resetButton =
+                document.getElementById("resetFilters");
+
+            const marketItems =
+                document.querySelectorAll(".market-item");
+
+            const marketCount =
+                document.getElementById("marketCount");
+
+            const noMarkets =
+                document.getElementById("noMarkets");
+
+
+            function filterMarkets() {
+
+                const searchValue =
+                    searchInput.value.toLowerCase().trim();
+
+                const selectedLocation =
+                    locationFilter.value.toLowerCase();
+
+                const selectedDay =
+                    dayFilter.value.toLowerCase();
+
+                let visibleMarkets = 0;
+
+
+                marketItems.forEach(function (item) {
+
+                    const marketName =
+                        (item.dataset.name || "").toLowerCase();
+
+                    const marketAddress =
+                        (item.dataset.address || "").toLowerCase();
+
+                    const marketLocation =
+                        (item.dataset.location || "").toLowerCase();
+
+                    const marketDays =
+                        (item.dataset.day || "").toLowerCase();
+
+
+                    const matchesSearch =
+                        marketName.includes(searchValue) ||
+                        marketAddress.includes(searchValue);
+
+
+                    const matchesLocation =
+                        selectedLocation === "all" ||
+                        marketLocation.includes(selectedLocation);
+
+
+                    const matchesDay =
+                        selectedDay === "all" ||
+                        marketDays
+                            .split("|")
+                            .includes(selectedDay);
+
+
+                    if (
+                        matchesSearch &&
+                        matchesLocation &&
+                        matchesDay
+                    ) {
+
+                        item.classList.remove("d-none");
+
+                        visibleMarkets++;
+
+                    }
+                    else {
+
+                        item.classList.add("d-none");
+
+                    }
+
+                });
+
+
+                marketCount.textContent =
+                    visibleMarkets + " Markets Found";
+
+
+                if (visibleMarkets === 0) {
+
+                    noMarkets.classList.remove("d-none");
+
+                }
+                else {
+
+                    noMarkets.classList.add("d-none");
+
+                }
+
+            }
+
+
+            /* SEARCH */
+
+            if (searchInput) {
+
+                searchInput.addEventListener(
+                    "input",
+                    filterMarkets
+                );
+
+            }
+
+
+            /* LOCATION */
+
+            if (locationFilter) {
+
+                locationFilter.addEventListener(
+                    "change",
+                    filterMarkets
+                );
+
+            }
+
+
+            /* DAY */
+
+            if (dayFilter) {
+
+                dayFilter.addEventListener(
+                    "change",
+                    filterMarkets
+                );
+
+            }
+
+
+            /* RESET */
+
+            if (resetButton) {
+
+                resetButton.addEventListener(
+                    "click",
+                    function () {
+
+                        searchInput.value = "";
+
+                        locationFilter.value = "all";
+
+                        dayFilter.value = "all";
+
+                        filterMarkets();
+
+                    }
+                );
+
+            }
+
+
+            /* FAVORITES */
+
+            document
+                .querySelectorAll(".favorite-market")
+                .forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            button.classList.toggle("active");
+
+                            const icon =
+                                button.querySelector("i");
+
+
+                            if (
+                                button.classList.contains("active")
+                            ) {
+
+                                icon.classList.remove(
+                                    "bi-heart"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart-fill"
+                                );
+
+                            }
+                            else {
+
+                                icon.classList.remove(
+                                    "bi-heart-fill"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart"
+                                );
+
+                            }
+
+                        }
+                    );
+
+                });
+
+
+            /* INITIAL FILTER */
+
+            filterMarkets();
+
+        });
+
+    </script>
+
+}
 
 @section Styles {
     <style>
@@ -2589,7 +2264,7 @@
 }
 
 
-@section Scripts {
+@* @section Scripts {
 
     <script>
 
@@ -2820,4 +2495,4 @@
         });
 
     </script>
-}
+} *@

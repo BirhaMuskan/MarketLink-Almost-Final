@@ -1,7 +1,12 @@
-﻿@{
-    ViewData["Title"] = "Fresh Products";
-}
+﻿@model IEnumerable<MarketLink.ViewModels.ProductListingViewModel>
 
+@{
+    ViewData["Title"] = "Fresh Products";
+
+    var categories =
+        ViewBag.Categories as IEnumerable<MarketLink.ViewModels.ProductCategoryViewModel>
+        ?? Enumerable.Empty<MarketLink.ViewModels.ProductCategoryViewModel>();
+}
 <!-- =========================================================
      MARKETLINK - PRODUCTS HERO
 ========================================================= -->
@@ -123,6 +128,7 @@
 
             <div class="product-category-list">
 
+                <!-- ALL PRODUCTS -->
                 <button type="button"
                         class="product-category active"
                         data-category="all">
@@ -136,82 +142,52 @@
                 </button>
 
 
-                <button type="button"
-                        class="product-category"
-                        data-category="vegetables">
+                <!-- DYNAMIC CATEGORIES -->
+                @foreach (var category in categories)
+                {
+                    <button type="button"
+                            class="product-category"
+                            data-category="@category.CategorySlug">
 
-                    <span class="product-category-icon">
-                        <i class="bi bi-flower1"></i>
-                    </span>
+                        <span class="product-category-icon">
 
-                    <strong>Vegetables</strong>
+                            @if (category.CategorySlug.Contains("vegetable"))
+                            {
+                                <i class="bi bi-flower1"></i>
+                            }
+                            else if (category.CategorySlug.Contains("fruit"))
+                            {
+                                <i class="bi bi-apple"></i>
+                            }
+                            else if (category.CategorySlug.Contains("dairy"))
+                            {
+                                <i class="bi bi-cup-hot"></i>
+                            }
+                            else if (category.CategorySlug.Contains("grain"))
+                            {
+                                <i class="bi bi-box-seam"></i>
+                            }
+                            else if (category.CategorySlug.Contains("organic"))
+                            {
+                                <i class="bi bi-leaf"></i>
+                            }
+                            else if (category.CategorySlug.Contains("herb"))
+                            {
+                                <i class="bi bi-tree"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-basket"></i>
+                            }
 
-                </button>
+                        </span>
 
+                        <strong>
+                            @category.CategoryName
+                        </strong>
 
-                <button type="button"
-                        class="product-category"
-                        data-category="fruits">
-
-                    <span class="product-category-icon">
-                        <i class="bi bi-apple"></i>
-                    </span>
-
-                    <strong>Fruits</strong>
-
-                </button>
-
-
-                <button type="button"
-                        class="product-category"
-                        data-category="dairy">
-
-                    <span class="product-category-icon">
-                        <i class="bi bi-cup-hot"></i>
-                    </span>
-
-                    <strong>Dairy</strong>
-
-                </button>
-
-
-                <button type="button"
-                        class="product-category"
-                        data-category="grains">
-
-                    <span class="product-category-icon">
-                        <i class="bi bi-box-seam"></i>
-                    </span>
-
-                    <strong>Grains</strong>
-
-                </button>
-
-
-                <button type="button"
-                        class="product-category"
-                        data-category="organic">
-
-                    <span class="product-category-icon">
-                        <i class="bi bi-leaf"></i>
-                    </span>
-
-                    <strong>Organic</strong>
-
-                </button>
-
-
-                <button type="button"
-                        class="product-category"
-                        data-category="herbs">
-
-                    <span class="product-category-icon">
-                        <i class="bi bi-tree"></i>
-                    </span>
-
-                    <strong>Herbs</strong>
-
-                </button>
+                    </button>
+                }
 
             </div>
 
@@ -256,8 +232,8 @@
                 </h2>
 
                 <p id="productResultText">
-                    Showing all available products
-                </p>
+    @Model.Count() products available
+</p>
 
             </div>
 
@@ -313,914 +289,257 @@
 
         <!-- PRODUCT GRID -->
 
-        <div class="row g-4"
-             id="productsGrid">
+        <div class="row g-4" id="productsGrid">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6 product-item"
+             data-name="@product.ProductName"
+             data-category="@product.CategorySlug"
+             data-price="@product.Price">
+
+            <div class="product-card">
+
+                <!-- =========================================
+                     PRODUCT IMAGE
+                ========================================== -->
+
+                <div class="product-image-wrapper">
+
+                    <img src="@product.ImageUrl"
+                         alt="@product.ProductName"
+                         class="product-image"
+                         onerror="this.src='/images/products/default-product.jpg';" />
 
 
-            <!-- PRODUCT 1 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Fresh Tomatoes"
-                 data-category="vegetables"
-                 data-price="180">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=700&q=80"
-                             alt="Fresh Tomatoes"
-                             class="product-image">
-
+                    <!-- BADGE -->
+                    @if (!string.IsNullOrWhiteSpace(product.BadgeText))
+                    {
                         <span class="product-fresh-badge">
-                            Fresh
+                            @product.BadgeText
                         </span>
+                    }
 
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Fresh Tomatoes to favorites">
 
-                            <i class="bi bi-heart"></i>
+                    <!-- FAVORITE -->
+                    <button type="button"
+                            class="product-favorite"
+                            aria-label="Add @product.ProductName to favorites">
 
-                        </button>
+                        <i class="bi bi-heart"></i>
+
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     PRODUCT BODY
+                ========================================== -->
+
+                <div class="product-card-body">
+
+                    <!-- CATEGORY -->
+                    <span class="product-category-label">
+                        @product.CategoryName
+                    </span>
+
+
+                    <!-- PRODUCT NAME -->
+                    <h3>
+                        @product.ProductName
+                    </h3>
+
+
+                    <!-- =====================================
+                         RATING
+                    ====================================== -->
+
+                    <div class="product-rating">
+
+                        @if (product.Rating > 0)
+                        {
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (product.Rating >= i)
+                                {
+                                    <i class="bi bi-star-fill"></i>
+                                }
+                                else if (product.Rating >= i - 0.5m)
+                                {
+                                    <i class="bi bi-star-half"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-star"></i>
+                                }
+                            }
+
+                            <span>
+                                @product.Rating.ToString("0.0")
+                            </span>
+
+                            @if (product.ReviewCount > 0)
+                            {
+                                <small>
+                                    (@product.ReviewCount)
+                                </small>
+                            }
+                        }
+                        else
+                        {
+                            <span>
+                                No reviews
+                            </span>
+                        }
 
                     </div>
 
 
-                    <div class="product-card-body">
+                    <!-- =====================================
+                         FARMER
+                    ====================================== -->
 
-                        <span class="product-category-label">
-                            Vegetables
+                    <div class="product-farmer">
+
+                        <i class="bi bi-person-circle"></i>
+
+                        <span>
+                            @product.FarmerName
                         </span>
 
-                        <h3>
-                            Fresh Tomatoes
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-
-                            <span>4.8</span>
-
-                        </div>
+                    </div>
 
 
-                        <div class="product-farmer">
+                    <!-- =====================================
+                         MARKET
+                    ====================================== -->
 
-                            <i class="bi bi-person-circle"></i>
+                    <div class="product-location">
 
-                            <span>
-                                Ahmed Farm
-                            </span>
+                        <i class="bi bi-geo-alt"></i>
 
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                Clifton Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 180
-                                </strong>
-
-                                <span>
-                                    / kg
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="1"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
+                        <span>
+                            @product.MarketName
+                        </span>
 
                     </div>
+
+
+                    <!-- =====================================
+     PRICE + ACTIONS
+====================================== -->
+
+<div class="product-card-bottom">
+
+    <!-- PRICE -->
+
+    <div class="product-price">
+
+        <strong>
+            Rs. @product.Price.ToString("N0")
+        </strong>
+
+        <span>
+            / @product.UnitName
+        </span>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="product-card-actions">
+
+        <!-- ADD TO CART -->
+
+        <form asp-controller="Cart"
+              asp-action="AddToCart"
+              method="post"
+              class="add-to-cart-form">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="farmerProductId"
+                   value="@product.FarmerProductId" />
+
+            <input type="hidden"
+                   name="farmerMarketId"
+                   value="@product.FarmerMarketId" />
+
+            <input type="hidden"
+                   name="quantity"
+                   value="1" />
+
+            <button type="submit"
+                    class="product-add-cart-btn"
+                    title="Add @product.ProductName to cart">
+
+                <i class="bi bi-cart-plus"></i>
+
+                <span>Add to Cart</span>
+
+            </button>
+
+        </form>
+
+
+        <!-- PRODUCT DETAILS -->
+
+        <a asp-controller="Products"
+           asp-action="Details"
+           asp-route-id="@product.FarmerProductId"
+           class="product-view-btn"
+           aria-label="View @product.ProductName details"
+           title="View product details">
+
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+</div>
 
                 </div>
 
             </div>
-
-
-
-            <!-- PRODUCT 2 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Fresh Apples"
-                 data-category="fruits"
-                 data-price="420">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80"
-                             alt="Fresh Apples"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Popular
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Fresh Apples to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Fruits
-                        </span>
-
-                        <h3>
-                            Fresh Apples
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star"></i>
-
-                            <span>4.5</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Green Valley Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                DHA Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 420
-                                </strong>
-
-                                <span>
-                                    / kg
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="2"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 3 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Organic Spinach"
-                 data-category="vegetables organic"
-                 data-price="120">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=700&q=80"
-                             alt="Organic Spinach"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Organic
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Organic Spinach to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Organic
-                        </span>
-
-                        <h3>
-                            Organic Spinach
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-
-                            <span>4.9</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Nature Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                North Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 120
-                                </strong>
-
-                                <span>
-                                    / bunch
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="3"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 4 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Farm Fresh Milk"
-                 data-category="dairy"
-                 data-price="260">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=700&q=80"
-                             alt="Farm Fresh Milk"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Farm Fresh
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Farm Fresh Milk to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Dairy
-                        </span>
-
-                        <h3>
-                            Farm Fresh Milk
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-
-                            <span>4.7</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Pure Dairy Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                Clifton Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 260
-                                </strong>
-
-                                <span>
-                                    / litre
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="4"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 5 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Organic Honey"
-                 data-category="organic"
-                 data-price="850">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=700&q=80"
-                             alt="Organic Honey"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Organic
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Organic Honey to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Organic
-                        </span>
-
-                        <h3>
-                            Organic Honey
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-
-                            <span>5.0</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Golden Bee Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                Lahore Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 850
-                                </strong>
-
-                                <span>
-                                    / jar
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="5"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 6 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Basmati Rice"
-                 data-category="grains"
-                 data-price="380">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80"
-                             alt="Basmati Rice"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Local
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Basmati Rice to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Grains
-                        </span>
-
-                        <h3>
-                            Premium Basmati Rice
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star"></i>
-
-                            <span>4.6</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Punjab Grain Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                Central Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 380
-                                </strong>
-
-                                <span>
-                                    / kg
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="6"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 7 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Fresh Coriander"
-                 data-category="herbs vegetables"
-                 data-price="80">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1588879460618-924a39a7c6d0?auto=format&fit=crop&w=700&q=80"
-                             alt="Fresh Coriander"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Fresh
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Fresh Coriander to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Herbs
-                        </span>
-
-                        <h3>
-                            Fresh Coriander
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
-
-                            <span>4.7</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Green Fields Farm
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                DHA Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 80
-                                </strong>
-
-                                <span>
-                                    / bunch
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="7"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 8 -->
-
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item"
-                 data-name="Fresh Mangoes"
-                 data-category="fruits"
-                 data-price="320">
-
-                <div class="product-card">
-
-                    <div class="product-image-wrapper">
-
-                        <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=700&q=80"
-                             alt="Fresh Mangoes"
-                             class="product-image">
-
-                        <span class="product-fresh-badge">
-                            Seasonal
-                        </span>
-
-                        <button type="button"
-                                class="product-favorite"
-                                aria-label="Add Fresh Mangoes to favorites">
-
-                            <i class="bi bi-heart"></i>
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="product-card-body">
-
-                        <span class="product-category-label">
-                            Fruits
-                        </span>
-
-                        <h3>
-                            Fresh Mangoes
-                        </h3>
-
-                        <div class="product-rating">
-
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-
-                            <span>4.9</span>
-
-                        </div>
-
-
-                        <div class="product-farmer">
-
-                            <i class="bi bi-person-circle"></i>
-
-                            <span>
-                                Sindh Orchard
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-location">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            <span>
-                                Clifton Market
-                            </span>
-
-                        </div>
-
-
-                        <div class="product-card-bottom">
-
-                            <div class="product-price">
-
-                                <strong>
-                                    Rs. 320
-                                </strong>
-
-                                <span>
-                                    / kg
-                                </span>
-
-                            </div>
-
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="8"
-                               class="product-view-btn">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
 
         </div>
+    }
+
+</div>
 
 
 
         <!-- NO RESULTS -->
 
         <div id="noProductResults"
-             class="no-product-results"
-             style="display:none;">
+     class="no-product-results"
+     style="display:none;">
 
-            <div class="no-product-icon">
+    <div class="no-product-icon">
+        <i class="bi bi-search"></i>
+    </div>
 
-                <i class="bi bi-search"></i>
+    <h3>
+        No products found
+    </h3>
 
-            </div>
+    <p>
+        Try another search term or select a different category.
+    </p>
 
-            <h3>
-                No products found
-            </h3>
+    <button type="button"
+            id="resetProductFilters"
+            class="reset-product-btn">
 
-            <p>
-                Try another search term or select a different category.
-            </p>
+        Show All Products
 
-            <button type="button"
-                    id="resetProductFilters"
-                    class="reset-product-btn">
+    </button>
 
-                Show All Products
-
-            </button>
-
-        </div>
+</div>
 
     </div>
 
@@ -2447,13 +1766,21 @@
             const categoryButtons =
                 document.querySelectorAll(".product-category");
 
+
             let selectedCategory = "all";
 
+
+            // =====================================================
+            // FILTER PRODUCTS
+            // =====================================================
 
             function filterProducts() {
 
                 const searchValue =
-                    searchInput.value.toLowerCase().trim();
+                    (searchInput?.value || "")
+                        .toLowerCase()
+                        .trim();
+
 
                 const products =
                     Array.from(
@@ -2467,18 +1794,24 @@
                 products.forEach(function (product) {
 
                     const name =
-                        product.dataset.name.toLowerCase();
+                        (product.dataset.name || "")
+                            .toLowerCase();
+
 
                     const category =
-                        product.dataset.category.toLowerCase();
+                        (product.dataset.category || "")
+                            .toLowerCase();
 
 
                     const matchesSearch =
                         name.includes(searchValue);
 
+
                     const matchesCategory =
                         selectedCategory === "all" ||
-                        category.includes(selectedCategory);
+                        category.includes(
+                            selectedCategory.toLowerCase()
+                        );
 
 
                     if (matchesSearch && matchesCategory) {
@@ -2487,7 +1820,8 @@
 
                         visibleProducts.push(product);
 
-                    } else {
+                    }
+                    else {
 
                         product.style.display = "none";
 
@@ -2496,28 +1830,54 @@
                 });
 
 
-                noResults.style.display =
-                    visibleProducts.length === 0
-                        ? "block"
-                        : "none";
+                // =================================================
+                // NO RESULTS
+                // =================================================
+
+                if (noResults) {
+
+                    noResults.style.display =
+                        visibleProducts.length === 0
+                            ? "block"
+                            : "none";
+
+                }
 
 
-                resultText.textContent =
-                    visibleProducts.length +
-                    " product" +
-                    (visibleProducts.length === 1 ? "" : "s") +
-                    " available";
+                // =================================================
+                // RESULT COUNT
+                // =================================================
 
+                if (resultText) {
+
+                    resultText.textContent =
+                        visibleProducts.length +
+                        " product" +
+                        (visibleProducts.length === 1
+                            ? ""
+                            : "s") +
+                        " available";
+
+                }
+
+
+                // =================================================
+                // SORT
+                // =================================================
 
                 sortProducts(visibleProducts);
 
             }
 
 
+            // =====================================================
+            // SORT PRODUCTS
+            // =====================================================
+
             function sortProducts(products) {
 
                 const sortValue =
-                    sortSelect.value;
+                    sortSelect?.value || "default";
 
 
                 if (sortValue === "default") {
@@ -2528,43 +1888,43 @@
                 products.sort(function (a, b) {
 
                     const nameA =
-                        a.dataset.name.toLowerCase();
+                        (a.dataset.name || "")
+                            .toLowerCase();
+
 
                     const nameB =
-                        b.dataset.name.toLowerCase();
+                        (b.dataset.name || "")
+                            .toLowerCase();
+
 
                     const priceA =
-                        Number(a.dataset.price);
+                        Number(a.dataset.price || 0);
+
 
                     const priceB =
-                        Number(b.dataset.price);
+                        Number(b.dataset.price || 0);
 
 
-                    if (sortValue === "nameAsc") {
+                    switch (sortValue) {
 
-                        return nameA.localeCompare(nameB);
-
-                    }
-
-
-                    if (sortValue === "nameDesc") {
-
-                        return nameB.localeCompare(nameA);
-
-                    }
+                        case "nameAsc":
+                            return nameA.localeCompare(nameB);
 
 
-                    if (sortValue === "priceLow") {
-
-                        return priceA - priceB;
-
-                    }
+                        case "nameDesc":
+                            return nameB.localeCompare(nameA);
 
 
-                    if (sortValue === "priceHigh") {
+                        case "priceLow":
+                            return priceA - priceB;
 
-                        return priceB - priceA;
 
+                        case "priceHigh":
+                            return priceB - priceA;
+
+
+                        default:
+                            return 0;
                     }
 
                 });
@@ -2579,7 +1939,9 @@
             }
 
 
-            /* SEARCH */
+            // =====================================================
+            // SEARCH
+            // =====================================================
 
             if (searchInput) {
 
@@ -2591,7 +1953,9 @@
             }
 
 
-            /* SORT */
+            // =====================================================
+            // SORT
+            // =====================================================
 
             if (sortSelect) {
 
@@ -2603,7 +1967,9 @@
             }
 
 
-            /* CATEGORY */
+            // =====================================================
+            // CATEGORY
+            // =====================================================
 
             categoryButtons.forEach(function (button) {
 
@@ -2622,7 +1988,7 @@
 
 
                         selectedCategory =
-                            button.dataset.category;
+                            button.dataset.category || "all";
 
 
                         filterProducts();
@@ -2633,7 +1999,9 @@
             });
 
 
-            /* RESET */
+            // =====================================================
+            // RESET
+            // =====================================================
 
             if (resetButton) {
 
@@ -2641,9 +2009,15 @@
                     "click",
                     function () {
 
-                        searchInput.value = "";
+                        if (searchInput) {
+                            searchInput.value = "";
+                        }
 
-                        sortSelect.value = "default";
+
+                        if (sortSelect) {
+                            sortSelect.value = "default";
+                        }
+
 
                         selectedCategory = "all";
 
@@ -2657,8 +2031,12 @@
                         );
 
 
-                        categoryButtons[0]
-                            .classList.add("active");
+                        if (categoryButtons.length > 0) {
+
+                            categoryButtons[0]
+                                .classList.add("active");
+
+                        }
 
 
                         filterProducts();
@@ -2669,58 +2047,74 @@
             }
 
 
-            /* FAVORITES */
+            // =====================================================
+            // FAVORITES
+            // =====================================================
 
-            const favoriteButtons =
-                document.querySelectorAll(
-                    ".product-favorite"
-                );
+            function initializeFavorites() {
 
-
-            favoriteButtons.forEach(function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        button.classList.toggle("active");
+                const favoriteButtons =
+                    document.querySelectorAll(
+                        ".product-favorite"
+                    );
 
 
-                        const icon =
-                            button.querySelector("i");
+                favoriteButtons.forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            button.classList.toggle("active");
 
 
-                        if (
-                            button.classList.contains("active")
-                        ) {
+                            const icon =
+                                button.querySelector("i");
 
-                            icon.classList.remove(
-                                "bi-heart"
-                            );
 
-                            icon.classList.add(
-                                "bi-heart-fill"
-                            );
+                            if (!icon) {
+                                return;
+                            }
 
-                        } else {
 
-                            icon.classList.remove(
-                                "bi-heart-fill"
-                            );
+                            if (
+                                button.classList.contains("active")
+                            ) {
 
-                            icon.classList.add(
-                                "bi-heart"
-                            );
+                                icon.classList.remove(
+                                    "bi-heart"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart-fill"
+                                );
+
+                            }
+                            else {
+
+                                icon.classList.remove(
+                                    "bi-heart-fill"
+                                );
+
+                                icon.classList.add(
+                                    "bi-heart"
+                                );
+
+                            }
 
                         }
+                    );
 
-                    }
-                );
+                });
 
-            });
+            }
 
 
-            /* INITIAL */
+            // =====================================================
+            // INITIAL LOAD
+            // =====================================================
+
+            initializeFavorites();
 
             filterProducts();
 

@@ -1,6 +1,30 @@
-﻿@{
+
+@model MarketLink.ViewModels.HomeViewModel
+
+@{
     ViewData["Title"] = "Home";
+
+    var heroMarket = Model.HeroMarket;
+    var heroProduct = Model.HeroProduct;
+
+    // Images are only fallback/demo images because
+    // HomeMarketViewModel currently has no ImageUrl property.
+    var marketImages = new[]
+    {
+        "~/images/markets/riverside-market.jpg",
+        "~/images/markets/green-valley-market.jpg",
+        "~/images/markets/sunrise-market.jpg",
+        "~/images/markets/harvest-market.jpg"
+    };
+
+   
+    var fallbackProductImage =
+        "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=85";
+
+    var heroImage =
+    "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1200&q=90";
 }
+
 
 <!-- =====================================================
      HERO SECTION
@@ -71,20 +95,27 @@
 
                     <div class="avatar-stack">
 
-                        <div class="mini-avatar">
-                            <img src="https://i.pravatar.cc/80?img=12"
-                                 alt="Customer">
-                        </div>
+                        @if (Model.Farmers.Any())
+                        {
+                            foreach (var farmer in Model.Farmers.Take(3))
+                            {
+                                <div class="mini-avatar">
 
-                        <div class="mini-avatar">
-                            <img src="https://i.pravatar.cc/80?img=32"
-                                 alt="Customer">
-                        </div>
+                                    @if (!string.IsNullOrWhiteSpace(farmer.ProfileImageUrl))
+                                    {
+                                        <img src="@farmer.ProfileImageUrl"
+                                             alt="@farmer.BusinessName">
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            @farmer.BusinessName.FirstOrDefault()
+                                        </span>
+                                    }
 
-                        <div class="mini-avatar">
-                            <img src="https://i.pravatar.cc/80?img=47"
-                                 alt="Customer">
-                        </div>
+                                </div>
+                            }
+                        }
 
                         <div class="mini-avatar">
                             <span>+</span>
@@ -121,64 +152,77 @@
 
                     <div class="hero-image-card">
 
-                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1000&q=85"
+                        <img src="@heroImage"
                              alt="Fresh local market produce">
 
                     </div>
 
 
                     <!-- Floating Market Card -->
+                    @if (heroMarket != null)
+                    {
+                        <div class="floating-market-card">
 
-                    <div class="floating-market-card">
+                            <div class="market-card-icon">
+                                <i class="bi bi-shop"></i>
+                            </div>
 
-                        <div class="market-card-icon">
-                            <i class="bi bi-shop"></i>
-                        </div>
+                            <div>
 
-                        <div>
+                                <strong>
+                                    @heroMarket.MarketName
+                                </strong>
 
-                            <strong>Riverside Market</strong>
+                                <span>
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    @heroMarket.Address
+                                </span>
 
-                            <span>
-                                <i class="bi bi-geo-alt-fill"></i>
-                                1.8 km away
+                            </div>
+
+                            <span class="open-status">
+                                @heroMarket.StatusText
                             </span>
 
                         </div>
-
-                        <span class="open-status">
-                            Open
-                        </span>
-
-                    </div>
+                    }
 
 
                     <!-- Floating Product Card -->
+                    @if (heroProduct != null)
+                    {
+                        <div class="floating-product-card">
 
-                    <div class="floating-product-card">
+                            <div class="product-mini-image">
 
-                        <div class="product-mini-image">
+                                <img src="@(heroProduct.ImageUrl ?? fallbackProductImage)"
+                                     alt="@heroProduct.ProductName">
 
-                            <img src="https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=200&q=80"
-                                 alt="Fresh vegetables">
+                            </div>
+
+                            <div>
+
+                                <small>
+                                    @heroProduct.AvailabilityText
+                                </small>
+
+                                <strong>
+                                    @heroProduct.ProductName
+                                </strong>
+
+                                <span>
+                                    @heroProduct.Price.ToString("0.00")
+                                    / @heroProduct.UnitName
+                                </span>
+
+                            </div>
+
+                            <button type="button">
+                                <i class="bi bi-plus"></i>
+                            </button>
 
                         </div>
-
-                        <div>
-
-                            <small>Fresh today</small>
-
-                            <strong>Organic Greens</strong>
-
-                            <span>$3.50 / bunch</span>
-
-                        </div>
-
-                        <button>
-                            <i class="bi bi-plus"></i>
-                        </button>
-
-                    </div>
+                    }
 
 
                     <!-- Decorative Shape -->
@@ -214,7 +258,7 @@
                 </span>
 
                 <div>
-                    <strong>38+</strong>
+                    <strong>@Model.TotalMarkets+</strong>
                     <span>Local Markets</span>
                 </div>
 
@@ -228,7 +272,7 @@
                 </span>
 
                 <div>
-                    <strong>840+</strong>
+                    <strong>@Model.TotalFarmers+</strong>
                     <span>Local Farmers</span>
                 </div>
 
@@ -242,7 +286,7 @@
                 </span>
 
                 <div>
-                    <strong>12K+</strong>
+                    <strong>@Model.TotalAvailableProducts+</strong>
                     <span>Fresh Products</span>
                 </div>
 
@@ -256,8 +300,8 @@
                 </span>
 
                 <div>
-                    <strong>24/7</strong>
-                    <span>Market Discovery</span>
+                    <strong>@Model.TotalCategories+</strong>
+                    <span>Product Categories</span>
                 </div>
 
             </div>
@@ -283,18 +327,23 @@
             <div>
 
                 <span class="section-label">
-                    MARKET PULSE
+                    @(Model.IsPersonalizedProducts ? "RECOMMENDED FOR YOU" : "MARKET PULSE")
                 </span>
 
                 <h2>
-                    What's fresh <span>today?</span>
+                    @(Model.IsPersonalizedProducts ? "Picked for" : "What's fresh") <span>@(Model.IsPersonalizedProducts ? "you" : "today?")</span>
                 </h2>
 
             </div>
 
-            <a href="#" class="view-all-link">
-                View all products
+            <a asp-controller="@(Model.IsPersonalizedProducts ? "CustomerRecommendations" : "Products")"
+               asp-action="Index"
+               class="view-all-link">
+
+                @(Model.IsPersonalizedProducts ? "View all recommendations" : "View all products")
+
                 <i class="bi bi-arrow-up-right"></i>
+
             </a>
 
         </div>
@@ -302,221 +351,92 @@
 
         <div class="row g-4">
 
+            @if (Model.Products.Any())
+            {
+                foreach (var product in Model.Products)
+                {
+                    <div class="col-sm-6 col-lg-3">
 
-            <!-- Product 1 -->
+                        <div class="fresh-card">
 
-            <div class="col-sm-6 col-lg-3">
+                            <div class="fresh-image">
 
-                <div class="fresh-card">
+                                <img src="@(product.ImageUrl ?? fallbackProductImage)"
+                                     alt="@product.ProductName"
+                                     loading="lazy">
 
-                    <div class="fresh-image">
+                                <span class="availability @product.AvailabilityClass">
+                                    ● @product.AvailabilityText
+                                </span>
 
-                        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=85"
-                             alt="Tomatoes">
+                                <button type="button"
+                                        class="favorite-btn">
 
-                        <span class="availability available">
-                            ● Plenty available
-                        </span>
+                                    <i class="bi bi-heart"></i>
 
-                        <button class="favorite-btn">
-                            <i class="bi bi-heart"></i>
-                        </button>
+                                </button>
 
-                    </div>
+                            </div>
 
-                    <div class="fresh-content">
+                            <div class="fresh-content">
 
-                        <span class="product-category">
-                            Vegetables
-                        </span>
+                                <span class="product-category">
+                                    @product.CategoryName
+                                </span>
 
-                        <h3>
-                            Heirloom Tomatoes
-                        </h3>
+                                <h3>
+                                    @product.ProductName
+                                </h3>
 
-                        <p>
-                            Green Valley Farm
-                        </p>
+                                <p>
+                                    @product.FarmerName
+                                </p>
 
-                        <div class="product-bottom">
+                                <div class="product-bottom">
 
-                            <strong>
-                                $4.50 <small>/ kg</small>
-                            </strong>
+                                    <strong>
+                                        @product.Price.ToString("0.00")
+                                        <small>
+                                            / @product.UnitName
+                                        </small>
+                                    </strong>
 
-                            <button class="quick-add">
-                                <i class="bi bi-plus"></i>
-                            </button>
+                                    <button type="button"
+                                            class="quick-add">
 
-                        </div>
+                                        <i class="bi bi-plus"></i>
 
-                    </div>
+                                    </button>
 
-                </div>
+                                </div>
 
-            </div>
-
-
-            <!-- Product 2 -->
-
-            <div class="col-sm-6 col-lg-3">
-
-                <div class="fresh-card">
-
-                    <div class="fresh-image">
-
-                        <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=600&q=85"
-                             alt="Strawberries">
-
-                        <span class="availability limited">
-                            ● Limited stock
-                        </span>
-
-                        <button class="favorite-btn">
-                            <i class="bi bi-heart"></i>
-                        </button>
-
-                    </div>
-
-                    <div class="fresh-content">
-
-                        <span class="product-category">
-                            Fruits
-                        </span>
-
-                        <h3>
-                            Fresh Strawberries
-                        </h3>
-
-                        <p>
-                            Sunrise Organics
-                        </p>
-
-                        <div class="product-bottom">
-
-                            <strong>
-                                $6.20 <small>/ box</small>
-                            </strong>
-
-                            <button class="quick-add">
-                                <i class="bi bi-plus"></i>
-                            </button>
+                            </div>
 
                         </div>
 
                     </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
 
-                </div>
+                    <div class="text-center py-5">
 
-            </div>
+                        <i class="bi bi-basket fs-1"></i>
 
-
-            <!-- Product 3 -->
-
-            <div class="col-sm-6 col-lg-3">
-
-                <div class="fresh-card">
-
-                    <div class="fresh-image">
-
-                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=85"
-                             alt="Potatoes">
-
-                        <span class="availability available">
-                            ● Plenty available
-                        </span>
-
-                        <button class="favorite-btn">
-                            <i class="bi bi-heart"></i>
-                        </button>
-
-                    </div>
-
-                    <div class="fresh-content">
-
-                        <span class="product-category">
-                            Vegetables
-                        </span>
-
-                        <h3>
-                            Farm Potatoes
-                        </h3>
+                        <h4 class="mt-3">
+                            No fresh products available today.
+                        </h4>
 
                         <p>
-                            Meadow Farms
+                            Please check again later.
                         </p>
-
-                        <div class="product-bottom">
-
-                            <strong>
-                                $2.80 <small>/ kg</small>
-                            </strong>
-
-                            <button class="quick-add">
-                                <i class="bi bi-plus"></i>
-                            </button>
-
-                        </div>
 
                     </div>
 
                 </div>
-
-            </div>
-
-
-            <!-- Product 4 -->
-
-            <div class="col-sm-6 col-lg-3">
-
-                <div class="fresh-card">
-
-                    <div class="fresh-image">
-
-                        <img src="https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=600&q=85"
-                             alt="Milk">
-
-                        <span class="availability available">
-                            ● Fresh today
-                        </span>
-
-                        <button class="favorite-btn">
-                            <i class="bi bi-heart"></i>
-                        </button>
-
-                    </div>
-
-                    <div class="fresh-content">
-
-                        <span class="product-category">
-                            Dairy
-                        </span>
-
-                        <h3>
-                            Farm Fresh Milk
-                        </h3>
-
-                        <p>
-                            Happy Cow Dairy
-                        </p>
-
-                        <div class="product-bottom">
-
-                            <strong>
-                                $5.00 <small>/ litre</small>
-                            </strong>
-
-                            <button class="quick-add">
-                                <i class="bi bi-plus"></i>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+            }
 
         </div>
 
@@ -587,9 +507,14 @@
                     </div>
 
 
-                    <a href="#" class="btn explorer-btn">
+                    <a asp-controller="Markets"
+                       asp-action="Index"
+                       class="btn explorer-btn">
+
                         Explore the Map
+
                         <i class="bi bi-arrow-up-right"></i>
+
                     </a>
 
                 </div>
@@ -602,52 +527,52 @@
                         <div class="map-grid"></div>
 
 
-                        <!-- Map Pins -->
+                        <!-- Dynamic Map Pins -->
+                        @if (Model.Markets.Any())
+                        {
+                            var pinIndex = 1;
 
-                        <div class="map-pin pin-1">
-                            <span>
-                                <i class="bi bi-shop"></i>
-                            </span>
-                        </div>
+                            foreach (var market in Model.Markets.Take(4))
+                            {
+                                <div class="map-pin pin-@pinIndex">
 
-                        <div class="map-pin pin-2">
-                            <span>
-                                <i class="bi bi-shop"></i>
-                            </span>
-                        </div>
+                                    <span>
+                                        <i class="bi bi-shop"></i>
+                                    </span>
 
-                        <div class="map-pin pin-3">
-                            <span>
-                                <i class="bi bi-shop"></i>
-                            </span>
-                        </div>
+                                </div>
 
-                        <div class="map-pin pin-4">
-                            <span>
-                                <i class="bi bi-shop"></i>
-                            </span>
-                        </div>
+                                pinIndex++;
+                            }
+                        }
 
 
                         <!-- Location Card -->
+                        @if (heroMarket != null)
+                        {
+                            <div class="map-location-card">
 
-                        <div class="map-location-card">
+                                <div class="location-icon">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
 
-                            <div class="location-icon">
-                                <i class="bi bi-geo-alt-fill"></i>
+                                <div>
+
+                                    <strong>
+                                        @heroMarket.MarketName
+                                    </strong>
+
+                                    <span>
+                                        @heroMarket.FarmerCount farmers ·
+                                        @heroMarket.ProductCount products
+                                    </span>
+
+                                </div>
+
+                                <i class="bi bi-chevron-right"></i>
+
                             </div>
-
-                            <div>
-                                <strong>Riverside Market</strong>
-
-                                <span>
-                                    12 farmers · 48 products
-                                </span>
-                            </div>
-
-                            <i class="bi bi-chevron-right"></i>
-
-                        </div>
+                        }
 
 
                         <div class="your-location">
@@ -789,35 +714,32 @@
 ===================================================== -->
 
 <section class="farmer-section" id="farmers">
-
     <div class="container">
-
         <div class="farmer-box">
-
             <div class="row align-items-center g-5">
 
                 <div class="col-lg-6">
-
                     <div class="farmer-image-wrapper">
 
-                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1000&q=85"
+                        @{
+                            var farmerImage =
+                                "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85";
+                        }
+
+                        <img src="@farmerImage"
                              alt="Local farmer">
 
                         <div class="farmer-stat">
-
                             <i class="bi bi-graph-up-arrow"></i>
 
                             <div>
                                 <strong>Grow your reach</strong>
                                 <span>Connect with local shoppers</span>
                             </div>
-
                         </div>
 
                     </div>
-
                 </div>
-
 
                 <div class="col-lg-6">
 
@@ -836,7 +758,6 @@
                         choose pickup slots and build relationships with
                         customers in your community.
                     </p>
-
 
                     <div class="farmer-benefits">
 
@@ -862,11 +783,11 @@
 
                     </div>
 
-
-                    <a href="#" class="btn btn-dark-market">
+                    <a asp-controller="Auth"
+                       asp-action="Register"
+                       class="btn btn-dark-market">
 
                         Become a Farmer
-
                         <i class="bi bi-arrow-up-right"></i>
 
                     </a>
@@ -874,11 +795,8 @@
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 </section>
 
 
@@ -928,9 +846,14 @@
                         </div>
 
 
-                        <a href="#" class="ai-link">
+                        <a asp-controller="MarketMate"
+                           asp-action="Index"
+                           class="ai-link">
+
                             Meet MarketMate
+
                             <i class="bi bi-arrow-up-right"></i>
+
                         </a>
 
                     </div>
@@ -982,38 +905,33 @@
                             <div class="chat-message bot result-message">
 
                                 <strong>
-                                    I found 3 options near you.
+                                    I found
+                                    @(Model.Products.Count)
+                                    options near you.
                                 </strong>
 
-                                <div class="mini-result">
+                                @foreach (var product in Model.Products.Take(2))
+                                {
+                                    <div class="mini-result">
 
-                                    <span class="result-icon">
-                                        🍅
-                                    </span>
+                                        <span class="result-icon">
+                                            🍅
+                                        </span>
 
-                                    <span>
-                                        Green Valley Farm
-                                        <small>
-                                            $4.50 / kg · 2.1 km
-                                        </small>
-                                    </span>
+                                        <span>
 
-                                </div>
+                                            @product.FarmerName
 
-                                <div class="mini-result">
+                                            <small>
+                                                @product.Price.ToString("0.00")
+                                                /
+                                                @product.UnitName
+                                            </small>
 
-                                    <span class="result-icon">
-                                        🍅
-                                    </span>
+                                        </span>
 
-                                    <span>
-                                        Sunrise Farm
-                                        <small>
-                                            $4.80 / kg · 3.2 km
-                                        </small>
-                                    </span>
-
-                                </div>
+                                    </div>
+                                }
 
                             </div>
 
@@ -1026,7 +944,7 @@
                                 Ask MarketMate...
                             </span>
 
-                            <button>
+                            <button type="button">
                                 <i class="bi bi-arrow-up"></i>
                             </button>
 
@@ -1045,18 +963,18 @@
 </section>
 
 
+
 <!-- =========================================================
      MARKETLINK - MARKETS SECTION
 ========================================================= -->
 
-<section id="markets" class="markets-section">
+<section id="markets"
+         class="markets-section">
 
     <div class="container">
 
 
-        <!-- =====================================================
-             SECTION HEADER
-        ====================================================== -->
+        <!-- SECTION HEADER -->
 
         <div class="section-heading text-center">
 
@@ -1088,17 +1006,13 @@
 
 
 
-        <!-- =====================================================
-             SEARCH AND FILTERS
-        ====================================================== -->
+        <!-- SEARCH AND FILTERS -->
 
         <div class="market-filter-box">
 
-
             <div class="row g-3 align-items-end">
 
-
-                <!-- SEARCH MARKET -->
+                <!-- SEARCH -->
 
                 <div class="col-lg-5">
 
@@ -1109,11 +1023,9 @@
 
                     </label>
 
-
                     <div class="market-search-input">
 
                         <i class="bi bi-search"></i>
-
 
                         <input type="text"
                                id="marketSearch"
@@ -1123,7 +1035,6 @@
                     </div>
 
                 </div>
-
 
 
                 <!-- LOCATION -->
@@ -1137,7 +1048,6 @@
 
                     </label>
 
-
                     <select id="marketLocation"
                             class="form-select">
 
@@ -1145,26 +1055,19 @@
                             All Locations
                         </option>
 
-                        <option value="city">
-                            City Center
-                        </option>
-
-                        <option value="riverside">
-                            Riverside
-                        </option>
-
-                        <option value="green-valley">
-                            Green Valley
-                        </option>
-
-                        <option value="community">
-                            Community Area
-                        </option>
+                        @foreach (var market in Model.Markets
+                            .Where(m => !string.IsNullOrWhiteSpace(m.Address))
+                            .Select(m => m.Address)
+                            .Distinct())
+                        {
+                            <option value="@market.ToLowerInvariant()">
+                                @market
+                            </option>
+                        }
 
                     </select>
 
                 </div>
-
 
 
                 <!-- MARKET DAY -->
@@ -1178,7 +1081,6 @@
 
                     </label>
 
-
                     <select id="marketDay"
                             class="form-select">
 
@@ -1186,29 +1088,19 @@
                             All Days
                         </option>
 
-                        <option value="saturday">
-                            Saturday
-                        </option>
-
-                        <option value="sunday">
-                            Sunday
-                        </option>
-
-                        <option value="friday">
-                            Friday
-                        </option>
-
-                        <option value="wednesday">
-                            Wednesday
-                        </option>
+                        @foreach (var day in Model.MarketDays)
+                        {
+                            <option value="@day.ToLowerInvariant()">
+                                @day
+                            </option>
+                        }
 
                     </select>
 
                 </div>
 
 
-
-                <!-- RESET BUTTON -->
+                <!-- RESET -->
 
                 <div class="col-lg-1">
 
@@ -1229,12 +1121,9 @@
 
 
 
-        <!-- =====================================================
-             MARKET RESULTS
-        ====================================================== -->
+        <!-- MARKET RESULTS -->
 
         <div class="market-results-header">
-
 
             <div>
 
@@ -1246,11 +1135,8 @@
 
                 </span>
 
-
                 <h3>
-
                     Markets Near You
-
                 </h3>
 
             </div>
@@ -1259,7 +1145,7 @@
             <span id="marketResultCount"
                   class="market-result-count">
 
-                4 Markets Available
+                @Model.Markets.Count Markets Available
 
             </span>
 
@@ -1267,507 +1153,161 @@
 
 
 
-        <!-- =====================================================
-             MARKET CARDS
-        ====================================================== -->
+        <!-- MARKET CARDS -->
 
         <div id="marketCards"
              class="row g-4">
 
+            @if (Model.Markets.Any())
+            {
+                var marketIndex = 0;
 
-            <!-- MARKET 1 -->
+                foreach (var market in Model.Markets)
+                {
+                    var imageIndex =
+                        marketIndex % marketImages.Length;
 
-            <div class="col-md-6 col-xl-3 market-card-item"
-                 data-name="Riverside Farmers Market"
-                 data-location="riverside"
-                 data-days="saturday sunday">
+                    var imagePath =
+                        marketImages[imageIndex];
+
+                    <div class="col-md-6 col-xl-3 market-card-item"
+                         data-name="@market.MarketName"
+                         data-location="@market.Address.ToLowerInvariant()"
+                         data-days="@market.OperatingDaysText.ToLowerInvariant()">
+
+                        <article class="market-card">
+
+                            <div class="market-card-image">
+
+                                <img src="@Url.Content(imagePath)"
+                                     alt="@market.MarketName"
+                                     loading="lazy" />
+
+                                <span class="market-status">
+
+                                    <i class="bi bi-circle-fill"></i>
+
+                                    @market.StatusText
+
+                                </span>
+
+                            </div>
 
 
-                <article class="market-card">
+                            <div class="market-card-body">
+
+                                <span class="market-card-category">
+
+                                    LOCAL MARKET
+
+                                </span>
 
 
-                    <div class="market-card-image">
-
-                        <img src="~/images/markets/riverside-market.jpg"
-                             alt="Riverside Farmers Market"
-                             loading="lazy" />
+                                <h4>
+                                    @market.MarketName
+                                </h4>
 
 
-                        <span class="market-status">
+                                <p class="market-card-address">
 
-                            <i class="bi bi-circle-fill"></i>
+                                    <i class="bi bi-geo-alt"></i>
 
-                            Open This Week
+                                    @market.Address
 
-                        </span>
+                                </p>
+
+
+                                <div class="market-card-info">
+
+                                    <div>
+
+                                        <i class="bi bi-calendar3"></i>
+
+                                        <span>
+                                            @market.OperatingDaysText
+                                        </span>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <i class="bi bi-clock"></i>
+
+                                        <span>
+                                            @market.OpeningHoursText
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="market-card-footer">
+
+                                    <div class="market-card-stats">
+
+                                        <span>
+
+                                            <i class="bi bi-people"></i>
+
+                                            @market.FarmerCount Farmers
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <i class="bi bi-basket"></i>
+
+                                            @market.ProductCount Products
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <a asp-controller="Markets"
+                                       asp-action="Details"
+                                       asp-route-id="@market.MarketId"
+                                       class="market-view-btn"
+                                       aria-label="View @market.MarketName">
+
+                                        <i class="bi bi-arrow-up-right"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
 
                     </div>
 
+                    marketIndex++;
+                }
+            }
+            else
+            {
+                <div class="col-12">
 
-                    <div class="market-card-body">
+                    <div class="text-center py-5">
 
+                        <i class="bi bi-shop fs-1"></i>
 
-                        <span class="market-card-category">
-
-                            WEEKEND MARKET
-
-                        </span>
-
-
-                        <h4>
-
-                            Riverside Farmers Market
-
+                        <h4 class="mt-3">
+                            No Markets Found
                         </h4>
 
-
-                        <p class="market-card-address">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Riverside Community
-
+                        <p>
+                            There are currently no active markets.
                         </p>
 
-
-                        <div class="market-card-info">
-
-                            <div>
-
-                                <i class="bi bi-calendar3"></i>
-
-                                <span>
-                                    Sat & Sun
-                                </span>
-
-                            </div>
-
-
-                            <div>
-
-                                <i class="bi bi-clock"></i>
-
-                                <span>
-                                    8 AM – 2 PM
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="market-card-footer">
-
-
-                            <div class="market-card-stats">
-
-                                <span>
-
-                                    <i class="bi bi-people"></i>
-
-                                    12 Farmers
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-basket"></i>
-
-                                    48 Products
-
-                                </span>
-
-                            </div>
-
-
-                            <a href="#"
-                               class="market-view-btn"
-                               aria-label="View Riverside Farmers Market">
-
-                                <i class="bi bi-arrow-up-right"></i>
-
-                            </a>
-
-                        </div>
-
                     </div>
 
-                </article>
-
-            </div>
-
-
-
-            <!-- MARKET 2 -->
-
-            <div class="col-md-6 col-xl-3 market-card-item"
-                 data-name="Green Valley Market"
-                 data-location="green-valley"
-                 data-days="saturday">
-
-
-                <article class="market-card">
-
-
-                    <div class="market-card-image">
-
-                        <img src="~/images/markets/green-valley-market.jpg"
-                             alt="Green Valley Market"
-                             loading="lazy" />
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open This Week
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-
-                        <span class="market-card-category">
-
-                            FARMERS MARKET
-
-                        </span>
-
-
-                        <h4>
-
-                            Green Valley Market
-
-                        </h4>
-
-
-                        <p class="market-card-address">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Green Valley
-
-                        </p>
-
-
-                        <div class="market-card-info">
-
-                            <div>
-
-                                <i class="bi bi-calendar3"></i>
-
-                                <span>
-                                    Saturday
-                                </span>
-
-                            </div>
-
-
-                            <div>
-
-                                <i class="bi bi-clock"></i>
-
-                                <span>
-                                    7 AM – 1 PM
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="market-card-footer">
-
-
-                            <div class="market-card-stats">
-
-                                <span>
-
-                                    <i class="bi bi-people"></i>
-
-                                    8 Farmers
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-basket"></i>
-
-                                    32 Products
-
-                                </span>
-
-                            </div>
-
-
-                            <a href="#"
-                               class="market-view-btn"
-                               aria-label="View Green Valley Market">
-
-                                <i class="bi bi-arrow-up-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-
-            <!-- MARKET 3 -->
-
-            <div class="col-md-6 col-xl-3 market-card-item"
-                 data-name="Sunrise Community Market"
-                 data-location="community"
-                 data-days="sunday">
-
-
-                <article class="market-card">
-
-
-                    <div class="market-card-image">
-
-                        <img src="~/images/markets/sunrise-market.jpg"
-                             alt="Sunrise Community Market"
-                             loading="lazy" />
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open This Week
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-
-                        <span class="market-card-category">
-
-                            COMMUNITY MARKET
-
-                        </span>
-
-
-                        <h4>
-
-                            Sunrise Community Market
-
-                        </h4>
-
-
-                        <p class="market-card-address">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            Community Center
-
-                        </p>
-
-
-                        <div class="market-card-info">
-
-                            <div>
-
-                                <i class="bi bi-calendar3"></i>
-
-                                <span>
-                                    Sunday
-                                </span>
-
-                            </div>
-
-
-                            <div>
-
-                                <i class="bi bi-clock"></i>
-
-                                <span>
-                                    8 AM – 3 PM
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="market-card-footer">
-
-
-                            <div class="market-card-stats">
-
-                                <span>
-
-                                    <i class="bi bi-people"></i>
-
-                                    15 Farmers
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-basket"></i>
-
-                                    60 Products
-
-                                </span>
-
-                            </div>
-
-
-                            <a href="#"
-                               class="market-view-btn"
-                               aria-label="View Sunrise Community Market">
-
-                                <i class="bi bi-arrow-up-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-
-            <!-- MARKET 4 -->
-
-            <div class="col-md-6 col-xl-3 market-card-item"
-                 data-name="Harvest Weekend Market"
-                 data-location="city"
-                 data-days="friday saturday">
-
-
-                <article class="market-card">
-
-
-                    <div class="market-card-image">
-
-                        <img src="~/images/markets/harvest-market.jpg"
-                             alt="Harvest Weekend Market"
-                             loading="lazy" />
-
-
-                        <span class="market-status">
-
-                            <i class="bi bi-circle-fill"></i>
-
-                            Open This Week
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="market-card-body">
-
-
-                        <span class="market-card-category">
-
-                            FRESH PRODUCE
-
-                        </span>
-
-
-                        <h4>
-
-                            Harvest Weekend Market
-
-                        </h4>
-
-
-                        <p class="market-card-address">
-
-                            <i class="bi bi-geo-alt"></i>
-
-                            City Center
-
-                        </p>
-
-
-                        <div class="market-card-info">
-
-                            <div>
-
-                                <i class="bi bi-calendar3"></i>
-
-                                <span>
-                                    Fri & Sat
-                                </span>
-
-                            </div>
-
-
-                            <div>
-
-                                <i class="bi bi-clock"></i>
-
-                                <span>
-                                    9 AM – 4 PM
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="market-card-footer">
-
-
-                            <div class="market-card-stats">
-
-                                <span>
-
-                                    <i class="bi bi-people"></i>
-
-                                    10 Farmers
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-basket"></i>
-
-                                    40 Products
-
-                                </span>
-
-                            </div>
-
-
-                            <a href="#"
-                               class="market-view-btn"
-                               aria-label="View Harvest Weekend Market">
-
-                                <i class="bi bi-arrow-up-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-            </div>
+                </div>
+            }
 
         </div>
 
@@ -1792,18 +1332,13 @@
 
 
 
-        <!-- =====================================================
-             MAP PREVIEW
-        ====================================================== -->
+        <!-- MAP PREVIEW -->
 
         <div class="market-map-section">
 
-
             <div class="row align-items-center g-4">
 
-
                 <div class="col-lg-5">
-
 
                     <span class="section-eyebrow">
 
@@ -1832,97 +1367,93 @@
 
                     <div class="map-feature-list">
 
-
                         <div>
-
                             <i class="bi bi-check-circle-fill"></i>
-
                             View market locations
-
                         </div>
 
-
                         <div>
-
                             <i class="bi bi-check-circle-fill"></i>
-
                             Discover nearby farmers
-
                         </div>
 
-
                         <div>
-
                             <i class="bi bi-check-circle-fill"></i>
-
                             Find convenient pickup points
-
                         </div>
 
                     </div>
 
 
-                    <button type="button"
-                            class="btn btn-market">
+                    <a asp-controller="Markets"
+                       asp-action="Index"
+                       class="btn btn-market">
 
                         Explore Map
 
                         <i class="bi bi-arrow-up-right"></i>
 
-                    </button>
+                    </a>
 
                 </div>
 
 
-
                 <div class="col-lg-7">
-
 
                     <div class="market-map-preview">
 
-
                         <div class="map-grid"></div>
 
-
                         <div class="map-road map-road-one"></div>
-
                         <div class="map-road map-road-two"></div>
-
                         <div class="map-road map-road-three"></div>
 
 
+                        @{
+                            var mapMarkets =
+                                Model.Markets.Take(3).ToList();
+                        }
 
-                        <div class="map-location-marker marker-one">
+                        @if (mapMarkets.Count > 0)
+                        {
+                            <div class="map-location-marker marker-one">
 
-                            <i class="bi bi-geo-alt-fill"></i>
+                                <i class="bi bi-geo-alt-fill"></i>
 
-                            <span>
-                                Riverside Market
-                            </span>
+                                <span>
+                                    @mapMarkets[0].MarketName
+                                </span>
 
-                        </div>
-
-
-                        <div class="map-location-marker marker-two">
-
-                            <i class="bi bi-geo-alt-fill"></i>
-
-                            <span>
-                                Green Valley
-                            </span>
-
-                        </div>
+                            </div>
+                        }
 
 
-                        <div class="map-location-marker marker-three">
+                        @if (mapMarkets.Count > 1)
+                        {
+                            <div class="map-location-marker marker-two">
 
-                            <i class="bi bi-geo-alt-fill"></i>
+                                <i class="bi bi-geo-alt-fill"></i>
 
-                            <span>
-                                Sunrise Market
-                            </span>
+                                <span>
+                                    @mapMarkets[1].MarketName
+                                </span>
 
-                        </div>
+                            </div>
+                        }
+
+
+                        @if (mapMarkets.Count > 2)
+                        {
+                            <div class="map-location-marker marker-three">
+
+                                <i class="bi bi-geo-alt-fill"></i>
+
+                                <span>
+                                    @mapMarkets[2].MarketName
+                                </span>
+
+                            </div>
+                        }
 
 
                         <div class="map-center-label">
@@ -1944,6 +1475,9 @@
     </div>
 
 </section>
+
+
+
 <!-- =====================================================
      FINAL CTA
 ===================================================== -->
@@ -1966,9 +1500,14 @@
             and make your next market trip easier.
         </p>
 
-        <a href="#markets" class="btn btn-hero-primary">
+        <a asp-controller="Markets"
+           asp-action="Index"
+           class="btn btn-hero-primary">
+
             Explore MarketLink
+
             <i class="bi bi-arrow-up-right"></i>
+
         </a>
 
     </div>

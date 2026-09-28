@@ -1,164 +1,219 @@
-﻿
+﻿@model MarketLink.ViewModels.HowItWorksViewModel
+
 @{
     ViewData["Title"] = "How It Works";
 }
 
-<!-- ========================================================= HOW IT WORKS HERO ========================================================= --> <section class="how-hero"> <div class="how-hero-image"> <!-- DARK OVERLAY --> <div class="how-hero-overlay"></div> <div class="container"> <div class="how-hero-content"> <!-- BREADCRUMB --> <div class="how-breadcrumb"> <a asp-controller="Home" asp-action="Index"> Home </a> <i class="bi bi-chevron-right"></i> <span>How It Works</span> </div> <!-- CATEGORY --> <div class="how-category"> <i class="bi bi-lightning-charge-fill"></i> SIMPLE & LOCAL </div> <!-- TITLE --> <h1> How It <span>Works</span> </h1> <!-- SHORT DESCRIPTION --> <p class="how-hero-description"> Discover local farmers, fresh products and nearby markets through MarketLink. </p> </div> </div> </div> </section>
-
 
 <!-- =========================================================
-     MAIN STEPS
+     HOW IT WORKS HERO
 ========================================================= -->
-<section class="how-steps-section">
 
-    <div class="container">
+<section class="how-hero">
 
-        <div class="how-heading text-center">
+    <div class="how-hero-image">
 
-            <span>HOW MARKETLINK WORKS</span>
+        <div class="how-hero-overlay"></div>
 
-            <h2>
-                From Farm to
-                <strong>Your Table</strong>
-            </h2>
+        <div class="container">
 
-            <p>
-                Everything you need to discover fresh local products
-                and connect with farmers is just a few simple steps away.
-            </p>
+            <div class="how-hero-content">
+
+                <!-- BREADCRUMB -->
+
+                <div class="how-breadcrumb">
+
+                    <a asp-controller="Home"
+                       asp-action="Index">
+                        Home
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>How It Works</span>
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="how-category">
+
+                    <i class="bi bi-lightning-charge-fill"></i>
+
+                    SIMPLE & LOCAL
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <h1>
+                    How It
+                    <span>Works</span>
+                </h1>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="how-hero-description">
+
+                    Discover local farmers, fresh products and nearby
+                    markets, then place your pre-order for convenient
+                    market pickup through MarketLink.
+
+                </p>
+
+            </div>
 
         </div>
 
+    </div>
 
-        <div class="steps-wrapper">
+</section>
 
-            <!-- STEP 01 -->
-            <div class="how-step">
+<!-- =========================================================
+     PLATFORM STATISTICS
+========================================================= -->
 
-                <div class="step-number">
-                    01
-                </div>
+<section class="how-stats-section">
 
-                <div class="step-icon">
-                    <i class="bi bi-search"></i>
-                </div>
+    <div class="container">
 
-                <div class="step-content">
+        <div class="how-stats-grid">
 
-                    <span>STEP ONE</span>
+            <!-- FARMERS -->
 
-                    <h3>Discover Local Markets</h3>
+            <div class="how-stat-card">
 
-                    <p>
-                        Find farmers markets near you and explore the
-                        different local communities available through
-                        MarketLink.
-                    </p>
-
-                    <a asp-controller="Markets"
-                       asp-action="Index">
-                        Explore Markets
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- STEP 02 -->
-            <div class="how-step">
-
-                <div class="step-number">
-                    02
-                </div>
-
-                <div class="step-icon">
-                    <i class="bi bi-basket2-fill"></i>
-                </div>
-
-                <div class="step-content">
-
-                    <span>STEP TWO</span>
-
-                    <h3>Explore Fresh Products</h3>
-
-                    <p>
-                        Browse fresh vegetables, fruits, dairy products,
-                        herbs and other products offered by local farmers.
-                    </p>
-
-                    <a asp-controller="Products"
-                       asp-action="Index">
-                        Browse Products
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- STEP 03 -->
-            <div class="how-step">
-
-                <div class="step-number">
-                    03
-                </div>
-
-                <div class="step-icon">
+                <div class="how-stat-icon">
                     <i class="bi bi-person-heart"></i>
                 </div>
 
-                <div class="step-content">
+                <div>
 
-                    <span>STEP THREE</span>
+                    <strong>
+                        @Model.TotalFarmers
+                    </strong>
 
-                    <h3>Meet Local Farmers</h3>
-
-                    <p>
-                        Learn about farmers, their farms, products and
-                        farming practices before choosing what you want.
-                    </p>
-
-                    <a asp-controller="Farmers"
-                       asp-action="Index">
-                        Meet Farmers
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <span>
+                        Local Farmers
+                    </span>
 
                 </div>
 
             </div>
 
 
-            <!-- STEP 04 -->
-            <div class="how-step">
+            <!-- CUSTOMERS -->
 
-                <div class="step-number">
-                    04
+            <div class="how-stat-card">
+
+                <div class="how-stat-icon">
+                    <i class="bi bi-people-fill"></i>
                 </div>
 
-                <div class="step-icon">
-                    <i class="bi bi-chat-dots-fill"></i>
+                <div>
+
+                    <strong>
+                        @Model.TotalCustomers
+                    </strong>
+
+                    <span>
+                        Customers
+                    </span>
+
                 </div>
 
-                <div class="step-content">
+            </div>
 
-                    <span>STEP FOUR</span>
 
-                    <h3>Connect & Plan</h3>
+            <!-- PRODUCTS -->
 
-                    <p>
-                        Connect with local sellers and use MarketLink
-                        information to plan your visit or purchase.
-                    </p>
+            <div class="how-stat-card">
 
-                    <a asp-controller="Contact"
-                       asp-action="Index">
-                        Get Connected
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                <div class="how-stat-icon">
+                    <i class="bi bi-basket-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        @Model.TotalProducts
+                    </strong>
+
+                    <span>
+                        Products
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MARKETS -->
+
+            <div class="how-stat-card">
+
+                <div class="how-stat-icon">
+                    <i class="bi bi-shop"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        @Model.TotalMarkets
+                    </strong>
+
+                    <span>
+                        Markets
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORIES -->
+
+            <div class="how-stat-card">
+
+                <div class="how-stat-icon">
+                    <i class="bi bi-grid-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        @Model.TotalCategories
+                    </strong>
+
+                    <span>
+                        Categories
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDERS -->
+
+            <div class="how-stat-card">
+
+                <div class="how-stat-icon">
+                    <i class="bi bi-receipt-cutoff"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        @Model.TotalOrders
+                    </strong>
+
+                    <span>
+                        Pre-Orders
+                    </span>
 
                 </div>
 
@@ -170,31 +225,520 @@
 
 </section>
 
+<!-- =========================================================
+     CUSTOMER JOURNEY
+========================================================= -->
+
+<section class="how-steps-section">
+
+    <div class="container">
+
+
+        <div class="how-heading text-center">
+
+            <span>
+                CUSTOMER JOURNEY
+            </span>
+
+            <h2>
+                From Local Farm to
+                <strong>Your Table</strong>
+            </h2>
+
+            <p>
+
+                MarketLink makes it easier to discover local markets,
+                compare available products and reserve items for pickup.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="steps-wrapper">
+
+
+            <!-- STEP 01 -->
+
+            <div class="how-step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="bi bi-shop-window"></i>
+
+                </div>
+
+                <div class="step-content">
+
+                    <span>
+                        STEP ONE
+                    </span>
+
+                    <h3>
+                        Discover Markets & Farmers
+                    </h3>
+
+                    <p>
+
+                        Browse nearby farmers markets and discover the
+                        farmers participating in those markets. View
+                        market days, locations and available information.
+
+                    </p>
+
+                    <a asp-controller="Markets"
+                       asp-action="Index">
+
+                        Explore Markets
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STEP 02 -->
+
+            <div class="how-step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="bi bi-search"></i>
+
+                </div>
+
+                <div class="step-content">
+
+                    <span>
+                        STEP TWO
+                    </span>
+
+                    <h3>
+                        Browse & Filter Products
+                    </h3>
+
+                    <p>
+
+                        Explore vegetables, fruits, dairy, baked goods
+                        and other products. Search and filter products
+                        by category, price, market and market day.
+
+                    </p>
+
+                    <a asp-controller="Products"
+                       asp-action="Index">
+
+                        Browse Products
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STEP 03 -->
+
+            <div class="how-step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="bi bi-cart-check-fill"></i>
+
+                </div>
+
+                <div class="step-content">
+
+                    <span>
+                        STEP THREE
+                    </span>
+
+                    <h3>
+                        Add to Cart & Pre-Order
+                    </h3>
+
+                    <p>
+
+                        Add available products to your cart, select
+                        the required quantities and place a pre-order
+                        against the farmer's available stock.
+
+                    </p>
+
+                    <a asp-controller="Products"
+                       asp-action="Index">
+
+                        Start Shopping
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STEP 04 -->
+
+            <div class="how-step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <div class="step-icon">
+
+                    <i class="bi bi-calendar-check-fill"></i>
+
+                </div>
+
+                <div class="step-content">
+
+                    <span>
+                        STEP FOUR
+                    </span>
+
+                    <h3>
+                        Select Pickup Slot
+                    </h3>
+
+                    <p>
+
+                        Select an available pickup date and time slot.
+                        Your order can then be prepared by the farmer
+                        for collection at the market.
+
+                    </p>
+
+                    <a asp-controller="Orders"
+                       asp-action="Index">
+
+                        View Orders
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ORDER FLOW
+========================================================= -->
+
+<section class="order-flow-section">
+
+    <div class="container">
+
+
+        <div class="row align-items-center g-5">
+
+
+            <!-- CONTENT -->
+
+            <div class="col-lg-6">
+
+                <span class="section-label">
+                    SIMPLE PRE-ORDERING
+                </span>
+
+                <h2>
+
+                    Know What's Available
+                    <strong>Before You Visit.</strong>
+
+                </h2>
+
+                <p>
+
+                    MarketLink helps customers see available stock before
+                    visiting the market. Instead of relying only on
+                    word of mouth or arriving after popular items are
+                    sold out, customers can check product availability
+                    and place a pre-order.
+
+                </p>
+
+
+                <div class="order-flow-list">
+
+
+                    <div class="order-flow-item">
+
+                        <div class="flow-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Check Availability
+                            </h4>
+
+                            <p>
+                                View products and current available quantities.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="order-flow-item">
+
+                        <div class="flow-icon">
+                            <i class="bi bi-cart-plus"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Reserve Products
+                            </h4>
+
+                            <p>
+                                Add products to your cart and place a pre-order.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="order-flow-item">
+
+                        <div class="flow-icon">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Track Order Status
+                            </h4>
+
+                            <p>
+                                Follow your order from placed to ready for pickup.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="order-flow-item">
+
+                        <div class="flow-icon">
+                            <i class="bi bi-handbag-fill"></i>
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                Pickup at Market
+                            </h4>
+
+                            <p>
+                                Collect your order from the selected pickup point.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- VISUAL -->
+
+            <div class="col-lg-6">
+
+                <div class="order-visual">
+
+                    <div class="visual-card main-order-card">
+
+                        <div class="visual-card-header">
+
+                            <span>
+                                MARKETLINK ORDER
+                            </span>
+
+                            <i class="bi bi-check-circle-fill"></i>
+
+                        </div>
+
+
+                        <div class="visual-product">
+
+                            <div class="visual-product-icon">
+                                <i class="bi bi-basket-fill"></i>
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Fresh Local Produce
+                                </strong>
+
+                                <span>
+                                    Pickup at Farmers Market
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="visual-status">
+
+                            <div class="status-line active">
+                                <span></span>
+                                Order Placed
+                            </div>
+
+                            <div class="status-line active">
+                                <span></span>
+                                Accepted by Farmer
+                            </div>
+
+                            <div class="status-line active">
+                                <span></span>
+                                Ready for Pickup
+                            </div>
+
+                            <div class="status-line">
+                                <span></span>
+                                Completed
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-order-card pickup-card">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        <div>
+
+                            <strong>
+                                Pickup Slot
+                            </strong>
+
+                            <span>
+                                Selected by Customer
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-order-card payment-card">
+
+                        <i class="bi bi-wallet2"></i>
+
+                        <div>
+
+                            <strong>
+                                Pay at Pickup
+                            </strong>
+
+                            <span>
+                                No online payment gateway
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 <!-- =========================================================
      WHY MARKETLINK
 ========================================================= -->
+
 <section class="why-marketlink-section">
 
     <div class="container">
 
         <div class="row align-items-center g-5">
 
+
             <!-- IMAGE -->
+
             <div class="col-lg-5">
 
                 <div class="why-image">
 
                     <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=900&q=85"
-                         alt="Fresh Farm Produce">
+                         alt="Fresh local farm produce"
+                         loading="lazy" />
+
 
                     <div class="why-badge">
 
                         <i class="bi bi-heart-fill"></i>
 
                         <div>
-                            <strong>Support Local</strong>
-                            <span>Grow together</span>
+
+                            <strong>
+                                Support Local
+                            </strong>
+
+                            <span>
+                                Connect with your community
+                            </span>
+
                         </div>
 
                     </div>
@@ -204,7 +748,9 @@
             </div>
 
 
+
             <!-- CONTENT -->
+
             <div class="col-lg-7">
 
                 <div class="why-content">
@@ -213,26 +759,38 @@
                         WHY MARKETLINK
                     </span>
 
+
                     <h2>
+
                         More Than a Marketplace.
                         <strong>A Local Connection.</strong>
+
                     </h2>
 
-                    <p>
-                        MarketLink brings farmers, customers and local
-                        markets together in one simple platform.
-                    </p>
 
                     <p>
-                        Instead of searching in different places, you can
-                        discover products, learn about farmers and find
-                        nearby markets from one convenient platform.
+
+                        MarketLink brings farmers, customers and local
+                        markets together through one centralized platform.
+
                     </p>
+
+
+                    <p>
+
+                        Customers can discover available products and
+                        markets before visiting, while farmers can publish
+                        their weekly stock and manage incoming pre-orders.
+
+                    </p>
+
 
 
                     <div class="benefit-grid">
 
+
                         <!-- BENEFIT 01 -->
+
                         <div class="benefit-item">
 
                             <div class="benefit-icon">
@@ -240,33 +798,23 @@
                             </div>
 
                             <div>
-                                <h4>Find Nearby</h4>
+
+                                <h4>
+                                    Find Nearby Markets
+                                </h4>
+
                                 <p>
-                                    Discover local markets around you.
+                                    Discover market locations and pickup points.
                                 </p>
+
                             </div>
 
                         </div>
+
 
 
                         <!-- BENEFIT 02 -->
-                        <div class="benefit-item">
 
-                            <div class="benefit-icon">
-                                <i class="bi bi-patch-check-fill"></i>
-                            </div>
-
-                            <div>
-                                <h4>Verified Farmers</h4>
-                                <p>
-                                    Learn more about local farmers.
-                                </p>
-                            </div>
-
-                        </div>
-
-
-                        <!-- BENEFIT 03 -->
                         <div class="benefit-item">
 
                             <div class="benefit-icon">
@@ -274,30 +822,67 @@
                             </div>
 
                             <div>
-                                <h4>Fresh Products</h4>
+
+                                <h4>
+                                    View Available Stock
+                                </h4>
+
                                 <p>
-                                    Explore locally available produce.
+                                    See products and quantities before visiting.
                                 </p>
+
                             </div>
 
                         </div>
 
 
-                        <!-- BENEFIT 04 -->
+
+                        <!-- BENEFIT 03 -->
+
                         <div class="benefit-item">
 
                             <div class="benefit-icon">
-                                <i class="bi bi-people-fill"></i>
+                                <i class="bi bi-cart-check-fill"></i>
                             </div>
 
                             <div>
-                                <h4>Local Community</h4>
+
+                                <h4>
+                                    Pre-Order for Pickup
+                                </h4>
+
                                 <p>
-                                    Build stronger local connections.
+                                    Reserve available products in advance.
                                 </p>
+
                             </div>
 
                         </div>
+
+
+
+                        <!-- BENEFIT 04 -->
+
+                        <div class="benefit-item">
+
+                            <div class="benefit-icon">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+
+                            <div>
+
+                                <h4>
+                                    Reviews & Ratings
+                                </h4>
+
+                                <p>
+                                    Share feedback after completed orders.
+                                </p>
+
+                            </div>
+
+                        </div>
+
 
                     </div>
 
@@ -311,65 +896,92 @@
 
 </section>
 
-
 <!-- =========================================================
-     FOR FARMERS
+     FARMER SECTION
 ========================================================= -->
+
 <section class="for-farmers-section">
 
     <div class="container">
 
         <div class="row align-items-center g-5">
 
+
             <!-- CONTENT -->
+
             <div class="col-lg-7">
 
                 <span class="section-label light-label">
                     FOR LOCAL FARMERS
                 </span>
 
+
                 <h2>
+
                     Bring Your Farm
                     <strong>Closer to Customers.</strong>
+
                 </h2>
 
+
                 <p>
-                    MarketLink helps local farmers showcase their farms,
-                    products and market locations so customers can discover
-                    them more easily.
+
+                    MarketLink gives farmers a centralized place to
+                    manage their profile, market locations, weekly
+                    products, prices, inventory and customer pre-orders.
+
                 </p>
 
 
+
                 <div class="farmer-features">
+
 
                     <div>
                         <i class="bi bi-check-circle-fill"></i>
                         Create your farmer profile
                     </div>
 
-                    <div>
-                        <i class="bi bi-check-circle-fill"></i>
-                        Showcase your products
-                    </div>
 
                     <div>
                         <i class="bi bi-check-circle-fill"></i>
-                        Share your market locations
+                        Add your market locations
                     </div>
+
 
                     <div>
                         <i class="bi bi-check-circle-fill"></i>
-                        Connect with local customers
+                        Manage weekly stock and pricing
                     </div>
+
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Manage customer pre-orders
+                    </div>
+
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Manage pickup slots
+                    </div>
+
+
+                    <div>
+                        <i class="bi bi-check-circle-fill"></i>
+                        Respond to customer reviews
+                    </div>
+
 
                 </div>
 
 
-                <a asp-controller="Account"
+                <a asp-controller="Auth"
                    asp-action="Register"
                    class="btn btn-farmer-start">
 
                     Join MarketLink
+
                     <i class="bi bi-arrow-right"></i>
 
                 </a>
@@ -377,31 +989,170 @@
             </div>
 
 
+
             <!-- ILLUSTRATION -->
+
             <div class="col-lg-5">
 
                 <div class="farmer-illustration">
 
                     <div class="illustration-circle circle-one"></div>
+
                     <div class="illustration-circle circle-two"></div>
+
 
                     <i class="bi bi-flower1 main-farm-icon"></i>
 
 
                     <div class="mini-card mini-card-one">
 
-                        <i class="bi bi-basket-fill"></i>
+                        <i class="bi bi-box-seam"></i>
 
-                        Fresh Products
+                        Weekly Stock
 
                     </div>
 
 
                     <div class="mini-card mini-card-two">
 
-                        <i class="bi bi-people-fill"></i>
+                        <i class="bi bi-cart-check"></i>
 
-                        Local Customers
+                        Pre-Orders
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     OPTIONAL AI ASSISTANT
+========================================================= -->
+
+<section class="ai-how-section">
+
+    <div class="container">
+
+        <div class="row align-items-center g-5">
+
+
+            <div class="col-lg-7">
+
+                <span class="section-label">
+                    OPTIONAL AI ASSISTANT
+                </span>
+
+
+                <h2>
+
+                    Need Help Finding
+                    <strong>Something Fresh?</strong>
+
+                </h2>
+
+
+                <p>
+
+                    MarketLink can include an optional AI assistant to
+                    help customers find products across markets and
+                    farmers and answer common questions about market
+                    timings, farmer availability, pickup windows and
+                    product details.
+
+                </p>
+
+
+                <div class="ai-features">
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Find products across available listings
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Answer common market questions
+
+                    </div>
+
+
+                    <div>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Provide pickup and availability information
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-5">
+
+                <div class="ai-card">
+
+                    <div class="ai-card-header">
+
+                        <div class="ai-avatar">
+                            <i class="bi bi-stars"></i>
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                MarketLink Assistant
+                            </strong>
+
+                            <span>
+                                AI-powered assistance
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ai-message customer-message">
+
+                        Find fresh vegetables available today.
+
+                    </div>
+
+
+                    <div class="ai-message assistant-message">
+
+                        I can help you find available products,
+                        markets and pickup information.
+
+                    </div>
+
+
+                    <div class="ai-input">
+
+                        <span>
+                            Ask MarketLink...
+                        </span>
+
+                        <i class="bi bi-send-fill"></i>
 
                     </div>
 
@@ -409,141 +1160,96 @@
 
             </div>
 
+
         </div>
 
     </div>
 
 </section>
-
 
 <!-- =========================================================
      FAQ
 ========================================================= -->
+
 <section class="how-faq-section">
 
     <div class="container">
 
+
         <div class="how-heading text-center">
 
-            <span>COMMON QUESTIONS</span>
+            <span>
+                COMMON QUESTIONS
+            </span>
 
             <h2>
+
                 Frequently Asked
                 <strong>Questions</strong>
+
             </h2>
+
+            <p>
+
+                Find answers to common questions about shopping,
+                pre-orders, pickup and MarketLink features.
+
+            </p>
 
         </div>
 
 
+
         <div class="faq-wrapper">
 
-            <!-- FAQ 01 -->
-            <div class="faq-item">
 
-                <button type="button"
-                        class="faq-question">
+            @if (Model.FAQs != null && Model.FAQs.Any())
+            {
 
-                    <span>
-                        What is MarketLink?
-                    </span>
+                foreach (var faq in Model.FAQs)
+                {
 
-                    <i class="bi bi-plus-lg"></i>
+                    <div class="faq-item">
 
-                </button>
+                        <button type="button"
+                                class="faq-question">
+
+                            <span>
+                                @faq.Question
+                            </span>
+
+                            <i class="bi bi-plus-lg"></i>
+
+                        </button>
 
 
-                <div class="faq-answer">
+                        <div class="faq-answer">
+
+                            <p>
+                                @faq.Answer
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            }
+            else
+            {
+
+                <div class="empty-faq">
+
+                    <i class="bi bi-info-circle"></i>
 
                     <p>
-                        MarketLink is a platform designed to connect local
-                        farmers, customers and farmers markets in one place.
+                        No frequently asked questions are available.
                     </p>
 
                 </div>
 
-            </div>
-
-
-            <!-- FAQ 02 -->
-            <div class="faq-item">
-
-                <button type="button"
-                        class="faq-question">
-
-                    <span>
-                        Can I find markets near me?
-                    </span>
-
-                    <i class="bi bi-plus-lg"></i>
-
-                </button>
-
-
-                <div class="faq-answer">
-
-                    <p>
-                        Yes. You can explore available markets and view
-                        their locations, market days and opening hours.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- FAQ 03 -->
-            <div class="faq-item">
-
-                <button type="button"
-                        class="faq-question">
-
-                    <span>
-                        Can I learn about a farmer?
-                    </span>
-
-                    <i class="bi bi-plus-lg"></i>
-
-                </button>
-
-
-                <div class="faq-answer">
-
-                    <p>
-                        Yes. Farmer profiles can provide information about
-                        the farm, products, location and available markets.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- FAQ 04 -->
-            <div class="faq-item">
-
-                <button type="button"
-                        class="faq-question">
-
-                    <span>
-                        Can farmers join MarketLink?
-                    </span>
-
-                    <i class="bi bi-plus-lg"></i>
-
-                </button>
-
-
-                <div class="faq-answer">
-
-                    <p>
-                        Farmers can register and create their presence on
-                        MarketLink so customers can discover their farms
-                        and products.
-                    </p>
-
-                </div>
-
-            </div>
+            }
 
         </div>
 
@@ -551,38 +1257,47 @@
 
 </section>
 
-
 <!-- =========================================================
      CTA
 ========================================================= -->
+
 <section class="how-cta-section">
 
     <div class="container">
 
         <div class="how-cta-content">
 
+
             <span>
                 START EXPLORING
             </span>
 
+
             <h2>
+
                 Your Local Food Journey
                 Starts Here.
+
             </h2>
 
+
             <p>
-                Discover fresh products, local farmers and nearby markets
-                with MarketLink.
+
+                Discover local farmers, fresh products and nearby
+                markets through MarketLink.
+
             </p>
 
 
             <div class="cta-buttons">
+
 
                 <a asp-controller="Products"
                    asp-action="Index"
                    class="btn btn-light">
 
                     Explore Products
+
                     <i class="bi bi-arrow-right"></i>
 
                 </a>
@@ -596,6 +1311,7 @@
 
                 </a>
 
+
             </div>
 
         </div>
@@ -604,11 +1320,1677 @@
 
 </section>
 
+<!-- =========================================================
+     HOW IT WORKS - PAGE STYLES
+========================================================= -->
+
+@section Styles {
+
+    <style>
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .how-hero {
+            position: relative;
+            min-height: 460px;
+            overflow: hidden;
+        }
+
+        .how-hero-image {
+            position: relative;
+            min-height: 445px;
+            width: min(100% - 48px, 1400px);
+            margin: 20px auto 0;
+            overflow: hidden;
+
+            border-radius: 0 0 28px 28px;
+
+            background-image: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=85");
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .how-hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+
+            background: linear-gradient(
+                90deg,
+                rgba(5, 67, 40, 0.92) 0%,
+                rgba(8, 78, 48, 0.74) 45%,
+                rgba(8, 78, 48, 0.25) 100%
+            );
+        }
+
+        .how-hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .how-hero-content {
+            max-width: 690px;
+            padding: 80px 0 75px;
+        }
+
+        /* =========================================================
+           BREADCRUMB
+        ========================================================= */
+
+        .how-breadcrumb {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+
+            margin-bottom: 35px;
+
+            font-size: 14px;
+        }
+
+        .how-breadcrumb a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+
+            transition: 0.3s ease;
+        }
+
+        .how-breadcrumb a:hover {
+            color: #d8f52d;
+        }
+
+        .how-breadcrumb i {
+            color: #d8f52d;
+            font-size: 11px;
+        }
+
+        .how-breadcrumb span {
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        /* =========================================================
+           HERO CATEGORY
+        ========================================================= */
+
+        .how-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 18px;
+
+            color: #d8f52d;
+
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .how-category i {
+            font-size: 18px;
+        }
+
+        /* =========================================================
+           HERO TITLE
+        ========================================================= */
+
+        .how-hero h1 {
+            margin: 0 0 18px;
+
+            color: #ffffff;
+
+            font-size: clamp(44px, 5vw, 68px);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .how-hero h1 span {
+            color: #d8f52d;
+        }
+
+        /* =========================================================
+           HERO DESCRIPTION
+        ========================================================= */
+
+        .how-hero-description {
+            max-width: 610px;
+            margin: 0;
+
+            color: rgba(255, 255, 255, 0.90);
+
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+
+        /* =========================================================
+           STATISTICS
+        ========================================================= */
+
+        .how-stats-section {
+            padding: 35px 0;
+            background: #ffffff;
+        }
+
+        .how-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+        }
+
+        .how-stat-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 20px 15px;
+
+            background: #f7fbf8;
+            border: 1px solid #e1ebe4;
+            border-radius: 15px;
+
+            transition: 0.3s ease;
+        }
+
+        .how-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(32, 71, 45, 0.08);
+        }
+
+        .how-stat-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
+
+            color: #2d9955;
+            background: #e5f4e9;
+
+            border-radius: 12px;
+        }
+
+        .how-stat-card strong,
+        .how-stat-card span {
+            display: block;
+        }
+
+        .how-stat-card strong {
+            color: #193d29;
+
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .how-stat-card span {
+            margin-top: 5px;
+
+            color: #78857d;
+
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           COMMON SECTION HEADING
+        ========================================================= */
+
+        .how-heading {
+            max-width: 720px;
+            margin: 0 auto 55px;
+
+            text-align: center;
+        }
+
+        .how-heading > span,
+        .section-label {
+            display: inline-block;
+
+            margin-bottom: 13px;
+
+            color: #2d9955;
+
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+        }
+
+        .how-heading h2 {
+            margin: 0;
+
+            color: #193d29;
+
+            font-size: clamp(32px, 4vw, 45px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .how-heading h2 strong {
+            color: #2d9955;
+        }
+
+        .how-heading p {
+            max-width: 650px;
+
+            margin: 14px auto 0;
+
+            color: #78857d;
+
+            line-height: 1.8;
+        }
+
+
+        /* =========================================================
+           CUSTOMER STEPS
+        ========================================================= */
+
+        .how-steps-section {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+
+        .steps-wrapper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .how-step {
+            position: relative;
+
+            padding: 30px 23px;
+
+            background: #f7fbf8;
+            border: 1px solid #e2ece5;
+            border-radius: 19px;
+
+            transition: 0.3s ease;
+        }
+
+        .how-step:hover {
+            transform: translateY(-7px);
+
+            background: #ffffff;
+
+            box-shadow: 0 18px 40px rgba(32, 71, 45, 0.09);
+        }
+
+        .step-number {
+            position: absolute;
+
+            top: 18px;
+            right: 20px;
+
+            color: #dbe9df;
+
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .step-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 57px;
+            height: 57px;
+
+            margin-bottom: 25px;
+
+            color: #2d9955;
+            background: #e5f4e9;
+
+            border-radius: 15px;
+
+            font-size: 22px;
+        }
+
+        .step-content > span {
+            color: #2d9955;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .step-content h3 {
+            margin: 8px 0 12px;
+
+            color: #294936;
+
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .step-content p {
+            min-height: 110px;
+
+            margin-bottom: 18px;
+
+            color: #77847c;
+
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .step-content a {
+            color: #2b8b4d;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .step-content a:hover {
+            color: #216f3d;
+        }
+
+        .step-content a i {
+            margin-left: 5px;
+        }
+
+
+        /* =========================================================
+           ORDER FLOW
+        ========================================================= */
+
+        .order-flow-section {
+            padding: 100px 0;
+            background: #f5faf6;
+        }
+
+        .order-flow-section h2 {
+            max-width: 600px;
+
+            margin-bottom: 18px;
+
+            color: #193d29;
+
+            font-size: clamp(32px, 4vw, 44px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .order-flow-section h2 strong {
+            display: block;
+            color: #2d9955;
+        }
+
+        .order-flow-section > .container .row > .col-lg-6 > p {
+            max-width: 620px;
+
+            color: #718078;
+
+            line-height: 1.8;
+        }
+
+        .order-flow-list {
+            margin-top: 30px;
+        }
+
+        .order-flow-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        .flow-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
+
+            color: #2d9955;
+            background: #e5f4e9;
+
+            border-radius: 11px;
+        }
+
+        .order-flow-item h4 {
+            margin: 2px 0 4px;
+
+            color: #31503d;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .order-flow-item p {
+            margin: 0;
+
+            color: #87928c;
+
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================================================
+           ORDER VISUAL
+        ========================================================= */
+
+        .order-visual {
+            position: relative;
+
+            min-height: 500px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-order-card {
+            width: min(100%, 430px);
+
+            padding: 25px;
+
+            background: #ffffff;
+
+            border: 1px solid #e1ebe4;
+            border-radius: 22px;
+
+            box-shadow: 0 25px 60px rgba(32, 71, 45, 0.12);
+        }
+
+        .visual-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #edf2ee;
+        }
+
+        .visual-card-header span {
+            color: #2d9955;
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .visual-card-header i {
+            color: #2d9955;
+            font-size: 20px;
+        }
+
+        .visual-product {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 22px 0;
+        }
+
+        .visual-product-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 55px;
+            height: 55px;
+
+            color: #2d9955;
+            background: #e5f4e9;
+
+            border-radius: 15px;
+
+            font-size: 23px;
+        }
+
+        .visual-product strong,
+        .visual-product span {
+            display: block;
+        }
+
+        .visual-product strong {
+            color: #294936;
+            font-size: 14px;
+        }
+
+        .visual-product span {
+            margin-top: 4px;
+
+            color: #87928c;
+
+            font-size: 11px;
+        }
+
+        .visual-status {
+            padding-top: 8px;
+        }
+
+        .status-line {
+            position: relative;
+
+            padding: 9px 0 9px 27px;
+
+            color: #89958d;
+
+            font-size: 12px;
+        }
+
+        .status-line span {
+            position: absolute;
+
+            left: 0;
+            top: 10px;
+
+            width: 13px;
+            height: 13px;
+
+            border: 2px solid #d5dfd8;
+            border-radius: 50%;
+        }
+
+        .status-line.active {
+            color: #31503d;
+            font-weight: 700;
+        }
+
+        .status-line.active span {
+            background: #2d9955;
+            border-color: #2d9955;
+        }
+
+        .floating-order-card {
+            position: absolute;
+
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            background: #ffffff;
+
+            border-radius: 13px;
+
+            box-shadow: 0 15px 35px rgba(32, 71, 45, 0.13);
+        }
+
+        .floating-order-card i {
+            color: #2d9955;
+            font-size: 19px;
+        }
+
+        .floating-order-card strong,
+        .floating-order-card span {
+            display: block;
+        }
+
+        .floating-order-card strong {
+            color: #31503d;
+            font-size: 11px;
+        }
+
+        .floating-order-card span {
+            margin-top: 3px;
+
+            color: #89958d;
+
+            font-size: 9px;
+        }
+
+        .pickup-card {
+            top: 45px;
+            left: 0;
+        }
+
+        .payment-card {
+            right: 0;
+            bottom: 50px;
+        }
+
+
+        /* =========================================================
+           WHY MARKETLINK
+        ========================================================= */
+
+        .why-marketlink-section {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+
+        .why-image {
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .why-image > img {
+            width: 100%;
+            height: 500px;
+
+            object-fit: cover;
+
+            border-radius: 25px;
+
+            box-shadow: 0 20px 45px rgba(32, 71, 45, 0.13);
+        }
+
+        .why-badge {
+            position: absolute;
+
+            right: 0;
+            bottom: 30px;
+
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            padding: 14px 18px;
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            box-shadow: 0 15px 35px rgba(32, 71, 45, 0.15);
+        }
+
+        .why-badge > i {
+            color: #2d9955;
+            font-size: 21px;
+        }
+
+        .why-badge strong,
+        .why-badge span {
+            display: block;
+        }
+
+        .why-badge strong {
+            color: #294936;
+            font-size: 13px;
+        }
+
+        .why-badge span {
+            margin-top: 3px;
+
+            color: #89958d;
+
+            font-size: 10px;
+        }
+
+        .why-content {
+            padding-left: 25px;
+        }
+
+        .why-content h2 {
+            max-width: 600px;
+
+            margin-bottom: 18px;
+
+            color: #193d29;
+
+            font-size: clamp(32px, 4vw, 44px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .why-content h2 strong {
+            display: block;
+            color: #2d9955;
+        }
+
+        .why-content > p {
+            max-width: 620px;
+
+            color: #718078;
+
+            line-height: 1.8;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+
+            margin-top: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 12px;
+        }
+
+        .benefit-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 43px;
+            height: 43px;
+
+            flex-shrink: 0;
+
+            color: #2d9955;
+            background: #e5f4e9;
+
+            border-radius: 11px;
+        }
+
+        .benefit-item h4 {
+            margin: 2px 0 4px;
+
+            color: #31503d;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .benefit-item p {
+            margin: 0;
+
+            color: #87928c;
+
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           FARMERS SECTION
+        ========================================================= */
+
+        .for-farmers-section {
+            padding: 100px 0;
+
+            background: #216f3d;
+        }
+
+        .light-label {
+            color: #a9ddb8 !important;
+        }
+
+        .for-farmers-section h2 {
+            max-width: 650px;
+
+            margin-bottom: 18px;
+
+            color: #ffffff;
+
+            font-size: clamp(32px, 4vw, 47px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .for-farmers-section h2 strong {
+            display: block;
+            color: #a8ddb7;
+        }
+
+        .for-farmers-section > .container .row > .col-lg-7 > p {
+            max-width: 650px;
+
+            color: #d0ead7;
+
+            line-height: 1.85;
+        }
+
+        .farmer-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+
+            margin: 30px 0;
+        }
+
+        .farmer-features div {
+            color: #e4f4e8;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .farmer-features i {
+            margin-right: 7px;
+            color: #9cdbac;
+        }
+
+        .btn-farmer-start {
+            display: inline-block;
+
+            padding: 13px 22px;
+
+            color: #216f3d;
+            background: #ffffff;
+
+            border-radius: 10px;
+
+            font-weight: 800;
+            text-decoration: none;
+
+            transition: 0.3s ease;
+        }
+
+        .btn-farmer-start:hover {
+            color: #216f3d;
+            background: #edf8ef;
+
+            transform: translateY(-2px);
+        }
+
+        .farmer-illustration {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 360px;
+
+            overflow: hidden;
+
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .illustration-circle {
+            position: absolute;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .circle-one {
+            width: 260px;
+            height: 260px;
+        }
+
+        .circle-two {
+            width: 190px;
+            height: 190px;
+        }
+
+        .main-farm-icon {
+            position: relative;
+            z-index: 2;
+
+            color: #b7e4c1;
+
+            font-size: 105px;
+        }
+
+        .mini-card {
+            position: absolute;
+            z-index: 3;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 11px 14px;
+
+            color: #31503d;
+            background: #ffffff;
+
+            border-radius: 11px;
+
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .mini-card i {
+            color: #2d9955;
+            font-size: 16px;
+        }
+
+        .mini-card-one {
+            top: 55px;
+            left: 25px;
+        }
+
+        .mini-card-two {
+            right: 20px;
+            bottom: 55px;
+        }
+
+
+        /* =========================================================
+           AI ASSISTANT
+        ========================================================= */
+
+        .ai-how-section {
+            padding: 100px 0;
+
+            background: #f5faf6;
+        }
+
+        .ai-how-section h2 {
+            max-width: 600px;
+
+            margin-bottom: 18px;
+
+            color: #193d29;
+
+            font-size: clamp(32px, 4vw, 44px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .ai-how-section h2 strong {
+            display: block;
+            color: #2d9955;
+        }
+
+        .ai-how-section > .container .row > .col-lg-7 > p {
+            max-width: 620px;
+
+            color: #718078;
+
+            line-height: 1.8;
+        }
+
+        .ai-features {
+            margin-top: 25px;
+        }
+
+        .ai-features div {
+            margin-bottom: 12px;
+
+            color: #31503d;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .ai-features i {
+            margin-right: 8px;
+            color: #2d9955;
+        }
+
+        .ai-card {
+            max-width: 430px;
+
+            margin: auto;
+            padding: 22px;
+
+            background: #ffffff;
+
+            border: 1px solid #e1ebe4;
+            border-radius: 22px;
+
+            box-shadow: 0 20px 45px rgba(32, 71, 45, 0.10);
+        }
+
+        .ai-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #edf2ee;
+        }
+
+        .ai-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 45px;
+            height: 45px;
+
+            color: #ffffff;
+            background: #2d9955;
+
+            border-radius: 13px;
+        }
+
+        .ai-card-header strong,
+        .ai-card-header span {
+            display: block;
+        }
+
+        .ai-card-header strong {
+            color: #31503d;
+            font-size: 13px;
+        }
+
+        .ai-card-header span {
+            margin-top: 3px;
+
+            color: #89958d;
+
+            font-size: 10px;
+        }
+
+        .ai-message {
+            max-width: 82%;
+
+            padding: 11px 13px;
+            margin-top: 15px;
+
+            border-radius: 12px;
+
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .customer-message {
+            margin-left: auto;
+
+            color: #31503d;
+            background: #e5f4e9;
+        }
+
+        .assistant-message {
+            color: #65736b;
+            background: #f4f7f5;
+        }
+
+        .ai-input {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-top: 18px;
+            padding: 11px 13px;
+
+            color: #a0aaa4;
+            background: #f7faf8;
+
+            border: 1px solid #e2ebe5;
+            border-radius: 10px;
+
+            font-size: 11px;
+        }
+
+        .ai-input i {
+            color: #2d9955;
+        }
+
+
+        /* =========================================================
+           FAQ
+        ========================================================= */
+
+        .how-faq-section {
+            padding: 100px 0;
+
+            background: #ffffff;
+        }
+
+        .faq-wrapper {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .faq-item {
+            margin-bottom: 12px;
+
+            overflow: hidden;
+
+            border: 1px solid #e1ebe4;
+            border-radius: 13px;
+
+            background: #ffffff;
+
+            transition: 0.3s ease;
+        }
+
+        .faq-item.active {
+            border-color: #cfe5d5;
+            box-shadow: 0 8px 25px rgba(32, 71, 45, 0.06);
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+
+            padding: 19px 22px;
+
+            color: #304b39;
+            background: transparent;
+
+            border: 0;
+
+            text-align: left;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .faq-question i {
+            color: #2d9955;
+
+            transition: 0.3s ease;
+        }
+
+        .faq-answer {
+            display: none;
+
+            padding: 0 22px 19px;
+        }
+
+        .faq-answer p {
+            margin: 0;
+
+            color: #77847c;
+
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(45deg);
+        }
+
+        .empty-faq {
+            padding: 30px;
+
+            text-align: center;
+
+            color: #78857d;
+        }
+
+        .empty-faq i {
+            color: #2d9955;
+
+            font-size: 25px;
+        }
+
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .how-cta-section {
+            padding: 85px 0;
+
+            background: #2d9955;
+        }
+
+        .how-cta-content {
+            text-align: center;
+        }
+
+        .how-cta-content > span {
+            color: #c7ead0;
+
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+        }
+
+        .how-cta-content h2 {
+            max-width: 700px;
+
+            margin: 10px auto 13px;
+
+            color: #ffffff;
+
+            font-size: clamp(32px, 4vw, 47px);
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .how-cta-content p {
+            margin-bottom: 28px;
+
+            color: #d8f0dd;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            gap: 11px;
+
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn {
+            min-height: 48px;
+
+            padding: 12px 20px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+
+            transition: 0.3s ease;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE - LARGE TABLET
+        ========================================================= */
+
+        @@media (max-width: 1199px) {
+
+            .how-stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .steps-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE - TABLET
+        ========================================================= */
+
+        @@media (max-width: 991.98px) {
+
+            .how-hero-image {
+                background-attachment: scroll;
+            }
+
+            .how-hero-content {
+                padding: 75px 0 65px;
+            }
+
+            .how-stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .why-content {
+                padding-left: 0;
+            }
+
+            .why-image {
+                max-width: 700px;
+
+                margin: 0 auto 40px;
+            }
+
+            .order-visual {
+                min-height: 430px;
+
+                margin-top: 35px;
+            }
+
+            .farmer-illustration {
+                height: 320px;
+
+                margin-top: 35px;
+            }
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE - MOBILE
+        ========================================================= */
+
+        @@media (max-width: 767.98px) {
+
+            .how-hero,
+            .how-hero-image {
+                min-height: 420px;
+            }
+
+            .how-hero-image {
+                width: calc(100% - 24px);
+
+                border-radius: 0 0 22px 22px;
+            }
+
+            .how-hero-content {
+                padding: 62px 0 55px;
+            }
+
+            .how-breadcrumb {
+                margin-bottom: 28px;
+
+                gap: 9px;
+
+                font-size: 13px;
+            }
+
+            .how-category {
+                margin-bottom: 15px;
+
+                font-size: 11px;
+            }
+
+            .how-category i {
+                font-size: 16px;
+            }
+
+            .how-hero h1 {
+                margin-bottom: 15px;
+
+                font-size: 42px;
+            }
+
+            .how-hero-description {
+                font-size: 15px;
+
+                line-height: 1.7;
+            }
+
+            .how-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .step-content p {
+                min-height: auto;
+            }
+
+            .why-image {
+                padding-right: 0;
+            }
+
+            .why-image > img {
+                height: 390px;
+            }
+
+            .why-badge {
+                right: 10px;
+            }
+
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .farmer-features {
+                grid-template-columns: 1fr;
+            }
+
+            .how-steps-section,
+            .order-flow-section,
+            .why-marketlink-section,
+            .for-farmers-section,
+            .ai-how-section,
+            .how-faq-section {
+                padding: 70px 0;
+            }
+
+            .how-heading {
+                margin-bottom: 40px;
+            }
+
+            .order-visual {
+                min-height: 390px;
+            }
+
+            .ai-card {
+                margin-top: 35px;
+            }
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE - SMALL MOBILE
+        ========================================================= */
+
+        @@media (max-width: 575.98px) {
+
+            .how-hero,
+            .how-hero-image {
+                min-height: 420px;
+            }
+
+            .how-hero-image {
+                width: calc(100% - 24px);
+
+                border-radius: 0 0 22px 22px;
+            }
+
+            .how-hero-content {
+                padding: 55px 0 50px;
+            }
+
+            .how-breadcrumb {
+                margin-bottom: 28px;
+
+                gap: 8px;
+
+                font-size: 12px;
+            }
+
+            .how-category {
+                margin-bottom: 14px;
+
+                font-size: 10px;
+                letter-spacing: 1.3px;
+            }
+
+            .how-hero h1 {
+                font-size: 40px;
+
+                letter-spacing: -1px;
+            }
+
+            .how-hero-description {
+                font-size: 14px;
+
+                line-height: 1.7;
+            }
+
+            .how-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-stat-card {
+                padding: 17px;
+            }
+
+            .how-heading h2 {
+                font-size: 31px;
+            }
+
+            .why-image > img {
+                height: 310px;
+            }
+
+            .why-badge {
+                right: 8px;
+                bottom: 20px;
+
+                padding: 11px 13px;
+            }
+
+            .why-badge strong {
+                font-size: 11px;
+            }
+
+            .why-badge span {
+                font-size: 9px;
+            }
+
+            .farmer-illustration {
+                height: 280px;
+            }
+
+            .main-farm-icon {
+                font-size: 80px;
+            }
+
+            .mini-card {
+                padding: 9px 10px;
+
+                font-size: 9px;
+            }
+
+            .mini-card-one {
+                top: 35px;
+                left: 10px;
+            }
+
+            .mini-card-two {
+                right: 10px;
+                bottom: 35px;
+            }
+
+            .order-visual {
+                min-height: 370px;
+            }
+
+            .main-order-card {
+                padding: 18px;
+            }
+
+            .pickup-card {
+                top: 10px;
+                left: 0;
+            }
+
+            .payment-card {
+                right: 0;
+                bottom: 10px;
+            }
+
+            .floating-order-card {
+                padding: 10px 12px;
+            }
+
+            .floating-order-card strong {
+                font-size: 10px;
+            }
+
+            .floating-order-card span {
+                font-size: 8px;
+            }
+
+            .faq-question {
+                padding: 17px;
+
+                font-size: 13px;
+            }
+
+            .faq-answer {
+                padding: 0 17px 17px;
+            }
+
+            .faq-answer p {
+                font-size: 12px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+
+        }
+
+
+        /* =========================================================
+           EXTRA SMALL DEVICES
+        ========================================================= */
+
+        @@media (max-width: 400px) {
+
+            .how-hero h1 {
+                font-size: 35px;
+            }
+
+            .how-hero-description {
+                font-size: 13px;
+            }
+
+            .how-stat-card strong {
+                font-size: 19px;
+            }
+
+            .step-content h3 {
+                font-size: 17px;
+            }
+
+            .how-heading h2,
+            .order-flow-section h2,
+            .why-content h2,
+            .ai-how-section h2 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+}
+
+
+
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const faqQuestions =
+                document.querySelectorAll(".faq-question");
+
+            faqQuestions.forEach(function (question) {
+
+                question.addEventListener("click", function () {
+
+                    const currentItem =
+                        this.closest(".faq-item");
+
+                    document
+                        .querySelectorAll(".faq-item")
+                        .forEach(function (item) {
+
+                            if (item !== currentItem) {
+                                item.classList.remove("active");
+                            }
+
+                        });
+
+                    currentItem.classList.toggle("active");
+
+                });
+
+            });
+
+        });
+
+    </script>
+
+}
+
 
 <!-- =========================================================
      PAGE STYLES
 ========================================================= -->
-@section Styles {
+@* @section Styles {
 
     <style>
 
@@ -1404,13 +3786,13 @@
         }
 
     </style>
-}
+} *@
 
 
 <!-- =========================================================
      FAQ SCRIPT
 ========================================================= -->
-@section Scripts {
+@* @section Scripts {
 
     <script>
 
@@ -1445,5 +3827,5 @@
 
     </script>
 
-}
+} *@
 

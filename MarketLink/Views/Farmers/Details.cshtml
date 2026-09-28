@@ -1,17 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Farmer Details";
+﻿@model MarketLink.ViewModels.FarmerDetailsViewModel
 
-    var farmerId = ViewBag.FarmerId ?? 1;
+@{
+    ViewData["Title"] = Model.BusinessName + " - Farmer Details";
 }
 
-<!-- =========================
+<!-- =========================================================
      FARMER DETAILS HERO
-========================= -->
+========================================================= -->
 <section class="farmer-details-hero">
 
     <div class="container">
 
+        <!-- Breadcrumb -->
         <div class="farmer-breadcrumb">
+
             <a asp-controller="Home" asp-action="Index">
                 Home
             </a>
@@ -25,28 +27,43 @@
             <i class="bi bi-chevron-right"></i>
 
             <span>Farmer Details</span>
+
         </div>
 
 
         <div class="row align-items-center g-5">
 
+            <!-- Farmer Image -->
             <div class="col-lg-5">
 
                 <div class="farmer-profile-image">
 
-                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85"
-                         alt="Ahmed Khan">
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfileImageUrl))
+                    {
+                        <img src="@Model.ProfileImageUrl"
+                             alt="@Model.BusinessName" />
+                    }
+                    else
+                    {
+                        <div class="farmer-image-placeholder">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                    }
 
-                    <span class="verified-profile">
-                        <i class="bi bi-patch-check-fill"></i>
-                        Verified Farmer
-                    </span>
+                    @if (Model.IsApproved)
+                    {
+                        <span class="verified-profile">
+                            <i class="bi bi-patch-check-fill"></i>
+                            Verified Farmer
+                        </span>
+                    }
 
                 </div>
 
             </div>
 
 
+            <!-- Farmer Information -->
             <div class="col-lg-7">
 
                 <div class="farmer-profile-content">
@@ -55,47 +72,69 @@
                         LOCAL FARMER
                     </span>
 
-                    <h1>Ahmed Khan</h1>
+                    <h1>
+                        @Model.BusinessName
+                    </h1>
 
                     <h3>
                         <i class="bi bi-flower1"></i>
-                        Green Valley Farm
+                        Local Farm
                     </h3>
 
+
+                    <!-- Rating -->
                     <div class="profile-rating">
 
                         <span class="rating-stars">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
+
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Round(Model.Rating))
+                                {
+                                    <i class="bi bi-star-fill"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-star"></i>
+                                }
+                            }
+
                         </span>
 
-                        <strong>4.9</strong>
+                        <strong>
+                            @Model.Rating.ToString("0.0")
+                        </strong>
 
                         <span>
-                            38 Reviews
+                            @Model.ReviewCount Reviews
                         </span>
 
                     </div>
 
+
+                    <!-- Description -->
                     <p>
-                        Welcome to Green Valley Farm. Ahmed Khan is a local
-                        farmer dedicated to growing fresh, quality produce
-                        for families and communities.
+                        @(string.IsNullOrWhiteSpace(Model.Description)
+                            ? "This farmer provides fresh and quality local produce through MarketLink."
+                            : Model.Description)
                     </p>
 
+
+                    <!-- Location -->
                     <div class="profile-location">
 
                         <i class="bi bi-geo-alt-fill"></i>
 
                         <span>
-                            Karachi, Sindh, Pakistan
+                            @(string.IsNullOrWhiteSpace(Model.Address)
+                                ? "Location not available"
+                                : Model.Address)
                         </span>
 
                     </div>
 
+
+                    <!-- Actions -->
                     <div class="profile-actions">
 
                         <button type="button"
@@ -106,12 +145,16 @@
 
                         </button>
 
+
                         <button type="button"
-                                class="btn btn-farmer-favorite"
+                                class="btn btn-farmer-favorite @(Model.IsFavorite ? "active" : "")"
                                 id="favoriteFarmer">
 
-                            <i class="bi bi-heart"></i>
-                            <span>Save Farmer</span>
+                            <i class="bi @(Model.IsFavorite ? "bi-heart-fill" : "bi-heart")"></i>
+
+                            <span>
+                                @(Model.IsFavorite ? "Saved" : "Save Farmer")
+                            </span>
 
                         </button>
 
@@ -128,29 +171,16 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      FARMER STATS
-========================= -->
+========================================================= -->
 <section class="farmer-stats-section">
 
     <div class="container">
 
         <div class="farmer-stat-wrapper">
 
-            <div class="farmer-stat">
-
-                <div class="stat-icon">
-                    <i class="bi bi-calendar3"></i>
-                </div>
-
-                <div>
-                    <strong>8+</strong>
-                    <span>Years Farming</span>
-                </div>
-
-            </div>
-
-
+            <!-- Products -->
             <div class="farmer-stat">
 
                 <div class="stat-icon">
@@ -158,27 +188,19 @@
                 </div>
 
                 <div>
-                    <strong>24</strong>
-                    <span>Products</span>
+                    <strong>
+                        @Model.ProductCount
+                    </strong>
+
+                    <span>
+                        Products
+                    </span>
                 </div>
 
             </div>
 
 
-            <div class="farmer-stat">
-
-                <div class="stat-icon">
-                    <i class="bi bi-people-fill"></i>
-                </div>
-
-                <div>
-                    <strong>1,200+</strong>
-                    <span>Happy Customers</span>
-                </div>
-
-            </div>
-
-
+            <!-- Rating -->
             <div class="farmer-stat">
 
                 <div class="stat-icon">
@@ -186,8 +208,53 @@
                 </div>
 
                 <div>
-                    <strong>4.9</strong>
-                    <span>Average Rating</span>
+                    <strong>
+                        @Model.Rating.ToString("0.0")
+                    </strong>
+
+                    <span>
+                        Average Rating
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Reviews -->
+            <div class="farmer-stat">
+
+                <div class="stat-icon">
+                    <i class="bi bi-chat-square-text-fill"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        @Model.ReviewCount
+                    </strong>
+
+                    <span>
+                        Reviews
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="farmer-stat">
+
+                <div class="stat-icon">
+                    <i class="bi bi-patch-check-fill"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        @(Model.IsApproved ? "Verified" : "Pending")
+                    </strong>
+
+                    <span>
+                        Farmer Status
+                    </span>
                 </div>
 
             </div>
@@ -199,46 +266,42 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      ABOUT FARMER
-========================= -->
+========================================================= -->
 <section class="about-farmer-section">
 
     <div class="container">
 
         <div class="row g-5">
 
+            <!-- About -->
             <div class="col-lg-7">
 
                 <div class="details-section-heading">
 
-                    <span>ABOUT THE FARMER</span>
+                    <span>
+                        ABOUT THE FARMER
+                    </span>
 
                     <h2>
                         Growing With
-                        <strong>Care & Purpose</strong>
+                        <strong>Care &amp; Purpose</strong>
                     </h2>
 
                 </div>
 
+
                 <p>
-                    Ahmed Khan has been working in agriculture for more than
-                    eight years. His farm focuses on providing fresh,
-                    locally grown vegetables and seasonal produce to nearby
-                    communities.
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "This farmer is committed to providing fresh, quality produce to customers through MarketLink."
+                        : Model.Description)
                 </p>
 
                 <p>
-                    At Green Valley Farm, every product is grown with
-                    attention to freshness and quality. Ahmed believes that
-                    customers should know where their food comes from and
-                    should have a direct connection with local farmers.
-                </p>
-
-                <p>
-                    Through MarketLink, customers can discover his products,
-                    find the markets where he sells and connect with his farm
-                    more easily.
+                    This farmer is part of the MarketLink platform,
+                    helping customers discover fresh local products
+                    and connect with trusted farmers.
                 </p>
 
 
@@ -269,6 +332,7 @@
             </div>
 
 
+            <!-- Farmer Information -->
             <div class="col-lg-5">
 
                 <div class="farm-information-card">
@@ -280,13 +344,21 @@
                         </div>
 
                         <div>
-                            <h3>Farm Information</h3>
-                            <span>Green Valley Farm</span>
+
+                            <h3>
+                                Farmer Information
+                            </h3>
+
+                            <span>
+                                @Model.BusinessName
+                            </span>
+
                         </div>
 
                     </div>
 
 
+                    <!-- Location -->
                     <div class="information-row">
 
                         <div class="info-icon">
@@ -294,64 +366,107 @@
                         </div>
 
                         <div>
-                            <small>Location</small>
-                            <strong>Karachi, Sindh</strong>
+
+                            <small>
+                                Location
+                            </small>
+
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(Model.Address)
+                                    ? "Not available"
+                                    : Model.Address)
+                            </strong>
+
                         </div>
 
                     </div>
 
 
+                    <!-- Products -->
                     <div class="information-row">
 
                         <div class="info-icon">
-                            <i class="bi bi-rulers"></i>
+                            <i class="bi bi-basket2-fill"></i>
                         </div>
 
                         <div>
-                            <small>Farm Size</small>
-                            <strong>12 Acres</strong>
+
+                            <small>
+                                Products
+                            </small>
+
+                            <strong>
+                                @Model.ProductCount
+                            </strong>
+
                         </div>
 
                     </div>
 
 
+                    <!-- Rating -->
                     <div class="information-row">
 
                         <div class="info-icon">
-                            <i class="bi bi-flower1"></i>
+                            <i class="bi bi-star-fill"></i>
                         </div>
 
                         <div>
-                            <small>Speciality</small>
-                            <strong>Vegetables & Herbs</strong>
+
+                            <small>
+                                Rating
+                            </small>
+
+                            <strong>
+                                @Model.Rating.ToString("0.0") / 5
+                            </strong>
+
                         </div>
 
                     </div>
 
 
+                    <!-- Reviews -->
                     <div class="information-row">
 
                         <div class="info-icon">
-                            <i class="bi bi-calendar-check"></i>
+                            <i class="bi bi-chat-square-text-fill"></i>
                         </div>
 
                         <div>
-                            <small>Joined MarketLink</small>
-                            <strong>January 2024</strong>
+
+                            <small>
+                                Customer Reviews
+                            </small>
+
+                            <strong>
+                                @Model.ReviewCount
+                            </strong>
+
                         </div>
 
                     </div>
 
 
+                    <!-- Status -->
                     <div class="information-row">
 
                         <div class="info-icon">
-                            <i class="bi bi-clock-fill"></i>
+                            <i class="bi bi-patch-check-fill"></i>
                         </div>
 
                         <div>
-                            <small>Availability</small>
-                            <strong>Mon - Sat</strong>
+
+                            <small>
+                                MarketLink Status
+                            </small>
+
+                            <strong>
+                                @(Model.IsApproved
+                                    ? "Approved Farmer"
+                                    : "Pending Approval")
+                            </strong>
+
                         </div>
 
                     </div>
@@ -367,20 +482,22 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      FARMER PRODUCTS
-========================= -->
+========================================================= -->
 <section class="farmer-products-section">
 
     <div class="container">
 
         <div class="details-section-heading text-center">
 
-            <span>FARMER'S PRODUCTS</span>
+            <span>
+                FARMER'S PRODUCTS
+            </span>
 
             <h2>
                 Fresh From
-                <strong>Green Valley Farm</strong>
+                <strong>@Model.BusinessName</strong>
             </h2>
 
             <p>
@@ -390,220 +507,171 @@
         </div>
 
 
-        <div class="row g-4">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            <div class="row g-4">
+
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-md-6 col-lg-3">
+
+                        <div class="farmer-product-card">
+
+                            <!-- Product Image -->
+                            <div class="product-image">
+
+                                @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                                {
+                                    <img src="@product.ImageUrl"
+                                         alt="@product.ProductName" />
+                                }
+                                else
+                                {
+                                    <div class="product-image-placeholder">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                }
 
 
-            <!-- Product 1 -->
+                                @if (product.IsAvailable)
+                                {
+                                    <span>
+                                        Available
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="product-unavailable">
+                                        Unavailable
+                                    </span>
+                                }
 
-            <div class="col-md-6 col-lg-3">
-
-                <div class="farmer-product-card">
-
-                    <div class="product-image">
-
-                        <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=600&q=85"
-                             alt="Fresh Tomatoes">
-
-                        <span>Fresh</span>
-
-                    </div>
-
-                    <div class="product-content">
-
-                        <small>Vegetables</small>
-
-                        <h3>Fresh Tomatoes</h3>
-
-                        <div class="product-bottom">
-
-                            <strong>Rs. 180/kg</strong>
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="1">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+                            </div>
 
 
-            <!-- Product 2 -->
+                            <!-- Product Content -->
+                            <div class="product-content">
 
-            <div class="col-md-6 col-lg-3">
+                                <small>
+                                    @(string.IsNullOrWhiteSpace(product.CategoryName)
+                                        ? "Fresh Produce"
+                                        : product.CategoryName)
+                                </small>
 
-                <div class="farmer-product-card">
-
-                    <div class="product-image">
-
-                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=85"
-                             alt="Fresh Spinach">
-
-                        <span>Organic</span>
-
-                    </div>
-
-                    <div class="product-content">
-
-                        <small>Vegetables</small>
-
-                        <h3>Organic Spinach</h3>
-
-                        <div class="product-bottom">
-
-                            <strong>Rs. 120/bunch</strong>
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="2">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+                                <h3>
+                                    @product.ProductName
+                                </h3>
 
 
-            <!-- Product 3 -->
+                                @if (!string.IsNullOrWhiteSpace(product.Description))
+                                {
+                                    <p class="product-description">
+                                        @product.Description
+                                    </p>
+                                }
 
-            <div class="col-md-6 col-lg-3">
 
-                <div class="farmer-product-card">
+                                <div class="product-bottom">
 
-                    <div class="product-image">
+                                    <strong>
+                                        Rs. @product.Price.ToString("N0")
+                                        @(string.IsNullOrWhiteSpace(product.UnitName)
+                                            ? ""
+                                            : "/" + product.UnitName)
+                                    </strong>
 
-                        <img src="https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=600&q=85"
-                             alt="Fresh Cucumbers">
+                                    <a asp-controller="Products"
+                                       asp-action="Details"
+                                       asp-route-id="@product.ProductId"
+                                       aria-label="View @product.ProductName">
 
-                        <span>Fresh</span>
+                                        <i class="bi bi-arrow-right"></i>
 
-                    </div>
+                                    </a>
 
-                    <div class="product-content">
+                                </div>
 
-                        <small>Vegetables</small>
-
-                        <h3>Fresh Cucumbers</h3>
-
-                        <div class="product-bottom">
-
-                            <strong>Rs. 150/kg</strong>
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="3">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
+                            </div>
 
                         </div>
 
                     </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Product 4 -->
-
-            <div class="col-md-6 col-lg-3">
-
-                <div class="farmer-product-card">
-
-                    <div class="product-image">
-
-                        <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=85"
-                             alt="Fresh Potatoes">
-
-                        <span>Local</span>
-
-                    </div>
-
-                    <div class="product-content">
-
-                        <small>Vegetables</small>
-
-                        <h3>Fresh Potatoes</h3>
-
-                        <div class="product-bottom">
-
-                            <strong>Rs. 130/kg</strong>
-
-                            <a asp-controller="Products"
-                               asp-action="Details"
-                               asp-route-id="4">
-
-                                <i class="bi bi-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                }
 
             </div>
+        }
+        else
+        {
+            <div class="no-products-box text-center">
 
-        </div>
+                <div class="no-products-icon">
+                    <i class="bi bi-basket2"></i>
+                </div>
+
+                <h3>
+                    No Products Available
+                </h3>
+
+                <p>
+                    This farmer has not added any active products yet.
+                </p>
+
+            </div>
+        }
 
 
-        <div class="text-center products-more-btn">
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            <div class="text-center products-more-btn">
 
-            <a asp-controller="Products"
-               asp-action="Index"
-               class="btn btn-view-products">
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-view-products">
 
-                View All Products
-                <i class="bi bi-arrow-right"></i>
+                    View All Products
+                    <i class="bi bi-arrow-right"></i>
 
-            </a>
+                </a>
 
-        </div>
+            </div>
+        }
 
     </div>
 
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      AVAILABLE MARKET
-========================= -->
+========================================================= -->
 <section class="farmer-market-section">
 
     <div class="container">
 
         <div class="row align-items-center g-5">
 
+            <!-- Market Image -->
             <div class="col-lg-6">
 
                 <div class="market-image-wrapper">
 
                     <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1000&q=85"
-                         alt="Farmers Market">
+                         alt="Local Farmers Market" />
 
                     <div class="market-image-badge">
 
                         <i class="bi bi-shop"></i>
 
                         <div>
-                            <strong>MarketLink</strong>
-                            <span>Local Farmers Market</span>
+
+                            <strong>
+                                MarketLink
+                            </strong>
+
+                            <span>
+                                Local Farmers Market
+                            </span>
+
                         </div>
 
                     </div>
@@ -613,23 +681,23 @@
             </div>
 
 
+            <!-- Market Information -->
             <div class="col-lg-6">
 
                 <div class="market-details">
 
                     <span class="profile-label">
-                        AVAILABLE MARKET
+                        MARKET INFORMATION
                     </span>
 
                     <h2>
-                        Clifton Fresh
-                        <strong>Farmers Market</strong>
+                        Find This Farmer
+                        <strong>At Local Markets</strong>
                     </h2>
 
                     <p>
-                        Find Ahmed and other local farmers at this market.
-                        Visit the market to explore fresh produce directly
-                        from local farms.
+                        Check MarketLink for markets where
+                        @Model.BusinessName is available.
                     </p>
 
 
@@ -637,11 +705,39 @@
 
                         <div>
 
+                            <i class="bi bi-person-badge-fill"></i>
+
+                            <div>
+
+                                <small>
+                                    Farmer
+                                </small>
+
+                                <strong>
+                                    @Model.BusinessName
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div>
+
                             <i class="bi bi-geo-alt-fill"></i>
 
                             <div>
-                                <small>Location</small>
-                                <strong>Clifton, Karachi</strong>
+
+                                <small>
+                                    Location
+                                </small>
+
+                                <strong>
+                                    @(string.IsNullOrWhiteSpace(Model.Address)
+                                        ? "Not available"
+                                        : Model.Address)
+                                </strong>
+
                             </div>
 
                         </div>
@@ -649,23 +745,18 @@
 
                         <div>
 
-                            <i class="bi bi-calendar3"></i>
+                            <i class="bi bi-shop"></i>
 
                             <div>
-                                <small>Market Day</small>
-                                <strong>Saturday</strong>
-                            </div>
 
-                        </div>
+                                <small>
+                                    MarketLink
+                                </small>
 
+                                <strong>
+                                    Available Through MarketLink
+                                </strong>
 
-                        <div>
-
-                            <i class="bi bi-clock-fill"></i>
-
-                            <div>
-                                <small>Opening Hours</small>
-                                <strong>08:00 AM - 02:00 PM</strong>
                             </div>
 
                         </div>
@@ -674,11 +765,11 @@
 
 
                     <a asp-controller="Markets"
-                       asp-action="Details"
-                       asp-route-id="1"
+                       asp-action="Index"
                        class="btn btn-market">
 
-                        View Market
+                        Explore Markets
+
                         <i class="bi bi-arrow-right"></i>
 
                     </a>
@@ -694,9 +785,9 @@
 </section>
 
 
-<!-- =========================
+<!-- =========================================================
      CTA
-========================= -->
+========================================================= -->
 <section class="farmer-details-cta">
 
     <div class="container">
@@ -705,7 +796,9 @@
 
             <div>
 
-                <span>SUPPORT LOCAL FARMING</span>
+                <span>
+                    SUPPORT LOCAL FARMING
+                </span>
 
                 <h2>
                     Fresh Food Starts
@@ -719,6 +812,7 @@
 
             </div>
 
+
             <div class="cta-actions">
 
                 <a asp-controller="Farmers"
@@ -729,6 +823,7 @@
                     All Farmers
 
                 </a>
+
 
                 <a asp-controller="Products"
                    asp-action="Index"
@@ -748,13 +843,16 @@
 </section>
 
 
+<!-- =========================================================
+     PAGE CSS
+========================================================= -->
 @section Styles {
 
     <style>
 
-        /* =========================
+        /* =========================================================
                HERO
-            ========================= */
+            ========================================================= */
 
         .farmer-details-hero {
             padding: 45px 0 80px;
@@ -776,14 +874,24 @@
                 font-weight: 600;
             }
 
+                .farmer-breadcrumb a:hover {
+                    color: #216f3d;
+                }
+
             .farmer-breadcrumb i {
                 font-size: 10px;
             }
+
+
+        /* =========================================================
+               FARMER PROFILE IMAGE
+            ========================================================= */
 
         .farmer-profile-image {
             position: relative;
             overflow: hidden;
             border-radius: 28px;
+            background: #e8f3eb;
             box-shadow: 0 20px 50px rgba(30, 75, 45, .15);
         }
 
@@ -793,6 +901,17 @@
                 display: block;
                 object-fit: cover;
             }
+
+        .farmer-image-placeholder {
+            width: 100%;
+            height: 510px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e8f3eb;
+            color: #72a17f;
+            font-size: 100px;
+        }
 
         .verified-profile {
             position: absolute;
@@ -808,6 +927,11 @@
             font-size: 13px;
             font-weight: 800;
         }
+
+
+        /* =========================================================
+               PROFILE CONTENT
+            ========================================================= */
 
         .farmer-profile-content {
             padding-left: 20px;
@@ -843,6 +967,11 @@
                 color: #2d9955;
             }
 
+
+        /* =========================================================
+               RATING
+            ========================================================= */
+
         .profile-rating {
             display: flex;
             align-items: center;
@@ -864,6 +993,11 @@
             font-size: 13px;
         }
 
+
+        /* =========================================================
+               DESCRIPTION / LOCATION
+            ========================================================= */
+
         .farmer-profile-content > p {
             max-width: 620px;
             margin-bottom: 20px;
@@ -881,6 +1015,11 @@
             font-size: 14px;
             font-weight: 600;
         }
+
+
+        /* =========================================================
+               ACTION BUTTONS
+            ========================================================= */
 
         .profile-actions {
             display: flex;
@@ -905,6 +1044,12 @@
             .btn-farmer-contact:hover {
                 color: #fff;
                 background: #237c44;
+                border-color: #237c44;
+            }
+
+            .btn-farmer-contact.contact-sent {
+                background: #216f3d;
+                border-color: #216f3d;
             }
 
         .btn-farmer-favorite {
@@ -921,9 +1066,9 @@
             }
 
 
-        /* =========================
+        /* =========================================================
                STATS
-            ========================= */
+            ========================================================= */
 
         .farmer-stats-section {
             padding: 25px 0;
@@ -977,9 +1122,9 @@
         }
 
 
-        /* =========================
-               ABOUT
-            ========================= */
+        /* =========================================================
+               ABOUT FARMER
+            ========================================================= */
 
         .about-farmer-section {
             padding: 95px 0;
@@ -1017,6 +1162,11 @@
             font-size: 15px;
         }
 
+
+        /* =========================================================
+               VALUES
+            ========================================================= */
+
         .farmer-values {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1039,7 +1189,9 @@
             }
 
 
-        /* FARM INFORMATION */
+        /* =========================================================
+               FARM INFORMATION
+            ========================================================= */
 
         .farm-information-card {
             padding: 28px;
@@ -1114,12 +1266,13 @@
         .information-row strong {
             color: #36523f;
             font-size: 13px;
+            word-break: break-word;
         }
 
 
-        /* =========================
+        /* =========================================================
                PRODUCTS
-            ========================= */
+            ========================================================= */
 
         .farmer-products-section {
             padding: 95px 0;
@@ -1143,7 +1296,7 @@
             background: #fff;
             border: 1px solid #e3ece5;
             border-radius: 17px;
-            transition: .3s;
+            transition: .3s ease;
         }
 
             .farmer-product-card:hover {
@@ -1155,17 +1308,30 @@
             position: relative;
             height: 210px;
             overflow: hidden;
+            background: #edf6ef;
         }
 
             .product-image img {
                 width: 100%;
                 height: 100%;
+                display: block;
                 object-fit: cover;
-                transition: .4s;
+                transition: .4s ease;
             }
 
         .farmer-product-card:hover .product-image img {
             transform: scale(1.06);
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #79a786;
+            background: #edf6ef;
+            font-size: 50px;
         }
 
         .product-image span {
@@ -1178,6 +1344,11 @@
             border-radius: 20px;
             font-size: 10px;
             font-weight: 800;
+        }
+
+        .product-image .product-unavailable {
+            color: #9a4d4d;
+            background: #fcecec;
         }
 
         .product-content {
@@ -1196,10 +1367,18 @@
                 font-weight: 800;
             }
 
+        .product-description {
+            margin: -7px 0 13px;
+            color: #7d8982;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
         .product-bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
         }
 
             .product-bottom strong {
@@ -1211,13 +1390,58 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0;
                 width: 35px;
                 height: 35px;
                 color: #fff;
                 background: #2d9955;
                 border-radius: 9px;
                 text-decoration: none;
+                transition: .25s ease;
             }
+
+                .product-bottom a:hover {
+                    color: #fff;
+                    background: #237c44;
+                    transform: translateX(2px);
+                }
+
+
+        /* =========================================================
+               NO PRODUCTS
+            ========================================================= */
+
+        .no-products-box {
+            padding: 55px 20px;
+            background: #fff;
+            border: 1px solid #e1ebe4;
+            border-radius: 20px;
+        }
+
+        .no-products-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d9955;
+            background: #e8f6eb;
+            border-radius: 18px;
+            font-size: 30px;
+        }
+
+        .no-products-box h3 {
+            margin-bottom: 8px;
+            color: #294936;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .no-products-box p {
+            margin: 0;
+            color: #7b8880;
+        }
 
         .products-more-btn {
             margin-top: 40px;
@@ -1235,12 +1459,13 @@
             .btn-view-products:hover {
                 color: #fff;
                 background: #2d9955;
+                border-color: #2d9955;
             }
 
 
-        /* =========================
+        /* =========================================================
                MARKET
-            ========================= */
+            ========================================================= */
 
         .farmer-market-section {
             padding: 95px 0;
@@ -1254,6 +1479,7 @@
             .market-image-wrapper > img {
                 width: 100%;
                 height: 470px;
+                display: block;
                 object-fit: cover;
                 border-radius: 25px;
                 box-shadow: 0 20px 45px rgba(32, 71, 45, .12);
@@ -1327,6 +1553,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    flex-shrink: 0;
                     width: 40px;
                     height: 40px;
                     color: #2d9955;
@@ -1354,6 +1581,7 @@
             padding: 12px 21px;
             color: #fff;
             background: #2d9955;
+            border-color: #2d9955;
             border-radius: 10px;
             font-weight: 700;
         }
@@ -1361,12 +1589,13 @@
             .btn-market:hover {
                 color: #fff;
                 background: #237c44;
+                border-color: #237c44;
             }
 
 
-        /* =========================
+        /* =========================================================
                CTA
-            ========================= */
+            ========================================================= */
 
         .farmer-details-cta {
             padding: 75px 0;
@@ -1414,9 +1643,9 @@
             }
 
 
-        /* =========================
+        /* =========================================================
                RESPONSIVE
-            ========================= */
+            ========================================================= */
 
         @@media (max-width: 991.98px) {
 
@@ -1428,7 +1657,8 @@
                 padding-left: 0;
             }
 
-            .farmer-profile-image img {
+            .farmer-profile-image img,
+            .farmer-image-placeholder {
                 height: 450px;
             }
 
@@ -1438,6 +1668,10 @@
 
             .farmer-stat:nth-child(2) {
                 border-right: 0;
+            }
+
+            .farmer-stat:nth-child(3) {
+                border-bottom: 0;
             }
 
             .market-image-wrapper {
@@ -1454,7 +1688,8 @@
 
         @@media (max-width: 767.98px) {
 
-            .farmer-profile-image img {
+            .farmer-profile-image img,
+            .farmer-image-placeholder {
                 height: 380px;
             }
 
@@ -1474,6 +1709,10 @@
                 border-right: 0;
                 border-bottom: 1px solid #e8eee9;
             }
+
+                .farmer-stat:nth-child(3) {
+                    border-bottom: 1px solid #e8eee9;
+                }
 
                 .farmer-stat:last-child {
                     border-bottom: 0;
@@ -1501,7 +1740,8 @@
                 padding-top: 25px;
             }
 
-            .farmer-profile-image img {
+            .farmer-profile-image img,
+            .farmer-image-placeholder {
                 height: 330px;
             }
 
@@ -1543,6 +1783,7 @@
             .market-image-badge {
                 right: 10px;
                 bottom: 10px;
+                padding: 11px 13px;
             }
 
             .cta-actions {
@@ -1560,61 +1801,83 @@
 }
 
 
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
 @section Scripts {
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
+
+            /* =====================================================
+               FAVORITE FARMER
+            ===================================================== */
 
             const favoriteButton =
                 document.getElementById("favoriteFarmer");
 
+            if (favoriteButton) {
 
-            favoriteButton.addEventListener("click", function () {
+                favoriteButton.addEventListener("click", function() {
 
-                this.classList.toggle("active");
+                    this.classList.toggle("active");
 
-                const icon =
-                    this.querySelector("i");
+                    const icon =
+                        this.querySelector("i");
 
-                const text =
-                    this.querySelector("span");
+                    const text =
+                        this.querySelector("span");
 
 
-                if (this.classList.contains("active")) {
+                    if (!icon || !text) {
+                        return;
+                    }
 
-                    icon.classList.remove("bi-heart");
 
-                    icon.classList.add("bi-heart-fill");
+                    if (this.classList.contains("active")) {
 
-                    text.textContent = "Saved";
+                        icon.classList.remove("bi-heart");
+                        icon.classList.add("bi-heart-fill");
 
-                }
-                else {
+                        text.textContent = "Saved";
 
-                    icon.classList.remove("bi-heart-fill");
+                    }
+                    else {
 
-                    icon.classList.add("bi-heart");
+                        icon.classList.remove("bi-heart-fill");
+                        icon.classList.add("bi-heart");
 
-                    text.textContent = "Save Farmer";
+                        text.textContent = "Save Farmer";
 
-                }
+                    }
 
-            });
+                });
 
+            }
+
+
+            /* =====================================================
+               CONTACT FARMER
+            ===================================================== */
 
             const contactButton =
                 document.querySelector(".btn-farmer-contact");
 
+            if (contactButton) {
 
-            contactButton.addEventListener("click", function () {
+                contactButton.addEventListener("click", function() {
 
-                this.innerHTML =
-                    '<i class="bi bi-check-circle-fill"></i> Contact Request Sent';
+                    this.innerHTML =
+                        '<i class="bi bi-check-circle-fill"></i> Contact Request Sent';
 
-                this.classList.add("contact-sent");
+                    this.classList.add("contact-sent");
 
-            });
+                    this.disabled = true;
+
+                });
+
+            }
 
         });
 

@@ -1,4 +1,4 @@
-﻿using MarketLink.DTOs;
+using MarketLink.DTOs;
 using MarketLink.Models;
 using MarketLink.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -163,6 +163,7 @@ namespace MarketLink.Controllers
             });
         }
 
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
@@ -216,6 +217,7 @@ namespace MarketLink.Controllers
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Lax,
+                    Path = "/",
                     Expires = DateTimeOffset.UtcNow.AddMinutes(
                         int.Parse(
                             _configuration["Jwt:ExpiryMinutes"] ?? "30"
@@ -282,19 +284,25 @@ namespace MarketLink.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/Auth/Logout")]
         [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("accessToken");
-            Response.Cookies.Delete("refreshToken");
+            Response.Cookies.Delete(
+                "accessToken",
+                new CookieOptions { Path = "/" }
+            );
+
+            Response.Cookies.Delete(
+                "refreshToken",
+                new CookieOptions { Path = "/" }
+            );
 
             return RedirectToAction(
                 "Index",
                 "Home"
             );
         }
-
 
     }
 }

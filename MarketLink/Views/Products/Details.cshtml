@@ -1,11 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Product Details";
+﻿@model MarketLink.ViewModels.ProductDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.ProductName;
+
+    var fullStars = (int)Math.Floor(Model.Rating);
+
+    var hasHalfStar =
+        Model.Rating - fullStars >= 0.5m;
+
+    var emptyStars =
+        5 - fullStars - (hasHalfStar ? 1 : 0);
 }
 
 
 <!-- =========================================================
      PRODUCT DETAILS HERO
-     Same style as Market Details Hero
 ========================================================= -->
 
 <section class="product-details-hero">
@@ -19,6 +28,7 @@
             <div class="product-details-hero-content">
 
                 <!-- BREADCRUMB -->
+
                 <div class="product-breadcrumb">
 
                     <a asp-controller="Home"
@@ -41,13 +51,14 @@
                     <i class="bi bi-chevron-right"></i>
 
                     <span>
-                        Product Details
+                        @Model.ProductName
                     </span>
 
                 </div>
 
 
                 <!-- LABEL -->
+
                 <div class="product-details-category">
 
                     <i class="bi bi-basket2"></i>
@@ -57,16 +68,19 @@
                 </div>
 
 
-                <!-- TITLE -->
+                <!-- DYNAMIC TITLE -->
+
                 <h1>
-                    Product Details
+                    @Model.ProductName
                 </h1>
 
 
-                <!-- DESCRIPTION -->
                 <p class="product-details-hero-description">
-                    Discover fresh, locally sourced products from trusted
-                    farmers through MarketLink.
+
+                    Discover fresh, locally sourced
+                    @Model.ProductName.ToLower()
+                    from trusted farmers through MarketLink.
+
                 </p>
 
             </div>
@@ -76,7 +90,6 @@
     </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -111,7 +124,7 @@
             <i class="bi bi-chevron-right"></i>
 
             <span>
-                Fresh Tomatoes
+                @Model.ProductName
             </span>
 
         </div>
@@ -130,8 +143,8 @@
 
                 <div class="product-details-image-box">
 
-                    <img src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&fit=crop&w=1200&q=85"
-                         alt="Fresh Tomatoes"
+                    <img src="@Model.ImageUrl"
+                         alt="@Model.ProductName"
                          class="product-details-image" />
 
 
@@ -158,20 +171,27 @@
             </div>
 
 
-
             <!-- =================================================
                  PRODUCT INFORMATION
             ================================================== -->
 
             <div class="col-lg-6">
 
+                <!-- CATEGORY -->
+
                 <span class="product-details-product-category">
-                    VEGETABLES
+
+                    @Model.CategoryName.ToUpper()
+
                 </span>
 
 
+                <!-- PRODUCT NAME -->
+
                 <h2 class="product-details-product-title">
-                    Fresh Tomatoes
+
+                    @Model.ProductName
+
                 </h2>
 
 
@@ -181,20 +201,35 @@
 
                     <span class="stars">
 
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
+                        @for (int i = 0; i < fullStars; i++)
+                        {
+                            <i class="bi bi-star-fill"></i>
+                        }
+
+                        @if (hasHalfStar)
+                        {
+                            <i class="bi bi-star-half"></i>
+                        }
+
+                        @for (int i = 0; i < emptyStars; i++)
+                        {
+                            <i class="bi bi-star"></i>
+                        }
 
                     </span>
 
+
                     <strong>
-                        4.8
+
+                        @Model.Rating.ToString("0.0")
+
                     </strong>
 
+
                     <span>
-                        (24 Reviews)
+
+                        (@Model.ReviewCount Reviews)
+
                     </span>
 
                 </div>
@@ -204,9 +239,21 @@
 
                 <p class="product-details-description">
 
-                    Fresh, naturally grown tomatoes sourced directly
-                    from local farmers. Perfect for salads, cooking,
-                    sauces and everyday meals.
+                    @if (!string.IsNullOrWhiteSpace(Model.FarmerDescription))
+                    {
+                        @Model.FarmerDescription
+                    }
+                    else if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <text>
+                            Fresh locally sourced @Model.ProductName
+                            from a trusted MarketLink farmer.
+                        </text>
+                    }
 
                 </p>
 
@@ -216,11 +263,15 @@
                 <div class="product-details-price">
 
                     <strong>
-                        Rs. 180
+
+                        Rs. @Model.Price.ToString("N2")
+
                     </strong>
 
                     <span>
-                        / kg
+
+                        / @Model.UnitName
+
                     </span>
 
                 </div>
@@ -230,11 +281,22 @@
 
                 <div class="product-availability">
 
-                    <i class="bi bi-check-circle-fill"></i>
+                    @if (Model.IsAvailable)
+                    {
+                        <i class="bi bi-check-circle-fill"></i>
 
-                    <span>
-                        In Stock
-                    </span>
+                        <span>
+                            @Model.AvailabilityText
+                        </span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-circle-fill text-danger"></i>
+
+                        <span class="text-danger">
+                            Out of Stock
+                        </span>
+                    }
 
                 </div>
 
@@ -257,28 +319,31 @@
                         </span>
 
                         <strong>
-                            Ahmed Farm
+                            @Model.FarmerName
                         </strong>
 
                     </div>
 
 
-                    <span class="verified-farmer">
+                    @if (Model.IsFarmerVerified)
+                    {
+                        <span class="verified-farmer">
 
-                        <i class="bi bi-patch-check-fill"></i>
+                            <i class="bi bi-patch-check-fill"></i>
 
-                        Verified Farmer
+                            Verified Farmer
 
-                    </span>
+                        </span>
+                    }
 
                 </div>
 
 
-                <!-- LOCATION -->
+                <!-- LOCATION / MARKET -->
 
                 <div class="product-details-location">
 
-                    <i class="bi bi-geo-alt-fill"></i>
+                    <i class="bi bi-shop"></i>
 
                     <div>
 
@@ -287,7 +352,7 @@
                         </span>
 
                         <strong>
-                            Clifton Fresh Farmers Market
+                            @Model.MarketName
                         </strong>
 
                     </div>
@@ -332,11 +397,14 @@
 
                     <button type="button"
                             class="add-to-cart-btn"
-                            id="addToCartBtn">
+                            id="addToCartBtn"
+                        @(Model.IsAvailable ? "" : "disabled")>
 
                         <i class="bi bi-cart-plus"></i>
 
-                        Add to Cart
+                        @(Model.IsAvailable
+                            ? "Add to Cart"
+                            : "Out of Stock")
 
                     </button>
 
@@ -390,7 +458,6 @@
 </section>
 
 
-
 <!-- =========================================================
      PRODUCT INFORMATION
 ========================================================= -->
@@ -436,27 +503,29 @@
                     </div>
 
 
-                    <p>
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        <p>
+                            @Model.Description
+                        </p>
+                    }
+                    else
+                    {
+                        <p>
+                            This fresh product is provided by
+                            @Model.FarmerName through MarketLink.
+                        </p>
+                    }
 
-                        These fresh tomatoes are sourced from local
-                        farmers and selected for quality and freshness.
-                        They are suitable for everyday cooking and
-                        can be used in salads, sauces, sandwiches and
-                        a variety of homemade meals.
 
-                    </p>
-
-
-                    <p>
-
-                        MarketLink helps customers discover locally
-                        available products and connect with farmers
-                        through nearby markets.
-
-                    </p>
+                    @if (!string.IsNullOrWhiteSpace(Model.FarmerDescription))
+                    {
+                        <p>
+                            @Model.FarmerDescription
+                        </p>
+                    }
 
                 </div>
-
 
 
                 <!-- PRODUCT INFORMATION CARD -->
@@ -488,6 +557,9 @@
 
                     <div class="product-specification-grid">
 
+
+                        <!-- CATEGORY -->
+
                         <div class="product-spec-item">
 
                             <span>
@@ -495,11 +567,13 @@
                             </span>
 
                             <strong>
-                                Vegetables
+                                @Model.CategoryName
                             </strong>
 
                         </div>
 
+
+                        <!-- UNIT -->
 
                         <div class="product-spec-item">
 
@@ -508,11 +582,13 @@
                             </span>
 
                             <strong>
-                                Kilogram
+                                @Model.UnitName
                             </strong>
 
                         </div>
 
+
+                        <!-- ORIGIN -->
 
                         <div class="product-spec-item">
 
@@ -527,6 +603,8 @@
                         </div>
 
 
+                        <!-- AVAILABILITY -->
+
                         <div class="product-spec-item">
 
                             <span>
@@ -534,11 +612,13 @@
                             </span>
 
                             <strong>
-                                In Stock
+                                @Model.AvailabilityText
                             </strong>
 
                         </div>
 
+
+                        <!-- PRODUCT TYPE -->
 
                         <div class="product-spec-item">
 
@@ -553,6 +633,8 @@
                         </div>
 
 
+                        <!-- MARKET -->
+
                         <div class="product-spec-item">
 
                             <span>
@@ -560,7 +642,7 @@
                             </span>
 
                             <strong>
-                                Clifton Market
+                                @Model.MarketName
                             </strong>
 
                         </div>
@@ -568,7 +650,6 @@
                     </div>
 
                 </div>
-
 
 
                 <!-- FARMER CARD -->
@@ -612,25 +693,38 @@
                             <div class="farmer-name-row">
 
                                 <h3>
-                                    Ahmed Farm
+                                    @Model.FarmerName
                                 </h3>
 
-                                <span>
 
-                                    <i class="bi bi-patch-check-fill"></i>
+                                @if (Model.IsFarmerVerified)
+                                {
+                                    <span>
 
-                                    Verified
+                                        <i class="bi bi-patch-check-fill"></i>
 
-                                </span>
+                                        Verified
+
+                                    </span>
+                                }
 
                             </div>
 
 
                             <p>
 
-                                A local farming family providing
-                                fresh vegetables and seasonal produce
-                                to nearby communities.
+                                @if (!string.IsNullOrWhiteSpace(Model.FarmerDescriptionText))
+                                {
+                                    @Model.FarmerDescriptionText
+                                }
+                                else
+                                {
+                                    <text>
+                                        A local farmer providing fresh
+                                        products to nearby communities
+                                        through MarketLink.
+                                    </text>
+                                }
 
                             </p>
 
@@ -639,9 +733,9 @@
 
                                 <span>
 
-                                    <i class="bi bi-geo-alt"></i>
+                                    <i class="bi bi-shop"></i>
 
-                                    Karachi
+                                    @Model.MarketName
 
                                 </span>
 
@@ -650,7 +744,7 @@
 
                                     <i class="bi bi-box-seam"></i>
 
-                                    25+ Products
+                                    @Model.CategoryName
 
                                 </span>
 
@@ -663,7 +757,6 @@
                 </div>
 
             </div>
-
 
 
             <!-- =================================================
@@ -690,23 +783,23 @@
 
                     <div class="market-preview-image">
 
-                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=700&q=80"
-                             alt="Clifton Farmers Market" />
+                        <img src="@Model.ImageUrl"
+                             alt="@Model.MarketName" />
 
                     </div>
 
 
                     <h4>
-                        Clifton Fresh Farmers Market
+                        @Model.MarketName
                     </h4>
 
 
                     <div class="side-location">
 
-                        <i class="bi bi-geo-alt-fill"></i>
+                        <i class="bi bi-shop"></i>
 
                         <span>
-                            Clifton, Karachi
+                            Local Farmers Market
                         </span>
 
                     </div>
@@ -716,10 +809,10 @@
 
                         <div>
 
-                            <i class="bi bi-calendar3"></i>
+                            <i class="bi bi-box-seam"></i>
 
                             <span>
-                                Saturday
+                                @Model.AvailabilityText
                             </span>
 
                         </div>
@@ -727,10 +820,10 @@
 
                         <div>
 
-                            <i class="bi bi-clock"></i>
+                            <i class="bi bi-tag"></i>
 
                             <span>
-                                08 AM - 02 PM
+                                @Model.CategoryName
                             </span>
 
                         </div>
@@ -738,19 +831,21 @@
                     </div>
 
 
-                    <a asp-controller="Markets"
-                       asp-action="Details"
-                       asp-route-id="1"
-                       class="view-market-btn">
+                    @if (Model.MarketId.HasValue)
+                    {
+                        <a asp-controller="Markets"
+                           asp-action="Details"
+                           asp-route-id="@Model.MarketId.Value"
+                           class="view-market-btn">
 
-                        View Market
+                            View Market
 
-                        <i class="bi bi-arrow-right"></i>
+                            <i class="bi bi-arrow-right"></i>
 
-                    </a>
+                        </a>
+                    }
 
                 </div>
-
 
 
                 <!-- DELIVERY CARD -->
@@ -801,7 +896,6 @@
                 </div>
 
 
-
                 <!-- HELP CARD -->
 
                 <div class="product-side-card help-card">
@@ -847,193 +941,111 @@
 </section>
 
 
-
 <!-- =========================================================
      RELATED PRODUCTS
 ========================================================= -->
+@if (Model.RelatedProducts != null &&
+     Model.RelatedProducts.Any())
+{
+    <section class="related-products-section">
 
-<section class="related-products-section">
+        <div class="container">
 
-    <div class="container">
+            <div class="related-heading">
 
-        <div class="related-heading">
+                <div>
 
-            <div>
+                    <span>
+                        YOU MAY ALSO LIKE
+                    </span>
 
-                <span>
-                    YOU MAY ALSO LIKE
-                </span>
+                    <h2>
+                        Related Products
+                    </h2>
 
-                <h2>
-                    Related Products
-                </h2>
+                </div>
+
+
+                <a asp-controller="Products"
+                   asp-action="Index">
+
+                    View All Products
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
 
             </div>
 
 
-            <a asp-controller="Products"
-               asp-action="Index">
+            <div class="row g-4">
 
-                View All Products
+                @foreach (var related in Model.RelatedProducts)
+                {
+                    <div class="col-lg-3 col-md-6">
 
-                <i class="bi bi-arrow-right"></i>
+                        <div class="related-product-card">
 
-            </a>
+                            <!-- IMAGE -->
 
-        </div>
+                            <div class="related-product-image">
 
+                                <a asp-controller="Products"
+                                   asp-action="Details"
+                                   asp-route-id="@related.FarmerProductId">
 
-        <div class="row g-4">
+                                    <img src="@related.ImageUrl"
+                                         alt="@related.ProductName" />
 
+                                </a>
 
-            <!-- PRODUCT 1 -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="related-product-card">
-
-                    <div class="related-product-image">
-
-                        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80"
-                             alt="Organic Spinach" />
-
-                    </div>
+                            </div>
 
 
-                    <div class="related-product-content">
+                            <!-- CONTENT -->
 
-                        <span>
-                            Organic
-                        </span>
+                            <div class="related-product-content">
 
-                        <h3>
-                            Organic Spinach
-                        </h3>
-
-                        <strong>
-                            Rs. 120 / bunch
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
+                                <span>
+                                    @related.CategoryName
+                                </span>
 
 
+                                <h3>
 
-            <!-- PRODUCT 2 -->
+                                    <a asp-controller="Products"
+                                       asp-action="Details"
+                                       asp-route-id="@related.FarmerProductId"
+                                       style="text-decoration:none;color:inherit;">
 
-            <div class="col-lg-3 col-md-6">
+                                        @related.ProductName
 
-                <div class="related-product-card">
+                                    </a>
 
-                    <div class="related-product-image">
+                                </h3>
 
-                        <img src="https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=600&q=80"
-                             alt="Fresh Oranges" />
+
+                                <strong>
+
+                                    Rs. @related.Price.ToString("N2")
+                                    /
+                                    @related.UnitName
+
+                                </strong>
+
+                            </div>
+
+                        </div>
 
                     </div>
-
-
-                    <div class="related-product-content">
-
-                        <span>
-                            Fruits
-                        </span>
-
-                        <h3>
-                            Fresh Oranges
-                        </h3>
-
-                        <strong>
-                            Rs. 280 / kg
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 3 -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="related-product-card">
-
-                    <div class="related-product-image">
-
-                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80"
-                             alt="Fresh Milk" />
-
-                    </div>
-
-
-                    <div class="related-product-content">
-
-                        <span>
-                            Dairy
-                        </span>
-
-                        <h3>
-                            Farm Fresh Milk
-                        </h3>
-
-                        <strong>
-                            Rs. 260 / litre
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PRODUCT 4 -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="related-product-card">
-
-                    <div class="related-product-image">
-
-                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
-                             alt="Organic Honey" />
-
-                    </div>
-
-
-                    <div class="related-product-content">
-
-                        <span>
-                            Organic
-                        </span>
-
-                        <h3>
-                            Organic Honey
-                        </h3>
-
-                        <strong>
-                            Rs. 850 / jar
-                        </strong>
-
-                    </div>
-
-                </div>
+                }
 
             </div>
 
         </div>
 
-    </div>
-
-</section>
-
+    </section>
+}
 
 
 <!-- =========================================================
@@ -1052,9 +1064,11 @@
                     FRESH • LOCAL • TRUSTED
                 </span>
 
+
                 <h2>
                     Discover more fresh products.
                 </h2>
+
 
                 <p>
                     Explore local farmers and products
@@ -1094,6 +1108,159 @@
     </div>
 
 </section>
+
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+========================================================= -->
+@section Scripts {
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            /* =====================================================
+               FAVORITE BUTTON
+            ===================================================== */
+
+            const favoriteButton =
+                document.getElementById("detailsFavorite");
+
+
+            if (favoriteButton) {
+
+                favoriteButton.addEventListener("click", function() {
+
+                    favoriteButton.classList.toggle("active");
+
+                    const icon =
+                        favoriteButton.querySelector("i");
+
+
+                    if (
+                        favoriteButton.classList.contains("active")
+                    ) {
+
+                        icon.classList.remove("bi-heart");
+
+                        icon.classList.add("bi-heart-fill");
+
+                    }
+                    else {
+
+                        icon.classList.remove("bi-heart-fill");
+
+                        icon.classList.add("bi-heart");
+
+                    }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               QUANTITY
+            ===================================================== */
+
+            const quantityElement =
+                document.getElementById("productQuantity");
+
+            const increaseButton =
+                document.getElementById("increaseQuantity");
+
+            const decreaseButton =
+                document.getElementById("decreaseQuantity");
+
+
+            let quantity = 1;
+
+
+            const maxQuantity =
+                        @Model.AvailableQuantity.ToString(
+                                System.Globalization.CultureInfo.InvariantCulture);
+
+
+            if (increaseButton && quantityElement) {
+
+                increaseButton.addEventListener("click", function() {
+
+                    if (quantity < maxQuantity) {
+
+                        quantity++;
+
+                        quantityElement.textContent =
+                            quantity;
+
+                    }
+
+                });
+
+            }
+
+
+            if (decreaseButton && quantityElement) {
+
+                decreaseButton.addEventListener("click", function() {
+
+                    if (quantity > 1) {
+
+                        quantity--;
+
+                        quantityElement.textContent =
+                            quantity;
+
+                    }
+
+                });
+
+            }
+
+
+            /* =====================================================
+               ADD TO CART - VISUAL FEEDBACK
+            ===================================================== */
+
+            const addToCartButton =
+                document.getElementById("addToCartBtn");
+
+
+            if (addToCartButton &&
+                !addToCartButton.disabled) {
+
+                addToCartButton.addEventListener("click", function() {
+
+                    const originalText =
+                        addToCartButton.innerHTML;
+
+
+                    addToCartButton.innerHTML =
+                        '<i class="bi bi-check-circle"></i> Added to Cart';
+
+
+                    addToCartButton.style.background =
+                        "#2d7040";
+
+
+                    setTimeout(function() {
+
+                        addToCartButton.innerHTML =
+                            originalText;
+
+                        addToCartButton.style.background =
+                            "";
+
+                    }, 1800);
+
+                });
+
+            }
+
+        });
+
+    </script>
+
+}
 
 
 
@@ -2393,7 +2560,7 @@
 <!-- =========================================================
      PAGE JAVASCRIPT
 ========================================================= -->
-@section Scripts {
+@* @section Scripts {
 
     <script>
 
@@ -2534,4 +2701,4 @@
 
     </script>
 
-}
+} *@

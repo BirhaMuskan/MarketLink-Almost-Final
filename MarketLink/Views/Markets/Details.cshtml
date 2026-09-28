@@ -1,5 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Market Details";
+﻿@model MarketLink.Models.Market
+
+@{
+    ViewData["Title"] = Model.MarketName + " - Market Details";
+
+    string marketStatus = Model.IsActive ? "Active Market" : "Currently Unavailable";
+
+    string googleMapsUrl = "https://www.google.com/maps";
+
+    if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+    {
+        googleMapsUrl =
+            $"https://www.google.com/maps?q={Model.Latitude.Value},{Model.Longitude.Value}";
+    }
 }
 
 <!-- =========================================================
@@ -15,6 +27,7 @@
         <div class="market-details-banner-content">
 
             <!-- Breadcrumb -->
+
             <nav class="market-details-breadcrumb" aria-label="Breadcrumb">
 
                 <a asp-controller="Home"
@@ -31,12 +44,13 @@
 
                 <i class="bi bi-chevron-right"></i>
 
-                <span>Market Details</span>
+                <span>@Model.MarketName</span>
 
             </nav>
 
 
             <!-- Small Label -->
+
             <span class="market-details-banner-label">
 
                 <i class="bi bi-shop-window"></i>
@@ -47,15 +61,18 @@
 
 
             <!-- Heading -->
+
             <h1>
-                Market Details
+                @Model.MarketName
             </h1>
 
 
-            <!-- Short Description -->
+            <!-- Description -->
+
             <p>
-                Discover fresh products, local farmers and everything
-                you need to know about this farmers market.
+                @(string.IsNullOrWhiteSpace(Model.Description)
+                    ? "Discover fresh products and local farmers at this MarketLink farmers market."
+                    : Model.Description)
             </p>
 
         </div>
@@ -63,7 +80,6 @@
     </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -77,29 +93,31 @@
         <div class="row align-items-center g-5">
 
             <!-- LEFT CONTENT -->
+
             <div class="col-lg-7">
 
                 <span class="market-details-badge">
 
                     <i class="bi bi-shop"></i>
 
-                    Local Farmers Market
+                    @marketStatus
 
                 </span>
 
 
                 <h2>
-                    Clifton Fresh
-                    <span>Farmers Market.</span>
+
+                    @Model.MarketName
+                    <span>Market.</span>
+
                 </h2>
 
 
                 <p class="market-details-intro">
 
-                    Discover fresh, locally grown fruits, vegetables,
-                    homemade products and more from trusted local farmers.
-                    Shop fresh products while supporting the local farming
-                    community.
+                    @(string.IsNullOrWhiteSpace(Model.Description)
+                        ? "Discover fresh, locally available products and connect with local farmers through MarketLink."
+                        : Model.Description)
 
                 </p>
 
@@ -121,7 +139,9 @@
                             </small>
 
                             <strong>
-                                Clifton, Karachi
+                                @(string.IsNullOrWhiteSpace(Model.Address)
+                                    ? "Location not available"
+                                    : Model.Address)
                             </strong>
 
                         </div>
@@ -129,7 +149,28 @@
                     </div>
 
 
-                    <!-- MARKET DAY -->
+                    <!-- MARKET STATUS -->
+
+                    <div class="quick-info-item">
+
+                        <i class="bi bi-shop"></i>
+
+                        <div>
+
+                            <small>
+                                Market Status
+                            </small>
+
+                            <strong>
+                                @(Model.IsActive ? "Active" : "Inactive")
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CREATED DATE -->
 
                     <div class="quick-info-item">
 
@@ -138,32 +179,11 @@
                         <div>
 
                             <small>
-                                Market Day
+                                Listed Since
                             </small>
 
                             <strong>
-                                Every Saturday
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- OPENING HOURS -->
-
-                    <div class="quick-info-item">
-
-                        <i class="bi bi-clock-fill"></i>
-
-                        <div>
-
-                            <small>
-                                Opening Hours
-                            </small>
-
-                            <strong>
-                                08:00 AM - 02:00 PM
+                                @Model.CreatedAt.ToString("dd MMM yyyy")
                             </strong>
 
                         </div>
@@ -182,15 +202,14 @@
                 <div class="market-details-image-wrapper">
 
                     <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=85"
-                         alt="Fresh local farmers market"
+                         alt="@Model.MarketName"
                          class="market-details-main-image">
-
 
                     <div class="market-open-badge">
 
                         <span class="status-dot"></span>
 
-                        Open Every Saturday
+                        @(Model.IsActive ? "Active Market" : "Currently Unavailable")
 
                     </div>
 
@@ -203,7 +222,6 @@
     </div>
 
 </section>
-
 
 
 <!-- =========================================================
@@ -242,7 +260,7 @@
                             </span>
 
                             <h2>
-                                Freshness from Local Farmers
+                                @Model.MarketName
                             </h2>
 
                         </div>
@@ -251,20 +269,23 @@
 
 
                     <p>
-                        Clifton Fresh Farmers Market is a community-focused
-                        market where local farmers and small producers bring
-                        fresh products directly to customers.
+
+                        @(string.IsNullOrWhiteSpace(Model.Description)
+                            ? "This market is part of the MarketLink platform where customers can discover local farmers and their products."
+                            : Model.Description)
+
                     </p>
 
 
                     <p>
-                        Visitors can discover seasonal fruits and vegetables,
-                        organic products, homemade food items and other
-                        locally produced goods while supporting local farmers.
+
+                        MarketLink helps customers discover local markets,
+                        explore available products and connect with farmers
+                        through one convenient platform.
+
                     </p>
 
                 </div>
-
 
 
                 <!-- =================================================
@@ -284,11 +305,11 @@
                         <div>
 
                             <span>
-                                Products
+                                Market
                             </span>
 
                             <h2>
-                                What You Can Find
+                                Explore Local Products
                             </h2>
 
                         </div>
@@ -314,7 +335,7 @@
                             </h3>
 
                             <p>
-                                Seasonal and locally sourced fruits.
+                                Discover fresh products offered by local farmers.
                             </p>
 
                         </div>
@@ -331,62 +352,60 @@
                             </div>
 
                             <h3>
-                                Vegetables
+                                Fresh Vegetables
                             </h3>
 
                             <p>
-                                Fresh vegetables from local farms.
+                                Explore seasonal vegetables from local producers.
                             </p>
 
                         </div>
 
 
-                        <!-- HOMEMADE GOODS -->
+                        <!-- LOCAL PRODUCTS -->
 
                         <div class="product-category">
 
                             <div class="category-icon">
 
-                                <i class="bi bi-cup-hot"></i>
+                                <i class="bi bi-basket"></i>
 
                             </div>
 
                             <h3>
-                                Homemade Goods
+                                Local Products
                             </h3>
 
                             <p>
-                                Homemade and locally prepared products.
+                                Find products available from farmers in this market.
                             </p>
 
                         </div>
 
 
-                        <!-- ORGANIC PRODUCTS -->
+                        <!-- FARM PRODUCTS -->
 
                         <div class="product-category">
 
                             <div class="category-icon">
 
-                                <i class="bi bi-droplet-half"></i>
+                                <i class="bi bi-leaf"></i>
 
                             </div>
 
                             <h3>
-                                Organic Products
+                                Farm Products
                             </h3>
 
                             <p>
-                                Natural and organic farm products.
+                                Support local farmers by exploring their products.
                             </p>
 
                         </div>
-
 
                     </div>
 
                 </div>
-
 
 
                 <!-- =================================================
@@ -406,11 +425,11 @@
                         <div>
 
                             <span>
-                                Why Visit?
+                                Market Information
                             </span>
 
                             <h2>
-                                Market Highlights
+                                Why Explore This Market?
                             </h2>
 
                         </div>
@@ -420,13 +439,12 @@
 
                     <div class="highlight-list">
 
-
                         <div class="highlight-item">
 
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Fresh locally sourced products
+                                Discover products from local farmers
                             </span>
 
                         </div>
@@ -437,7 +455,7 @@
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Direct connection with local farmers
+                                Explore fresh local products
                             </span>
 
                         </div>
@@ -448,7 +466,7 @@
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Seasonal fruits and vegetables
+                                Connect with the local farming community
                             </span>
 
                         </div>
@@ -459,7 +477,7 @@
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Community-friendly shopping experience
+                                Find market information in one place
                             </span>
 
                         </div>
@@ -470,7 +488,7 @@
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Support local farming communities
+                                Support local farmers
                             </span>
 
                         </div>
@@ -481,18 +499,16 @@
                             <i class="bi bi-check-circle-fill"></i>
 
                             <span>
-                                Discover new local producers
+                                Explore products through MarketLink
                             </span>
 
                         </div>
-
 
                     </div>
 
                 </div>
 
             </div>
-
 
 
             <!-- =================================================
@@ -517,16 +533,16 @@
 
                     <div class="sidebar-info-row">
 
-                        <i class="bi bi-calendar-week"></i>
+                        <i class="bi bi-shop"></i>
 
                         <div>
 
                             <span>
-                                Market Day
+                                Market Name
                             </span>
 
                             <strong>
-                                Saturday
+                                @Model.MarketName
                             </strong>
 
                         </div>
@@ -536,16 +552,18 @@
 
                     <div class="sidebar-info-row">
 
-                        <i class="bi bi-clock"></i>
+                        <i class="bi bi-geo-alt"></i>
 
                         <div>
 
                             <span>
-                                Opening Hours
+                                Location
                             </span>
 
                             <strong>
-                                08:00 AM - 02:00 PM
+                                @(string.IsNullOrWhiteSpace(Model.Address)
+                                    ? "Not available"
+                                    : Model.Address)
                             </strong>
 
                         </div>
@@ -555,16 +573,16 @@
 
                     <div class="sidebar-info-row">
 
-                        <i class="bi bi-people"></i>
+                        <i class="bi bi-toggle-on"></i>
 
                         <div>
 
                             <span>
-                                Local Farmers
+                                Status
                             </span>
 
                             <strong>
-                                20+ Farmers
+                                @(Model.IsActive ? "Active" : "Inactive")
                             </strong>
 
                         </div>
@@ -574,16 +592,16 @@
 
                     <div class="sidebar-info-row">
 
-                        <i class="bi bi-box-seam"></i>
+                        <i class="bi bi-calendar3"></i>
 
                         <div>
 
                             <span>
-                                Products
+                                Added On
                             </span>
 
                             <strong>
-                                80+ Products
+                                @Model.CreatedAt.ToString("dd MMM yyyy")
                             </strong>
 
                         </div>
@@ -591,7 +609,6 @@
                     </div>
 
                 </div>
-
 
 
                 <!-- =================================================
@@ -616,7 +633,9 @@
                             <i class="bi bi-geo-alt-fill"></i>
 
                             <span>
-                                Clifton, Karachi
+                                @(string.IsNullOrWhiteSpace(Model.Address)
+                                    ? "Location not available"
+                                    : Model.Address)
                             </span>
 
                         </div>
@@ -626,13 +645,14 @@
 
                     <p class="location-address">
 
-                        Clifton Block 4,
-                        Karachi, Pakistan
+                        @(string.IsNullOrWhiteSpace(Model.Address)
+                            ? "Address information is not available."
+                            : Model.Address)
 
                     </p>
 
 
-                    <a href="https://www.google.com/maps"
+                    <a href="@googleMapsUrl"
                        target="_blank"
                        class="details-map-btn">
 
@@ -643,7 +663,6 @@
                     </a>
 
                 </div>
-
 
 
                 <!-- =================================================
@@ -693,7 +712,6 @@
 </section>
 
 
-
 <!-- =========================================================
      CTA
 ========================================================= -->
@@ -711,7 +729,7 @@
                 </span>
 
                 <h2>
-                    Ready to explore fresh local products?
+                    Explore @Model.MarketName
                 </h2>
 
                 <p>
@@ -752,8 +770,6 @@
     </div>
 
 </section>
-
-
 
 <!-- =========================================================
      MARKET DETAILS PAGE CSS

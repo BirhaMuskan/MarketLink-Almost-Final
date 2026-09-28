@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -258,17 +258,49 @@
     </a>
 
 
-    <a asp-controller="Auth"
-   asp-action="Login"
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        var dashboardController =
+            User.IsInRole("Admin") ? "Admin" :
+            User.IsInRole("Farmer") ? "Farmer" :
+            "CustomerDashboard";
+
+        <span class="market-auth-link">
+            @User.Identity.Name
+        </span>
+
+        <a asp-controller="@dashboardController"
+           asp-action="Index"
+           class="market-auth-button">
+            Dashboard
+        </a>
+
+        <form id="marketLogoutForm"
+              asp-controller="Auth"
+              asp-action="Logout"
+              method="post"
+              class="d-none">
+        </form>
+
+        <a href="#"
+           class="market-auth-link"
+           onclick="event.preventDefault(); localStorage.removeItem('accessToken'); localStorage.removeItem('refreshToken'); document.getElementById('marketLogoutForm').submit();">
+            Logout
+        </a>
+    }
+    else
+    {
+        <a href="/Auth/Login"
    class="market-auth-link">
     Sign In
 </a>
 
-<a asp-controller="Auth"
-   asp-action="Register"
-   class="market-auth-button">
-    Get Started
-</a>
+        <a asp-controller="Auth"
+           asp-action="Register"
+           class="market-auth-button">
+            Get Started
+        </a>
+    }
 
 </div>
 
