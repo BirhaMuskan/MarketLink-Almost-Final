@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using MarketLink.Models;
 using MarketLink.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ namespace MarketLink.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index(
             int? farmerId = null,
@@ -110,6 +112,7 @@ namespace MarketLink.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(

@@ -183,6 +183,8 @@
             @if (!string.IsNullOrWhiteSpace(Model.ReplyMailtoUrl))
             {
                 <a href="@Model.ReplyMailtoUrl"
+                   target="_blank"
+                   rel="noopener noreferrer"
                    class="contact-reply">
                     <i class="bi bi-reply-fill"></i>
                     Reply by Email

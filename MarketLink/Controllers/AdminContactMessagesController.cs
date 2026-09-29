@@ -271,12 +271,17 @@ namespace MarketLink.Controllers
                 $"Thank you for contacting MarketLink regarding \"{subject}\".\n\n" +
                 $"Reference: {reference}\n\n";
 
+            // Open a browser-based Gmail compose window instead of relying on
+            // the operating system's default mail client. This works for
+            // messages submitted by both logged-in users and guests because
+            // the recipient address comes from the contact form payload.
             var mailto =
                 string.IsNullOrWhiteSpace(email)
                     ? ""
-                    : "mailto:" +
+                    : "https://mail.google.com/mail/?view=cm&fs=1" +
+                      "&to=" +
                       Uri.EscapeDataString(email) +
-                      "?subject=" +
+                      "&su=" +
                       Uri.EscapeDataString(
                           $"Re: {subject} [{reference}]") +
                       "&body=" +
