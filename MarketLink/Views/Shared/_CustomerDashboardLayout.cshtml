@@ -38,6 +38,10 @@
           href="~/css/customerdashboard.css"
           asp-append-version="true" />
 
+          <link rel="stylesheet"
+          href="~/css/style.css"
+          asp-append-version="true" />
+
     @await RenderSectionAsync("Styles", required: false)
 
 </head>
@@ -60,7 +64,7 @@
                class="dashboard-logo">
 
                 <span class="dashboard-logo-icon">
-                    <i class="bi bi-basket-fill"></i>
+                    <span class="brand-leaf"></span>
                 </span>
 
                 <span>
@@ -82,9 +86,9 @@
         <!-- USER MINI PROFILE -->
         <div class="sidebar-profile">
 
-            <div class="profile-avatar">
+            @* <div class="profile-avatar">
                 H
-            </div>
+            </div> *@
 
             <div class="profile-info">
 
@@ -226,6 +230,17 @@
 
         <!-- SIDEBAR BOTTOM -->
         <div class="sidebar-bottom">
+            <form asp-controller="Auth"
+      asp-action="Logout"
+      method="post"
+      class="d-inline">
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="dashboard-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    </button>
+</form>
 
            
 
@@ -272,31 +287,16 @@
             <div class="topbar-actions">
 
                 <!-- Search -->
-                <button class="topbar-icon"
-                        type="button"
-                        title="Search">
+             
 
-                    <i class="bi bi-search"></i>
-
-                </button>
-
-                <!-- Notification -->
-                <button class="topbar-icon notification-button"
-                        type="button"
-                        title="Notifications">
-
-                    <i class="bi bi-bell"></i>
-
-                    <span></span>
-
-                </button>
+               
 
                 <!-- User -->
                 <div class="topbar-user">
 
-                    <div class="topbar-avatar">
+                    @* <div class="topbar-avatar">
                         H
-                    </div>
+                    </div> *@
 
                     <div class="topbar-user-info">
 
@@ -304,11 +304,7 @@
 
                         <span>My Account</span>
 
-                    </div>
-
-                    <i class="bi bi-chevron-down"></i>
-
-                </div>
+                  
 
             </div>
 

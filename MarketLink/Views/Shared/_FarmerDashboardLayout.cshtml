@@ -33,6 +33,10 @@
           href="~/css/farmerdashboard.css"
           asp-append-version="true" />
 
+          <link rel="stylesheet"
+          href="~/css/style.css"
+          asp-append-version="true" />
+
     <style>
         .farmer-top-avatar-image {
             object-fit: cover;
@@ -59,7 +63,7 @@
                class="farmer-logo">
 
                 <span class="farmer-logo-icon">
-                    <i class="bi bi-basket-fill"></i>
+                    <span class="brand-leaf"></span>
                 </span>
 
                 <span>
@@ -82,14 +86,17 @@
 
         <div class="farmer-sidebar-bottom">
 
-            <a asp-controller="Home"
-               asp-action="Index"
-               class="farmer-menu-link">
+            <form asp-controller="Auth"
+      asp-action="Logout"
+      method="post"
+      class="d-inline">
+    @Html.AntiForgeryToken()
 
-                <i class="bi bi-question-circle"></i>
-                <span>Help & Support</span>
-
-            </a>
+    <button type="submit" class="dashboard-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    </button>
+</form>
 
             <a asp-controller="Home"
                asp-action="Index"
@@ -127,13 +134,7 @@
 
             <div class="farmer-top-actions">
 
-                <a asp-controller="FarmerNotifications"
-                   asp-action="Index"
-                   class="farmer-top-icon farmer-notification">
-
-                    <i class="bi bi-bell"></i>
-
-                </a>
+             
 
                 @await Component.InvokeAsync("FarmerTopbar")
 

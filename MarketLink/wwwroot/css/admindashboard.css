@@ -1217,6 +1217,30 @@ a {
     font-weight: 800;
     white-space: nowrap;
 }
+.dashboard-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid #d9e5dd;
+    border-radius: 10px;
+    background: #fff;
+    color: #174c39;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+    .dashboard-logout-btn:hover {
+        background: #174c39;
+        border-color: #174c39;
+        color: #fff;
+    }
+
+    .dashboard-logout-btn i {
+        font-size: 17px;
+    }
 
 
     .admin-analytics-button:hover {

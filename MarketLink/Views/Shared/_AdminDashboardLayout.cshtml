@@ -23,6 +23,10 @@
           href="~/css/admindashboard.css"
           asp-append-version="true" />
 
+          <link rel="stylesheet"
+          href="~/css/style.css"
+          asp-append-version="true" />
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="admin-dashboard-body">
@@ -36,7 +40,7 @@
                asp-action="Index"
                class="admin-logo">
                 <span class="admin-logo-icon">
-                    <i class="bi bi-basket-fill"></i>
+                    <span class="brand-leaf"></span>
                 </span>
                 <span>Market<span>Link</span></span>
             </a>
@@ -87,12 +91,25 @@
             </div>
 
             <div class="admin-top-actions">
-                <a asp-controller="Notifications"
+                @* <a asp-controller="Notifications"
                    asp-action="Index"
                    class="admin-top-icon"
                    title="Notifications">
                     <i class="bi bi-bell"></i>
-                </a>
+                </a> *@
+
+<form asp-controller="Auth"
+      asp-action="Logout"
+      method="post"
+      class="d-inline">
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="dashboard-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    </button>
+</form>
+
 
                 <div class="admin-top-user">
                     <div class="admin-top-avatar">

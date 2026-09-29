@@ -6,16 +6,25 @@
 
         @foreach (var item in Model.Items)
         {
-            <div class="marketlink-announcement">
+            <div class="marketlink-announcement"
+                 id="announcement-@item.AnnouncementId"
+                 data-announcement-id="@item.AnnouncementId">
 
                 <div class="marketlink-announcement-icon">
                     <i class="bi bi-megaphone"></i>
                 </div>
 
-                <div>
+                <div class="marketlink-announcement-content">
                     <strong>@item.Title</strong>
                     <p>@item.Message</p>
                 </div>
+
+                <button type="button"
+                        class="marketlink-announcement-close"
+                        aria-label="Dismiss announcement"
+                        onclick="dismissAnnouncement(@item.AnnouncementId)">
+                    <i class="bi bi-x-lg"></i>
+                </button>
 
             </div>
         }
@@ -28,5 +37,100 @@
         .marketlink-announcement-icon{padding-top:1px}
         .marketlink-announcement strong{display:block;font-size:11px}
         .marketlink-announcement p{margin:3px 0 0;font-size:10px;line-height:1.45}
+
+       
+            .marketlink-announcement-stack {
+                display: grid;
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+
+            .marketlink-announcement {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                background: #eff8ff;
+                border: 1px solid #d1e9ff;
+                border-radius: 12px;
+                padding: 11px 48px 11px 13px;
+                color: #175cd3;
+                position: relative;
+            }
+
+            .marketlink-announcement-icon {
+                padding-top: 1px;
+            }
+
+            .marketlink-announcement-content {
+                flex: 1;
+            }
+
+            .marketlink-announcement strong {
+                display: block;
+                font-size: 11px;
+            }
+
+            .marketlink-announcement p {
+                margin: 3px 0 0;
+                font-size: 10px;
+                line-height: 1.45;
+            }
+
+            .marketlink-announcement-close {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                border: none;
+                background: transparent;
+                color: #175cd3;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: .2s ease;
+            }
+
+                .marketlink-announcement-close:hover {
+                    background: rgba(23, 92, 211, .08);
+                }
+  
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.querySelectorAll(".marketlink-announcement").forEach(function (announcement) {
+
+                const id = announcement.dataset.announcementId;
+
+                if (localStorage.getItem("marketlink-announcement-" + id) === "dismissed") {
+                    announcement.remove();
+                }
+            });
+        });
+
+        function dismissAnnouncement(id) {
+
+            const announcement = document.getElementById("announcement-" + id);
+
+            if (!announcement)
+                return;
+
+            localStorage.setItem(
+                "marketlink-announcement-" + id,
+                "dismissed"
+            );
+
+            announcement.style.opacity = "0";
+            announcement.style.transform = "translateY(-6px)";
+            announcement.style.transition = ".2s ease";
+
+            setTimeout(function () {
+                announcement.remove();
+            }, 200);
+        }
+    </script>
 }

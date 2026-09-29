@@ -44,12 +44,7 @@
 
 </a>
 
-    <a asp-controller="Products"
-       asp-action="Index"
-       class="admin-menu-link">
-        <i class="bi bi-basket"></i>
-        <span>Products</span>
-    </a>
+    
     <a asp-controller="AdminAnnouncements"
    asp-action="Index"
    class="admin-menu-link">
@@ -66,26 +61,11 @@
         <span>Contact Messages</span>
     </a>
 
-    <a asp-controller="Orders"
-       asp-action="Index"
-       class="admin-menu-link">
-        <i class="bi bi-receipt"></i>
-        <span>Orders</span>
-        @if (Model.OrdersNeedingAttention > 0)
-        {
-            <span class="admin-count orange">@Model.OrdersNeedingAttention</span>
-        }
-    </a>
+  
 
     <div class="admin-menu-heading admin-second-heading">MODERATION</div>
 
-    <a asp-controller="Reviews"
-       asp-action="Index"
-       class="admin-menu-link">
-        <i class="bi bi-star"></i>
-        <span>Reviews</span>
-        <span class="admin-count">@Model.Reviews</span>
-    </a>
+  
 
     <a asp-controller="AdminCategories"
    asp-action="Index"
@@ -104,18 +84,9 @@
 
 </a>
 
-    <a asp-controller="Notifications"
-       asp-action="Index"
-       class="admin-menu-link">
-        <i class="bi bi-bell"></i>
-        <span>Notifications</span>
-        @if (Model.UnreadNotifications > 0)
-        {
-            <span class="admin-count">@Model.UnreadNotifications</span>
-        }
-    </a>
+   
 
-    <div class="admin-menu-heading admin-second-heading">INTELLIGENCE</div>
+    
 
     
 <a asp-controller="AdminReports"
@@ -125,18 +96,6 @@
     <span>Reports & Analytics</span>
 </a>
 
-    <a asp-controller="Admin"
-       asp-action="AiIntelligence"
-       class="admin-menu-link">
-        <i class="bi bi-stars"></i>
-        <span>AI Intelligence</span>
-    </a>
-
-    <a asp-controller="Admin"
-       asp-action="Settings"
-       class="admin-menu-link">
-        <i class="bi bi-gear"></i>
-        <span>Settings</span>
-    </a>
+  
 
 </nav>
